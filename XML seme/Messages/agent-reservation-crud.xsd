@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.ftn.uns.ac.rs/tim1/messages/agent-reservation-crud"
+    xmlns:msg_reserv_crud="http://www.ftn.uns.ac.rs/tim1/messages/agent-reservation-crud"
+    xmlns:reserv="http://www.ftn.uns.ac.rs/reservation">
+
+    <xs:import namespace="http://www.ftn.uns.ac.rs/reservation" schemaLocation="../reservation.xsd"/>
+    <xs:element name="MessageData">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="reserv:Reservation"/>
+                <xs:element name="CRUDInfo">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="update"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

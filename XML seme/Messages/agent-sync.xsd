@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    xmlns:accomm="http://www.ftn.uns.ac.rs/tim1/accommodation"
+    xmlns:msg_syncfb="http://www.ftn.uns.ac.rs/tim1/messages/agent-login"
+    xmlns:reserve="http://www.ftn.uns.ac.rs/reservation"
+    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user">
+    <xs:import namespace="http://www.ftn.uns.ac.rs/reservation" schemaLocation="../reservation.xsd"/>
+    <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/accommodation"
+        schemaLocation="../accommodation.xsd"/>
+    <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/user" schemaLocation="../user.xsd"/>
+    <xs:element name="SyncData">
+        <xs:complexType>
+            <xs:sequence maxOccurs="1">
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accomm:Accommodation"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="reserve:Reservation"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accomm:AccommodationCategory"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accomm:AccommodationType"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accomm:AdditionalService"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="user:User"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

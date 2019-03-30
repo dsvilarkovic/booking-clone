@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    xmlns:msg="http://www.ftn.uns.ac.rs/tim1/message"
-    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user">
+    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user"
+    xmlns:msg_login="http://www.ftn.uns.ac.rs/tim1/messages/agent-login">
     <xs:element name="LoginData">
         <xs:complexType>
             <xs:sequence>

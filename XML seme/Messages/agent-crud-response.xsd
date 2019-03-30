@@ -4,11 +4,20 @@
     xmlns:msg_response="http://www.ftn.uns.ac.rs/tim1/messages/agent-crud-response">
 
     <xs:element name="MessageData">
-        <xs:simpleType>
-            <xs:restriction base="xs:string">
-                <xs:enumeration value="OK"/>
-                <xs:enumeration value="Fail"/>
-            </xs:restriction>
-        </xs:simpleType>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="response_code">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:int">
+                            <xs:enumeration value="200"/>
+                            <xs:enumeration value="300"/>
+                            <xs:enumeration value="400"/>
+                            <xs:enumeration value="500"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="response_message"/>
+            </xs:sequence>
+        </xs:complexType>
     </xs:element>
 </xs:schema>

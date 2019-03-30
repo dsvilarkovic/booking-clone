@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://www.ftn.uns.ac.rs/tim1/admin-services"
+    xmlns:accommodation="http://www.ftn.uns.ac.rs/tim1/accommodation"
+    xmlns:reservation="http://www.ftn.uns.ac.rs/reservation"
+    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user"
+    xmlns:admin-services="http://www.ftn.uns.ac.rs/tim1/admin-services">
+    <xs:import namespace="http://www.ftn.uns.ac.rs/reservation" schemaLocation="../reservation.xsd"/>
+    <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/user" schemaLocation="../user.xsd"/>
+    <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/accommodation"
+        schemaLocation="../accommodation.xsd"/>
+    <xs:element name="approveComment">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="isApproven" type="xs:boolean"/>
+                <xs:element ref="user:User"/>
+                <xs:element ref="reservation:Comment"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="userServices">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="CRUDInfo">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="create"/>
+                            <xs:enumeration value="update"/>
+                            <xs:enumeration value="read"/>
+                            <xs:enumeration value="delete"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" ref="user:User"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addCode">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="CRUDInfo">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="create"/>
+                            <xs:enumeration value="update"/>
+                            <xs:enumeration value="delete"/>
+                            <xs:enumeration value="read"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:choice>
+                    <xs:element maxOccurs="unbounded" minOccurs="1"
+                        ref="accommodation:AccommodationCategory"/>
+                    <xs:element maxOccurs="unbounded" ref="accommodation:AccommodationType"/>
+                    <xs:element maxOccurs="unbounded" ref="accommodation:AdditionalService"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

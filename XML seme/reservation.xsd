@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://www.ftn.uns.ac.rs/reservation"
-    xmlns="http://www.ftn.uns.ac.rs/reservation"
     xmlns:accommodation="http://www.ftn.uns.ac.rs/tim1/accommodation"
-    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user">
+    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user"
+    xmlns:reservation="http://www.ftn.uns.ac.rs/reservation">
     <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/accommodation"
         schemaLocation="accommodation.xsd"/>
     <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/user" schemaLocation="user.xsd"/>
@@ -22,9 +22,9 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element default="false" name="checked_in" type="xs:boolean"/>
-                <xs:element maxOccurs="1" minOccurs="0" ref="Rating"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="Message"/>
-                <xs:element minOccurs="0" ref="Comment"/>
+                <xs:element maxOccurs="1" minOccurs="0" ref="reservation:Rating"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="reservation:Message"/>
+                <xs:element minOccurs="0" ref="reservation:Comment"/>
                 <xs:element ref="accommodation:Accommodation"/>
                 <xs:element minOccurs="0" ref="user:User"/>
             </xs:sequence>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://www.ftn.uns.ac.rs/tim1/accommodation"
-    xmlns="http://www.ftn.uns.ac.rs/tim1/accommodation"
-    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user">
+    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user"
+    xmlns:accommodation="http://www.ftn.uns.ac.rs/tim1/accommodation">
     <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/user" schemaLocation="user.xsd"/>
     <xs:element name="Accommodation">
         <xs:complexType>
@@ -45,13 +45,14 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element name="id" type="xs:long"/>
-                <xs:element ref="AccommodationCategory"/>
-                <xs:element ref="AccommodationType"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="AdditionalService"/>
-                <xs:element maxOccurs="unbounded" ref="Image"/>
-                <xs:element ref="Location"/>
+                <xs:element ref="accommodation:AccommodationCategory"/>
+                <xs:element ref="accommodation:AccommodationType"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0"
+                    ref="accommodation:AdditionalService"/>
+                <xs:element maxOccurs="unbounded" ref="accommodation:Image"/>
+                <xs:element ref="accommodation:Location"/>
                 <xs:element ref="user:User"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="Day"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accommodation:Day"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

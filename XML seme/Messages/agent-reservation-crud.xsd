@@ -13,6 +13,7 @@
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="update"/>
+                            <xs:enumeration value="create"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>

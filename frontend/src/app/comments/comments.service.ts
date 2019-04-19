@@ -1,3 +1,4 @@
+import { Comment } from './comments.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,11 +12,18 @@ export class CommentsService {
 
   urlBase = 'http://localhost:8080';
 
-  // svi komentari
+  // get all comments
   getComments(): Observable<Comment> {
     const url = this.urlBase + '/comments';
 
     return this.http.get<Comment>(url);
+  }
+
+  // approve/reject a comment
+  approveComment(comment: Comment) {
+    const url = this.urlBase + '/comments/' + comment.id;
+
+    return this.http.put(url, comment);
   }
 
 }

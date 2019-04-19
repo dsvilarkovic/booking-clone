@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CommentsComponent } from './comments/comments.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CommentsComponent } from './comments/comments.component';
     CommentsComponent,
   ],
   imports: [
+    NgbModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule

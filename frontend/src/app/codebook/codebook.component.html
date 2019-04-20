@@ -1,0 +1,142 @@
+
+  <div class="container">
+    <h3 style="margin-top:50px" >
+      Codebook editor 
+      <span style="margin-left:20px"><button type="button" class="btn btn-success" data-toggle="modal"
+        data-target="#luggageInfo" (click)="openCodebookModal(content)" >Add new</button></span>
+      <span style="margin-left:5px"><button type="button" class="btn btn-info">Search</button></span>    
+    </h3>
+
+    <ngb-tabset (tabChange) = "tabChange($event)">
+      <ngb-tab title="Accomodation type" id="accomodationType">
+          <ng-template ngbTabContent>
+
+                
+              <table class="table table-striped"> 
+                  <thead>    
+                      <tr>    
+                          <th scope="col">#</th>    
+                          <th scope="col">Id</th>    
+                          <th scope="col">Name</th>  
+                          <th scopr="col"></th>
+                          <th scopr="col"></th>  
+                      </tr>    
+                  </thead>    
+                  <tbody>    
+                      <tr *ngFor="let codebook of accomodationTypeList; index as i">    
+                          <td>{{i}}</td>    
+                          <td>{{codebook.id}}</td>    
+                          <td>{{codebook.name}}</td>
+                          <td><button type="button" class="btn btn-outline-info btn-sm" (click)="openCodebookModal(content, codebook)">Edit</button></td>
+                          <td><button type="button" class="btn btn-outline-danger btn-outline btn-sm" (click)="removeCodebook(codebook)">Remove</button></td>
+                      </tr>     
+                  </tbody>    
+              </table>    
+              <ngb-pagination
+                [(collectionSize)]="collectionSize"
+                [(page)] = "page"
+                [(pageSize)]="pageSize"
+                [boundaryLinks]="true"
+                style="float:right"
+                (pageChange)="onPageChange(pageNo)"
+               ></ngb-pagination>
+          </ng-template>  
+
+        </ngb-tab>
+      <ngb-tab title="Accomodation category" id="accomodationCategory">
+          <ng-template ngbTabContent>                
+              <table class="table table-striped"> 
+                  <thead>    
+                      <tr>    
+                          <th scope="col">#</th>    
+                          <th scope="col">Id</th>    
+                          <th scope="col">Name</th>    
+                          <th scopr="col"></th>
+                          <th scopr="col"></th>
+                      </tr>    
+                  </thead>    
+                  <tbody>    
+                      <tr *ngFor="let codebook of accomodationCategoryList; index as i">    
+                          <td>{{i}}</td>    
+                          <td>{{codebook.id}}</td>    
+                          <td>{{codebook.name}}</td>
+                          <td><button type="button" class="btn btn-outline-info btn-sm" (click)="openCodebookModal(content, codebook)">Edit</button></td>
+                          <td><button type="button" class="btn btn-outline-danger btn-outline btn-sm" (click)="removeCodebook(codebook)">Remove</button></td>
+                      </tr>     
+                  </tbody>    
+              </table>    
+              <ngb-pagination
+                [(collectionSize)]="collectionSize"
+                [(page)] = "page"
+                [(pageSize)]="pageSize"
+                [boundaryLinks]="true"
+                style="float:right"
+                (pageChange)="onPageChange(pageNo)"
+               ></ngb-pagination>
+          </ng-template>  
+      </ngb-tab>
+      <ngb-tab title="Additional service" id="additionalService">
+          <ng-template ngbTabContent>                
+              <table class="table table-striped"> 
+                  <thead>    
+                      <tr>    
+                          <th scope="col">#</th>    
+                          <th scope="col">Id</th>    
+                          <th scope="col">Name</th>   
+                          <th scopr="col"></th>
+                          <th scopr="col"></th>
+                      </tr>    
+                  </thead>    
+                  <tbody>    
+                      <tr *ngFor="let codebook of additionalServiceList; index as i">    
+                          <td>{{i}}</td>    
+                          <td>{{codebook.id}}</td>    
+                          <td>{{codebook.name}}</td>
+                          <td><button type="button" class="btn btn-outline-info btn-sm" (click)="openCodebookModal(content, codebook)">Edit</button></td>
+                          <td><button type="button" class="btn btn-outline-danger btn-outline btn-sm" (click)="removeCodebook(codebook)">Remove</button></td>
+                      </tr>     
+                  </tbody>    
+              </table>    
+              <ngb-pagination
+                [(collectionSize)]="collectionSize"
+                [(page)] = "page"
+                [(pageSize)]="pageSize"
+                [boundaryLinks]="true"
+                style="float:right"
+                (pageChange)="onPageChange(pageNo)"
+              ></ngb-pagination>
+          </ng-template>  
+      </ngb-tab>  
+    </ngb-tabset>
+
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-add-codebook">Add new codebook</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+            <form id="codebookForm" [formGroup] = "codebookForm" (ngSubmit) = "createOrUpdateCodebook()">
+                <div class="form-group">
+                    <label for="codebook-name" class="form-control-label">Codebook name:</label>
+                    <input type="text" formControlName="name" class="form-control" id="codebook-name">
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="form-control-label">Codebook type:</label>
+                    <select formControlName="codebookType" class="form-control">
+                        <option value="accomodationType"> Accomodation Type</option>
+                        <option value="accomodationCategory">Accomodation Category</option>
+                        <option value="additionalService">Additional Service</option>
+                    </select>
+                </div>
+            </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" form="codebookForm" [disabled]="!codebookForm.valid">Create new codebook</button>
+        <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Close</button>
+    </div>
+  </ng-template>
+    

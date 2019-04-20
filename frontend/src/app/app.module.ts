@@ -7,6 +7,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { FooterComponent } from './footer/footer.component';
 import { CommentsComponent } from './comments/comments.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CodebookComponent} from './codebook/codebook.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,12 +16,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavigationBarComponent,
     FooterComponent,
     CommentsComponent,
+    CodebookComponent
   ],
   imports: [
     NgbModule,
     HttpClientModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports : [NavigationBarComponent, FooterComponent],
   providers: [],

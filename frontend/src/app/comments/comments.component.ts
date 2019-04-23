@@ -14,6 +14,9 @@ export class CommentsComponent implements OnInit {
 
   commentsList: any;
   currentComment: Comment;
+  collectionSize = 3;
+  page = 1;
+  pageSize = 7;
 
   ngOnInit() {
     this.getComments();

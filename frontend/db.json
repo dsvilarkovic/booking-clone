@@ -1,7 +1,25 @@
 {
   "comments": [
-    { "id": 1, "value": "some comment", "username": "majak96", "date":"18.04.2019.", "administrator":null },
-    { "id": 2, "value": "some comment 2", "username": "vesnamilic", "date":"19.04.2019.", "administrator":null },
-    { "id": 3, "value": "some comment 3", "username": "dsvilarkovic", "date":"19.04.2019.", "administrator":"admin" }
+    {
+      "id": 1,
+      "value": "some comment",
+      "username": "majak96",
+      "date": "18.04.2019.",
+      "administrator": null
+    },
+    {
+      "id": 2,
+      "value": "some comment 2",
+      "username": "vesnamilic",
+      "date": "19.04.2019.",
+      "administrator": "admin"
+    },
+    {
+      "id": 3,
+      "value": "some comment 3",
+      "username": "dsvilarkovic",
+      "date": "19.04.2019.",
+      "administrator": null
+    }
   ]
 }

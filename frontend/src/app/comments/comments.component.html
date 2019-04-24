@@ -1,48 +1,64 @@
 <!--Table with comments-->
-<div style="margin: 10px 10px 10px 10px">
+<div class="container">
   <div>
-    <h3>Comments</h3>
+    <h3 style="margin-top:50px; margin-bottom:20px">Comments</h3>
   </div>
   <div >
-    <table class="table table-hover">
-      <thead class="table-info">
-        <tr>
-          <th scope="col">User</th>
-          <th scope="col">Date</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let comment of commentsList">
-          <td>{{comment.username}}</td>
-          <td>{{comment.date}}</td>
-          <td><button type="button" (click)="open(content, comment)" class="btn btn-info">Show</button></td>
-          <td>
-            <button type="button" class="btn btn-info" (click)="editComment(comment)">
-              {{comment.administrator == null ? 'Approve' : 'Reject'}}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User</th>
+            <th scope="col">Date</th>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of commentsList; index as i">
+            <td>{{i}}</td>
+            <td>{{comment.username}}</td>
+            <td>{{comment.date}}</td>
+            <td><button type="button" (click)="open(content, comment)" class="btn btn-outline-info btn-sm">Show</button></td>
+            <td>
+              <button type="button" class="btn btn-outline-info btn-sm" (click)="editComment(comment)">
+                {{comment.administrator == null ? 'Approve' : 'Reject'}}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ngb-pagination
+      [(collectionSize)]="collectionSize"
+      [(page)] = "page"
+      [(pageSize)]="pageSize"
+      [boundaryLinks]="true"
+      style="float:right"
+      (pageChange)="onPageChange(pageNo)">
+      </ngb-pagination>
+    </div>
   </div>
 </div>
 
 <!-- Modal dialog with the comment -->
 <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Comment details</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+    <div class="modal-header">
+      <h4 class="modal-title">Comment details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <div class="modal-body">
-      <h4>{{currentComment.value}}</h4>
+      <p>
+        User: {{currentComment.username}}<br/>
+        Date: {{currentComment.date}}<br/>
+        Content: "{{currentComment.value}}"
+      </p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-info" (click)="modal.close(); editComment(currentComment)">
-          {{currentComment.administrator == null ? 'Approve' : 'Reject'}}
+        {{currentComment.administrator == null ? 'Approve' : 'Reject'}}
       </button>
   </div>
 </ng-template>

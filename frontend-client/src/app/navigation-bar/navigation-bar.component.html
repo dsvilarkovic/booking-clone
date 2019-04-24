@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="#">
+    <span>Mega Travel (Client) </span>
+    <img width="50" src="https://media.licdn.com/dms/image/C4E0BAQFYID2k_rCfWw/company-logo_200_200/0?e=2159024400&v=beta&t=ikuiNDy62lPZ4c61BJLW-Bl5qOvNMMZYDDYGTvViedg" alt="">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" routerLink="/page1">Page 1<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" routerLink="/page2">Page 2 <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" routerLink="/page3">Page 3 <span class="sr-only">(current)</span></a>
+    </div>
+  </div>
+
+  <ul class="nav navbar-nav navbar-right">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Login
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+              <div class="form-group">
+                <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="exampleInputPassword2">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                      <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+              </div>
+              <div class="checkbox">
+                <label>
+                <input type="checkbox"> keep me logged-in
+                </label>
+              </div>
+          </form>
+        </div>
+      </div>
+  </ul>
+</nav>

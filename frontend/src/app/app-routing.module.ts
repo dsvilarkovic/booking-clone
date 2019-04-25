@@ -2,6 +2,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CodebookComponent } from './codebook/codebook.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'codebooks',
     component: CodebookComponent
+  },
+  {
+    path: 'users',
+    component: UserComponent
   }
 ];
 

@@ -1,0 +1,13 @@
+.tab-title {
+    color: black;
+}
+
+/deep/ .pagination .page-item .page-link {
+    border-radius: 0 !important;
+}
+
+/deep/ .pagination .page-link {
+    border-color: gray !important;
+    background-color: #f6f6f6 !important;
+    color: black !important;
+}

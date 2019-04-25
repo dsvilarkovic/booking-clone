@@ -1,0 +1,139 @@
+
+  <div class="container">
+    <h3 style="margin-top:50px" >
+      Users editor 
+      <span style="margin-left:20px"><button type="button" class="btn btn-success" data-toggle="modal"
+        data-target="#luggageInfo" *ngIf="activeTab != 'reg-users-tab'"  (click)="openModal(content)" >Add new</button></span>
+      <span style="margin-left:5px"><button type="button" class="btn btn-info">Search</button></span>    
+    </h3>
+
+    <ngb-tabset [activeId]="activeTab" (tabChange) = "tabChange($event)">
+      <!-- REG USERS TAB START-->
+      <ngb-tab id="reg-users-tab">
+          <ng-template ngbTabTitle><span class="tab-title">Users</span></ng-template>
+          <ng-template ngbTabContent>
+              <table class="table table-striped"> 
+                  <thead>    
+                      <tr>    
+                          <th scope="col">#</th>    
+                          <th scope="col">Email</th>    
+                          <th scope="col">Active</th>    
+                          <th scopr="col"></th>
+                          <th scopr="col"></th>
+                      </tr>    
+                  </thead>    
+                  <tbody>    
+                      <tr *ngFor="let user of regUsersList; index as i">    
+                          <td>{{i}}</td>    
+                          <td>{{user.email}}</td>    
+                          <td>{{user.active}}</td>
+                          <td>
+                              <button *ngIf="user.active"  type="button" class="btn btn-outline-info btn-sm" (click)="userActivation(user)">Block</button>
+                              <button *ngIf="!user.active"  type="button" class="btn btn-outline-info btn-sm" (click)="userActivation(user)">Activate</button>
+                          </td>
+                          <td><button type="button" class="btn btn-outline-danger btn-outline btn-sm" (click)="deleteUser(user)">Remove</button></td>
+                      </tr>     
+                  </tbody>    
+              </table>
+              <ngb-pagination [(collectionSize)]="collectionSize" [(page)] = "page" [(pageSize)]="pageSize" [boundaryLinks]="true"
+                style="float:right" (pageChange)="onPageChange(pageNo)">
+              </ngb-pagination>
+          </ng-template>  
+
+        </ngb-tab>
+      <!-- REG USERS TAB END-->
+
+      <!-- ADMIN TAB START-->
+      <ngb-tab id="admins-tab">
+          <ng-template ngbTabTitle><span class="tab-title">Administrators</span></ng-template>
+          <ng-template ngbTabContent>
+              <table class="table table-striped"> 
+                  <thead>    
+                      <tr>    
+                          <th scope="col">#</th>    
+                          <th scope="col">Email</th>
+                      </tr>    
+                  </thead>    
+                  <tbody>    
+                      <tr *ngFor="let user of adminsList; index as i">    
+                          <td>{{i}}</td>    
+                          <td>{{user.email}}</td>
+                      </tr>     
+                  </tbody>    
+              </table>
+              <ngb-pagination [(collectionSize)]="collectionSize" [(page)] = "page" [(pageSize)]="pageSize" [boundaryLinks]="true"
+                style="float:right" (pageChange)="onPageChange(pageNo)">
+              </ngb-pagination>
+          </ng-template>  
+      </ngb-tab>
+      <!-- ADMIN TAB END-->
+
+      <!-- AGENTS TAB START-->
+      <ngb-tab id="agents-tab">
+          <ng-template ngbTabTitle><span class="tab-title">Agents</span></ng-template>
+          <ng-template ngbTabContent>
+              <table class="table table-striped"> 
+                  <thead>    
+                      <tr>    
+                          <th scope="col">#</th>    
+                          <th scope="col">Email</th>
+                      </tr>    
+                  </thead>    
+                  <tbody>    
+                      <tr *ngFor="let user of agentsList; index as i">    
+                          <td>{{i}}</td>    
+                          <td>{{user.email}}</td>
+                      </tr>     
+                  </tbody>    
+              </table>
+              <ngb-pagination [(collectionSize)]="collectionSize" [(page)] = "page" [(pageSize)]="pageSize" [boundaryLinks]="true"
+                style="float:right" (pageChange)="onPageChange(pageNo)">
+              </ngb-pagination>
+          </ng-template>  
+      </ngb-tab>  
+      <!-- AGENTS TAB END-->
+    </ngb-tabset>
+
+  </div>
+
+  <!-- ADD NEW MODAL START-->
+  <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 *ngIf="activeTab === 'agents-tab'"  class="modal-title" id="modal-basic-title">Create Agent</h4>
+        <h4 *ngIf="activeTab === 'admins-tab'"  class="modal-title" id="modal-basic-title">Create Administaror</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form id="userForm" [formGroup] = "userForm" (ngSubmit) = "createUser()">
+            <div class="form-group">
+                <label for="codebook-name" class="form-control-label">First name:</label>
+                <input type="text" formControlName="firstName" class="form-control" id="first-name">
+            </div>
+            <div class="form-group">
+                <label for="codebook-name" class="form-control-label">Last name:</label>
+                <input type="text" formControlName="lastName" class="form-control" id="last-name">
+            </div>
+            <div class="form-group">
+                <label for="codebook-name" class="form-control-label">Email address:</label>
+                <input type="email" formControlName="email" class="form-control" id="email">
+            </div>
+            <div class="form-group" *ngIf="activeTab === 'agents-tab'">
+                <label for="codebook-name" class="form-control-label">Address:</label>
+                <input type="text" formControlName="address" class="form-control" id="address">
+            </div>
+            <div class="form-group" *ngIf="activeTab === 'agents-tab'" >
+                <label for="codebook-name" class="form-control-label">PIB:</label>
+                <input type="number" formControlName="pib" class="form-control" id="pib">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-success" form="userForm" [disabled]="!userForm.valid">Create</button>
+          <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Close</button>
+      </div>
+    </ng-template>
+    <!-- ADD NEW MODAL END-->
+    
+    

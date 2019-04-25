@@ -9,25 +9,32 @@ import { CommentsComponent } from './comments/comments.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CodebookComponent} from './codebook/codebook.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavigationBarComponent,
-    FooterComponent,
-    CommentsComponent,
-    CodebookComponent
-  ],
-  imports: [
-    NgbModule,
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule
-  ],
-  exports : [NavigationBarComponent, FooterComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent,
+      NavigationBarComponent,
+      FooterComponent,
+      CommentsComponent,
+      CodebookComponent,
+      UserComponent
+   ],
+   imports: [
+      NgbModule,
+      HttpClientModule,
+      BrowserModule,
+      AppRoutingModule,
+      ReactiveFormsModule,
+      FormsModule
+   ],
+   exports: [
+      NavigationBarComponent,
+      FooterComponent
+   ],
+   providers: [],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule { }

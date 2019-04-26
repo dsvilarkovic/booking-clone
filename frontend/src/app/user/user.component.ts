@@ -17,43 +17,43 @@ export class UserComponent implements OnInit {
   regUsersList: User[] = [
     {
       id: 0, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'regUser'
+      active: true, email: 'neki@gmail.com', userType: 'regUser', password: 'sifra'
     },
     {
       id: 1, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: null,
-      active: false, email: 'neki@gmail.com', userType: 'regUser'
+      active: false, email: 'neki@gmail.com', userType: 'regUser', password: 'sifra'
     },
     {
       id: 2, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'regUser'
+      active: true, email: 'neki@gmail.com', userType: 'regUser', password: 'sifra'
     },
   ];
   adminsList: User[] = [
     {
       id: 0, firstName: 'Nesto', lastName: 'Nesto', address: null, PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'admin'
+      active: true, email: 'neki@gmail.com', userType: 'admin', password: 'sifra'
     },
     {
       id: 1, firstName: 'Nesto', lastName: 'Nesto', address: null, PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'admin'
+      active: true, email: 'neki@gmail.com', userType: 'admin', password: 'sifra'
     },
     {
       id: 2, firstName: 'Nesto', lastName: 'Nesto', address: null, PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'admin'
+      active: true, email: 'neki@gmail.com', userType: 'admin', password: 'sifra'
     },
   ];
   agentsList: User[] = [
     {
       id: 0, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: 987654321,
-      active: true, email: 'neki@gmail.com', userType: 'agent'
+      active: true, email: 'neki@gmail.com', userType: 'agent', password: 'sifra'
     },
     {
       id: 1, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: 123456789,
-      active: true, email: 'neki@gmail.com', userType: 'agent'
+      active: true, email: 'neki@gmail.com', userType: 'agent', password: 'sifra'
     },
     {
       id: 2, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: 123456789,
-      active: true, email: 'neki@gmail.com', userType: 'agent'
+      active: true, email: 'neki@gmail.com', userType: 'agent', password: 'sifra'
     },
   ];
 
@@ -117,6 +117,7 @@ export class UserComponent implements OnInit {
           firstName: new FormControl('', Validators.required),
           lastName: new FormControl('', Validators.required),
           address: new FormControl('', Validators.required),
+          password: new FormControl('', Validators.required),
           email: new FormControl('', [Validators.required, Validators.email]),
           pib: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)])
         }
@@ -167,13 +168,14 @@ export class UserComponent implements OnInit {
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         address: this.userForm.value.address,
+        password: this.userForm.value.password,
         PIB: this.userForm.value.pib,
         email: this.userForm.value.email,
         userType: 'AGENT',
         active: true
 
       };
-      this.userService.createUser(user).subscribe(
+      this.userService.createUser(agent).subscribe(
         data => {
         },
         error => {
@@ -181,18 +183,19 @@ export class UserComponent implements OnInit {
         }
       );
     } else if (this.activeTab === 'admins-tab') {
-      const agent: User = {
+      const admin: User = {
         id: -1,
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         address: '',
+        password: this.userForm.value.password,
         PIB: null,
         email: this.userForm.value.email,
         userType: 'ADMIN',
         active: true
 
       };
-      this.userService.createUser(user).subscribe(
+      this.userService.createUser(admin).subscribe(
         data => {
         },
         error => {

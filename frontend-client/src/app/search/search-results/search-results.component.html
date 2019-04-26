@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <!-- SIDEBAR START-->
+        <div class="col-3 filter">
+          <!-- FILTER FORM START-->
+            <form name="form" (ngSubmit)="filterFormSubmit()" #f="ngForm" novalidate>
+                <h3 class="form-title">Filter results</h3>
+                <hr>
+                <div class="form-row">
+                    <label class="form-label">Accommodation type</label>
+                    <select [(ngModel)]="filterForm.accomodationType" name="accomodationType" #accomodationType="ngModel" class="form-control" >
+                        <option class="selectoption" *ngFor="let type of accTypeList" value={{type}}>
+                        {{type}}
+                      </option>
+                     </select>
+                </div>
+                <div class="form-row">
+                    <label class="form-label">Accomodation category</label>
+                    <select class="form-control" [(ngModel)]="filterForm.accommodationCategory" name="accommodationCategory" #accommodationCategory="ngModel">
+                        <option class="selectoption" *ngFor="let category of categoriesList" value={{category}}>
+                        {{category}}
+                      </option>
+                     </select>
+                </div>
+                <div class="form-row">
+                    <label class="form-label">Distance</label>
+                    <input type="number" class="form-control" [(ngModel)]="filterForm.distance" name="distance" #distance="ngModel" >
+                </div>
+                <div class="form-row">
+                  <label>Additional services</label>
+                  <ng-multiselect-dropdown name="additionalServicesMultiselect"  [placeholder]="' '" [data]="additionalServicesList" [(ngModel)]="filterForm.additionalServicesSelected" [settings]="dropdownSettings"
+                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"> </ng-multiselect-dropdown>
+                </div>
+                <div class="form-row">
+                  <button type="submit" class="btn btn-secondary"> FILTER </button>
+                </div>
+            </form>
+            <!-- FILTER FORM END-->
+        </div>
+        <!-- SIDEBAR END -->
+        <div class="col-9"></div>
+    </div>
+</div>

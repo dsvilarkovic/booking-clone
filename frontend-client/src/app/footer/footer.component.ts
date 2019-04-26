@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'mega-travel-footer',
+  selector: 'app-mega-travel-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })

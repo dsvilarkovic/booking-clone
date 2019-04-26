@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Search accommodation</h2>
+  <hr>
+  <!--SEARCH FORM START -->
+  <form [formGroup] = "searchForm" id="searchForm" class="booking-form" (ngSubmit)="searchFormSubmit()" >
+    <div class="form-row">
+      <div class="col-sm">
+        <div class="input-group">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+            <input formControlName="location" name="location" type="text" class="form-control" placeholder="Location">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="input-group">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          <input formControlName="checkInDate" name="checkInDate" type="date" class="form-control" placeholder="Check in">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="input-group">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          <input formControlName="checkOutDate" type="date" name="checkOutDate" class="form-control" placeholder="Check out">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="input-group">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <input formControlName="numberOfPersons" name="numberOfPersons" type="number" class="form-control" placeholder="Persons">
+        </div>
+      </div>
+      <div class="col-sm">
+        <button type="submit" [disabled]="!searchForm.valid" class="btn">SEARCH</button>
+      </div>
+    </div>
+  </form>
+  <!--SEARCH FORM END -->
+</div>

@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CodebookComponent} from './codebook/codebook.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserComponent } from './user/user.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 
 @NgModule({
    declarations: [
@@ -18,7 +19,8 @@ import { UserComponent } from './user/user.component';
       FooterComponent,
       CommentsComponent,
       CodebookComponent,
-      UserComponent
+      UserComponent,
+      LoginFormComponent
    ],
    imports: [
       NgbModule,
@@ -35,6 +37,9 @@ import { UserComponent } from './user/user.component';
    providers: [],
    bootstrap: [
       AppComponent
+   ],
+   entryComponents: [
+      LoginFormComponent
    ]
 })
 export class AppModule { }

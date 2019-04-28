@@ -10,8 +10,11 @@ import { SearchFormComponent } from './search/search-form/search-form.component'
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { RegisterComponent } from './register/register.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { ChatboxComponent } from './chatbox/chatbox.component';
+import {DatePipe} from '@angular/common';
+
 @NgModule({
    declarations: [
       AppComponent,
@@ -20,7 +23,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
       SearchFormComponent,
       SearchResultsComponent,
       RegisterComponent,
-      LoginFormComponent
+      LoginFormComponent,
+      ChatboxComponent
    ],
    imports: [
       NgMultiSelectDropDownModule.forRoot(),
@@ -36,7 +40,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
       NavigationBarComponent,
       FooterComponent
    ],
-   providers: [],
+   providers: [ DatePipe ],
    bootstrap: [
       AppComponent
    ],

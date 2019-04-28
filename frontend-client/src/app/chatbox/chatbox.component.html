@@ -1,0 +1,65 @@
+<div class="container">
+<h3 class=" text-center">Reservation Chat</h3>
+<div class="messaging">
+      <div class="inbox_msg">
+        <div class="inbox_people">
+          <div class="headind_srch">
+            <div class="recent_heading">
+              <h4>Recent reservations</h4>
+            </div>
+          </div>
+          <div class="inbox_chat">
+            <div *ngFor="let reservation of reservationList" class="chat_list chat_block" [ngClass]="{'active_chat': activeReservation.id === reservation.id}">
+              <div class="chat_people">
+                <div class="chat_img"> <img src="assets/img/accommodation.png" alt="sunil"> </div>
+                <div class="chat_ib">
+                  <h5><a (click)="changedActiveChat(reservation)" href="javascript:void(0);">Accommodation: {{reservation.accommodation.name}} #{{reservation.id}}  </a>
+                      <div class="chat_date">From: {{reservation.beginningDate | date: 'yyyy-MM-dd'}} To: {{reservation.endDate | date: 'yyyy-MM-dd'}}</div>
+                      <div>Agent name: {{reservation.accommodation.agent.first_name}} {{reservation.accommodation.agent.last_name}}</div>  
+                  </h5>
+                  <p> Currently there are {{reservation.messageCount}} messsages</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="mesgs">
+          <div>
+              <div class="chat_people">
+                  <div class="chat_img"> <img src="assets/img/agent.png" alt="sunil"> </div>
+                  <div class="chat_ib">
+                    <h5>{{activeChatAgent.first_name}} {{activeChatAgent.last_name}}</h5>
+                  </div>
+                </div>
+          </div>
+          <hr>
+          <div class="msg_history">
+            <div  *ngFor="let message of messages; let i = index" >
+              <div *ngIf="message.user.userType === 'registered'" class="incoming_msg">
+                <!-- <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div> -->
+                <div class="received_msg">
+                  <div class="received_withd_msg">
+                    <p>{{message.value}}</p>
+                    <span class="time_date"> {{message.date | date:'HH:mm'}}   |    {{message.date | date:'MMM d'}}</span></div>
+                </div>
+              </div>
+              <div *ngIf="message.user.userType === 'agent'" class="outgoing_msg">
+                <div class="sent_msg">
+                  <p>{{message.value}}</p>
+                  <span class="time_date"> {{message.date | date:'HH:mm'}}   |    {{message.date | date:'MMM d'}}</span> </div>
+              </div>    
+            </div>        
+          </div>
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input type="text" class="write_msg" [(ngModel)]="messageText" placeholder="Type a message" />
+              <button class="msg_send_btn" type="button" (click) = "sendMessage()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div></div>

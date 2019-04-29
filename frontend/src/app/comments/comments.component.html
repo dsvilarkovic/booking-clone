@@ -22,7 +22,7 @@
             <td>{{comment.date}}</td>
             <td><button type="button" (click)="open(content, comment)" class="btn btn-outline-info btn-sm">Show</button></td>
             <td>
-              <button type="button" class="btn btn-outline-info btn-sm" (click)="editComment(comment)">
+              <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-danger': comment.administrator != null, 'btn-outline-success': comment.administrator == null}" (click)="editComment(comment)">
                 {{comment.administrator == null ? 'Approve' : 'Reject'}}
               </button>
             </td>

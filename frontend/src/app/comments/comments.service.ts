@@ -1,7 +1,8 @@
-import { Comment } from './comments.service';
+import { Comment } from './comment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +29,3 @@ export class CommentsService {
 
 }
 
-export interface Comment {
-  id: number;
-  value: string;
-  username: string;
-  administrator: string;
-  date: Date;
-}

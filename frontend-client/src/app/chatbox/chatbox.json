@@ -1,0 +1,153 @@
+{
+  "reservations": [
+    {
+      "id": 1,
+      "beginningDate": "2012-04-23T18:25:43.511Z",
+      "endDate": "2012-04-28T18:25:43.511Z",
+      "finalPrice": 1000,
+      "checkedIn": true,
+      "rating": null,
+      "messageCount": 5,
+      "comment": null,
+      "user": {
+        "id": 2,
+        "first_name": "Milana",
+        "last_name": "Voditelj",
+        "email": "",
+        "address": "Ulicnih ulica 4",
+        "password": "",
+        "pib": -1,
+        "userType": "registered"
+      },
+      "accommodation": {
+        "id": 1,
+        "name": "Hotel JetSet na Klisi",
+        "agent": {
+          "id": 1,
+          "first_name": "Zivojin",
+          "last_name": "Zivot",
+          "email": "dda@da.com",
+          "address": "Nesvrstanih 121",
+          "password": "",
+          "pib": 100000000000000,
+          "userType": "agent"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "beginningDate": "2018-02-23T18:25:43.511Z",
+      "endDate": "2018-03-28T18:25:43.511Z",
+      "finalPrice": 300,
+      "checkedIn": true,
+      "rating": null,
+      "messageCount": 10,
+      "comment": null,
+      "user": {
+        "id": 2,
+        "first_name": "Zoran",
+        "last_name": "Zoric",
+        "email": "",
+        "address": "Ulicnih ulica 4",
+        "password": "",
+        "pib": -1,
+        "userType": "registered"
+      },
+      "accommodation": {
+        "id": 1,
+        "name": "Hotel California",
+        "agent": {
+          "id": 1,
+          "first_name": "Mila",
+          "last_name": "Milic",
+          "email": "dda@da.com",
+          "address": "Nesvrstanih 121",
+          "password": "",
+          "pib": 100000000000000,
+          "userType": "agent"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "beginningDate": "2019-01-23T18:25:43.511Z",
+      "endDate": "2019-01-28T18:25:43.511Z",
+      "finalPrice": 1000,
+      "checkedIn": true,
+      "rating": null,
+      "messageCount": 5,
+      "comment": null,
+      "user": {
+        "id": 2,
+        "first_name": "Ibrahim",
+        "last_name": "Gaj",
+        "email": "",
+        "address": "Ulicnih ulica 4",
+        "password": "",
+        "pib": -1,
+        "userType": "registered"
+      },
+      "accommodation": {
+        "id": 1,
+        "name": "TD Garden",
+        "agent": {
+          "id": 1,
+          "first_name": "Pete",
+          "last_name": "Maravic",
+          "email": "dda@da.com",
+          "address": "Nesvrstanih 121",
+          "password": "",
+          "pib": 100000000000000,
+          "userType": "agent"
+        }
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": 1,
+      "date": "2019-01-23T18:20:43.511Z",
+      "user": {
+        "id": 1,
+        "first_name": "Zivojin",
+        "last_name": "Zivot",
+        "email": "dda@da.com",
+        "address": "Nesvrstanih 121",
+        "password": "",
+        "pib": 100000000000000,
+        "userType": "agent"
+      },
+      "value": "Zdravo"
+    },
+    {
+      "id": 2,
+      "date": "2019-01-23T18:25:43.511Z",
+      "user": {
+        "id": 2,
+        "first_name": "Milana",
+        "last_name": "Voditelj",
+        "email": "",
+        "address": "Ulicnih ulica 4",
+        "password": "",
+        "pib": -1,
+        "userType": "registered"
+      },
+      "value": "Sta znaci Zivojin?"
+    },
+    {
+      "id": 3,
+      "date": "2019-01-23T18:35:43.511Z",
+      "user": {
+        "id": 1,
+        "first_name": "Zivojin",
+        "last_name": "Zivot",
+        "email": "dda@da.com",
+        "address": "Nesvrstanih 121",
+        "password": "",
+        "pib": 100000000000000,
+        "userType": "agent"
+      },
+      "value": "Glupa fora"
+    }
+  ]
+}

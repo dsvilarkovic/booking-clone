@@ -27,12 +27,12 @@
 
         <div class="mesgs">
           <div>
-              <div class="chat_people">
+              <div *ngIf="activeChatAgent !== undefined" class="chat_people">
                   <div class="chat_img"> <img src="assets/img/agent.png" alt="sunil"> </div>
                   <div class="chat_ib">
                     <h5>{{activeChatAgent.first_name}} {{activeChatAgent.last_name}}</h5>
                   </div>
-                </div>
+              </div>
           </div>
           <hr>
           <div class="msg_history">
@@ -52,7 +52,7 @@
               </div>    
             </div>        
           </div>
-          <div class="type_msg">
+          <div *ngIf="activeChatAgent !== undefined" class="type_msg">
             <div class="input_msg_write">
               <input type="text" class="write_msg" [(ngModel)]="messageText" placeholder="Type a message" />
               <button class="msg_send_btn" type="button" (click) = "sendMessage()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>

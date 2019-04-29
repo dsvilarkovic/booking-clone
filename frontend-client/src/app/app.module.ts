@@ -13,7 +13,8 @@ import { RegisterComponent } from './register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
 
 @NgModule({
@@ -36,7 +37,8 @@ import { AccommodationProfileComponent } from './accommodation-profile/accommoda
       AngularFontAwesomeModule,
       BrowserModule,
       ReactiveFormsModule,
-      FormsModule
+      FormsModule,
+      HttpClientModule
    ],
    exports: [
       NavigationBarComponent,

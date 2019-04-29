@@ -16,7 +16,11 @@ export class AccommodationProfileComponent implements OnInit {
   constructor(private router: ActivatedRoute,
               private accommodationService: AccommodationService) { }
 
-
+  accommodation: Accommodation = {
+    id: 0,
+    name: 'Sheraton',
+    description: 'Ovo je opis hotela Sheraton.'
+  };
 
   ngOnInit() {
     // get accommodation id from the path

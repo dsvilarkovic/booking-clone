@@ -1,7 +1,9 @@
+import { Location } from './location';
+
 export interface Accommodation {
   id: number;
   name: string;
   description: string;
-
-  // add location
+  rating: number;
+  location: Location;
 }

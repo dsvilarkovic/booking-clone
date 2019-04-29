@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccommodationService } from './accommodation.service';
 import { Accommodation } from './accommodation';
+import { Location } from './location';
 
 @Component({
   selector: 'app-accommodation-profile',
@@ -16,10 +17,21 @@ export class AccommodationProfileComponent implements OnInit {
   constructor(private router: ActivatedRoute,
               private accommodationService: AccommodationService) { }
 
+  loc: Location = {
+    id: 0,
+    address: 'Polgar Andraša 1',
+    city: 'Novi Sad',
+    country: 'Serbia',
+    longitude: 0,
+    latitude: 0
+  };
+
   accommodation: Accommodation = {
     id: 0,
     name: 'Sheraton',
-    description: 'Ovo je opis hotela Sheraton.'
+    description: 'Ovo je opis hotela Sheraton.',
+    rating: 4.5,
+    location: this.loc
   };
 
   ngOnInit() {

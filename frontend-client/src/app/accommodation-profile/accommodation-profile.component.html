@@ -1,8 +1,50 @@
 <div class="container">
-  <div>
-    <h3 style="margin-top:50px; margin-bottom:20px">{{accommodation.name}}</h3>
+  <div class="row" style="margin-top:40px; margin-bottom:20px">
+    <div class="col-12">
+      <div class="row">
+        <h3>{{accommodation.name}}</h3>
+        <h3>
+          <div style="margin-left:20px;">
+              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 0.5}"></span>
+              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 1.5}"></span>
+              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 2.5}"></span>
+              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 3.5}"></span>
+              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 4.5}"></span>
+          </div>
+        </h3>
+      </div>
+      <div class="row">
+        <h5 style="margin-right: 10px"><span class="fa fa-map-marker" [ngClass]="{orange: accommodation.rating > 0.5}"></span></h5>
+        <h5>{{accommodation.location.address}}, {{accommodation.location.city}}, {{accommodation.location.country}}</h5>
+      </div>
+    </div>
   </div>
-  <div>
-    <h5>{{accommodation.description}}</h5>
+  <div class="row">
+    <!--left column with the data-->
+    <div class="col-9">
+      <div class="row">
+        <h6>{{accommodation.description}}</h6>
+      </div>
+      <div class="row">
+        <p>Ovde ce ici lista soba ili sta vec treba da ide</p>
+      </div>
+    </div>
+
+    <!--right column with the pictures and maps etc-->
+    <div class="col-3 details">
+      <div class="row">
+        <h5 style="margin-right: 10px"><span class="fa fa-map" [ngClass]="{orange: accommodation.rating > 0.5}"></span></h5>
+        <h5>Location</h5>
+      </div>
+      <div class="row">
+        <h5 style="margin-right: 10px"><span class="fa fa-picture-o" [ngClass]="{orange: accommodation.rating > 0.5}"></span></h5>
+        <h5>Photos</h5>
+      </div>
+      <div class="row">
+        <div class="profile-img">
+            <img src="https://t-ec.bstatic.com/images/hotel/max1024x768/412/41215540.jpg"/>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

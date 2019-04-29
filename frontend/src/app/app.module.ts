@@ -11,6 +11,7 @@ import { CodebookComponent} from './codebook/codebook.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
    declarations: [
@@ -34,7 +35,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
       NavigationBarComponent,
       FooterComponent
    ],
-   providers: [],
+   providers: [ DatePipe ],
    bootstrap: [
       AppComponent
    ],

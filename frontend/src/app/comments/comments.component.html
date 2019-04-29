@@ -19,7 +19,7 @@
           <tr *ngFor="let comment of commentsList; index as i">
             <td>{{i}}</td>
             <td>{{comment.username}}</td>
-            <td>{{comment.date}}</td>
+            <td>{{comment.date | date: 'short'}}</td>
             <td><button type="button" (click)="open(content, comment)" class="btn btn-outline-info btn-sm">Show</button></td>
             <td>
               <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-danger': comment.administrator != null, 'btn-outline-success': comment.administrator == null}" (click)="editComment(comment)">
@@ -52,7 +52,7 @@
     <div class="modal-body">
       <p>
         User: {{currentComment.username}}<br/>
-        Date: {{currentComment.date}}<br/>
+        Date: {{currentComment.date | date: 'short'}}<br/>
         Content: "{{currentComment.value}}"
       </p>
     </div>

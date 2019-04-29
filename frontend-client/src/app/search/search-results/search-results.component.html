@@ -38,6 +38,48 @@
             <!-- FILTER FORM END-->
         </div>
         <!-- SIDEBAR END -->
-        <div class="col-9"></div>
+        <div class="col-9">
+          <div class="filter">
+            <h5>There are {{collectionSize}} results</h5>
+            <hr>
+            <div *ngFor="let accommodation of accommodationResultList" class="list-group-item clearfix accommodation">
+                <div class="profile-teaser-left">
+                    <div class="profile-img"><img src="https://t-ec.bstatic.com/images/hotel/max1024x768/412/41215540.jpg"/></div>
+                </div>
+                <div class="profile-teaser-main">
+                    <h2 class="profile-name">
+                      {{accommodation.name}}
+                      <span style="text-align: right; float: right;">RSD {{accommodation.defaultPrice}}</span>
+                    </h2>
+                    <h2>
+                      <div>
+                          <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 0.5}"></span>
+                          <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 1.5}"></span>
+                          <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 2.5}"></span>
+                          <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 3.5}"></span>
+                          <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 4.5}"></span>
+                      </div>
+                    </h2>
+                    <div class="profile-info">
+                        <div class="info"><span class="">Type:</span> {{accommodation.accommodationType}}</div>
+                        <div class="info"><span class="">Category:</span> {{accommodation.accommodationCategory}}</div>
+                        <div class="info"><span class="">Capacity:</span> {{accommodation.capacity}}</div>
+                        <div class="info"><span class="">Description:</span> {{accommodation.description}}</div>
+                    </div>
+                </div>
+            </div><!-- item -->
+          </div>
+
+          <ngb-pagination
+                [(collectionSize)]="collectionSize"
+                [(page)] = "page"
+                [(pageSize)]="pageSize"
+                [boundaryLinks]="true"
+                style="float:right"
+                (pageChange)="onPageChange(pageNo)"
+            ></ngb-pagination>
+        </div>
     </div>
+
+
 </div>

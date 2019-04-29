@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Accommodation } from 'src/app/object-interfaces/accommodation';
 
 @Component({
   selector: 'app-search-results',
@@ -15,6 +16,64 @@ export class SearchResultsComponent implements OnInit {
   categoriesList = [];
   accTypeList = [];
   filterForm: any = {};
+  accommodationResultList: Accommodation[] = [
+    {
+      id: 1,
+      name: "Hotel Park",
+      accommodationCategory: "Uncategorized",
+      accommodationType: "Hotel", 
+      additionalService: ["WI-FI", "Parking"],
+      cancelationPeriod: undefined,
+      capacity: 10,
+      defaultPrice: 200,
+      description: "Round mound of rebound",
+      user: undefined,
+      rating: 2.5
+    },
+    {
+      id: 2,
+      name: "Hotel Master",
+      accommodationCategory: "5 stars",
+      accommodationType: "Hotel", 
+      additionalService: ["WI-FI", "TV"],
+      cancelationPeriod: undefined,
+      capacity: 4,
+      defaultPrice: 200,
+      description: "Fantastic, majestic, great excellent",
+      user: undefined,
+      rating: 3
+    },
+    {
+      id: 3,
+      name: "FTN Apartmani",
+      accommodationCategory: "Uncategorized",
+      accommodationType: "Apartments", 
+      additionalService: ["WI-FI", "Parking"],
+      cancelationPeriod: undefined,
+      capacity: 666,
+      defaultPrice: 404,
+      description: "Look at my look shoes, aaaand look at me lucky suiteee.",
+      user: undefined,
+      rating: 4
+    },
+    {
+      id: 4,
+      name: "Motel Bosna",
+      accommodationCategory: "Uncategorized",
+      accommodationType: "Motel", 
+      additionalService: ["TV", "Parking", "Shower", "4G"],
+      cancelationPeriod: undefined,
+      capacity: 2,
+      defaultPrice: 3200,
+      description: "Ozbiljan hotel, za galantne goste.",
+      user: undefined,
+      rating: 4.6
+    },
+  ];
+
+  collectionSize = 4;
+  page = 1;
+  pageSize = 5;
 
   ngOnInit() {
 
@@ -62,6 +121,10 @@ export class SearchResultsComponent implements OnInit {
 
   filterFormSubmit() {
     console.log(this.filterForm.additionalServicesSelected);
+  }
+
+  onPageChange(pageNo: number) {
+    // TODO: Dusan insert something
   }
 
 }

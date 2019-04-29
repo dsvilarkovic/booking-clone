@@ -1,3 +1,4 @@
+import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'chat',
     component: ChatboxComponent
+  },
+  {
+    path: 'accommodation/:id',
+    component: AccommodationProfileComponent
   }
 ];
 

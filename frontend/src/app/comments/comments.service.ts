@@ -14,10 +14,10 @@ export class CommentsService {
   urlBase = 'http://localhost:8080';
 
   // get all comments
-  getComments(): Observable<Comment> {
+  getComments(): Observable<Comment[]> {
     const url = this.urlBase + '/comments';
 
-    return this.http.get<Comment>(url);
+    return this.http.get<Comment[]>(url);
   }
 
   // approve/reject a comment

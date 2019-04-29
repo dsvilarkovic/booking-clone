@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import {DatePipe} from '@angular/common';
+import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
 
 @NgModule({
    declarations: [
@@ -24,7 +25,8 @@ import {DatePipe} from '@angular/common';
       SearchResultsComponent,
       RegisterComponent,
       LoginFormComponent,
-      ChatboxComponent
+      ChatboxComponent,
+      AccommodationProfileComponent
    ],
    imports: [
       NgMultiSelectDropDownModule.forRoot(),

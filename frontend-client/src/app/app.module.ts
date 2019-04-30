@@ -16,6 +16,7 @@ import { ChatboxComponent } from './chatbox/chatbox.component';
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
    declarations: [
@@ -38,7 +39,10 @@ import { AccommodationProfileComponent } from './accommodation-profile/accommoda
       BrowserModule,
       ReactiveFormsModule,
       FormsModule,
-      HttpClientModule
+      HttpClientModule,
+      AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyAs3ycqXIpzB9Clcc9E4nb8Tsoxppz400A'
+      })
    ],
    exports: [
       NavigationBarComponent,

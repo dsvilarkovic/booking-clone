@@ -36,6 +36,11 @@
         <h5 style="margin-right: 10px"><span class="fa fa-map" [ngClass]="{orange: accommodation.rating > 0.5}"></span></h5>
         <h5>Location</h5>
       </div>
+      <div class="row" style="margin-bottom: 20px">
+        <agm-map [latitude] = "accommodation.location.latitude" [longitude] = "accommodation.location.longitude">
+          <agm-marker [latitude]="accommodation.location.latitude" [longitude] = "accommodation.location.longitude"></agm-marker>
+        </agm-map>
+      </div>
       <div class="row">
         <h5 style="margin-right: 10px"><span class="fa fa-picture-o" [ngClass]="{orange: accommodation.rating > 0.5}"></span></h5>
         <h5>Photos</h5>

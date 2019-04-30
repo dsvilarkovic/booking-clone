@@ -22,8 +22,8 @@ export class AccommodationProfileComponent implements OnInit {
     address: 'Polgar Andraša 1',
     city: 'Novi Sad',
     country: 'Serbia',
-    longitude: 0,
-    latitude: 0
+    longitude: 19.8140651,
+    latitude: 45.2482027
   };
 
   accommodation: Accommodation = {

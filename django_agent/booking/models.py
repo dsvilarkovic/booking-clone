@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 class AccommodationType(models.Model):
@@ -93,6 +94,7 @@ class Guest(models.Model):
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 
+
 class Reservation(models.Model):
     unit = models.ForeignKey(AccommodationUnit, on_delete=models.CASCADE)
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE)
@@ -116,3 +118,12 @@ class Message(models.Model):
     text = models.TextField(280)
     timestamp = models.DateTimeField()
     mine = models.BooleanField()
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.OneToOneField(Location, on_delete=models.CASCADE)
+    pib = models.CharField(max_length=9)
+
+    def __str__(self):
+        return str(self.user)  

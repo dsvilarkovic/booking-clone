@@ -19,10 +19,10 @@ export class SearchResultsComponent implements OnInit {
   accommodationResultList: Accommodation[] = [
     {
       id: 1,
-      name: "Hotel Park",
-      accommodationCategory: "Uncategorized",
-      accommodationType: "Hotel", 
-      additionalService: ["WI-FI", "Parking"],
+      name: 'Hotel Park',
+      accommodationCategory: 'Uncategorized',
+      accommodationType: 'Hotel', 
+      additionalService: ['WI-FI', "Parking"],
       cancelationPeriod: undefined,
       capacity: 10,
       defaultPrice: 200,
@@ -125,6 +125,10 @@ export class SearchResultsComponent implements OnInit {
 
   onPageChange(pageNo: number) {
     // TODO: Dusan insert something
+  }
+
+  reserve(accommodation: Accommodation) {
+    // TODO: Dusan insert login
   }
 
 }

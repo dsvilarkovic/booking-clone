@@ -1,0 +1,1 @@
+Generisane klase iz xsd sema putem JAXB-a

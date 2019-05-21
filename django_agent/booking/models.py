@@ -14,8 +14,7 @@ class AccommodationCategory(models.Model):
     value = models.IntegerField(unique=True)
 
     def __str__(self):
-        return str(self.value)
-
+        return str(self.value) + ' star'
 
 
 class Location(models.Model):
@@ -32,7 +31,7 @@ class Location(models.Model):
     )
 
     def __str__(self):
-        return self.address
+        return self.address + ', ' + self.city
 
 
 class AdditionalService(models.Model):
@@ -43,16 +42,22 @@ class AdditionalService(models.Model):
 
 
 class Accommodation(models.Model):
-    accommodation_type = models.ForeignKey(AccommodationType, on_delete=models.CASCADE)
-    category = models.ForeignKey(AccommodationCategory, on_delete=models.CASCADE)
+    accommodation_type = models.ForeignKey(
+        AccommodationType, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        AccommodationCategory, on_delete=models.CASCADE)
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     description = models.TextField(max_length=200, blank=True)
-    services = models.ManyToManyField(AdditionalService)
+    services = models.ManyToManyField(AdditionalService, blank=True)
     # image?
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # TODO: Add backend logic here
 
 
 class AccommodationUnit(models.Model):
@@ -66,7 +71,7 @@ class AccommodationUnit(models.Model):
     cancelation_period = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.name
+        return self.name + ' | ' + str(self.accommodation)
 
 
 class Day(models.Model):
@@ -78,12 +83,15 @@ class Day(models.Model):
     )
     available = models.BooleanField(default=True)
 
+    class Meta:
+        unique_together = ('unit', 'date')
+
     def clean(self):
         if self.price < 0:
             raise ValidationError("Price cannot be negative")
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 
 class Guest(models.Model):
@@ -126,4 +134,4 @@ class Profile(models.Model):
     pib = models.CharField(max_length=9)
 
     def __str__(self):
-        return str(self.user)  
+        return str(self.user)

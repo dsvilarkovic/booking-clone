@@ -33,6 +33,10 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
 class GuestAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email')
 
+class DayAdmin(admin.ModelAdmin):
+    list_display = ('unit', 'date', 'price', 'available')
+    search_fields = ('unit__name', )
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
@@ -41,12 +45,11 @@ admin.site.register(AccommodationUnit, AccommodationUnitAdmin)
 admin.site.register(Guest, GuestAdmin)
 admin.site.register(Profile)
 admin.site.register(AdditionalService)
-
+admin.site.register(Location)
+admin.site.register(Day, DayAdmin)
 
 admin.site.register(AccommodationType)
 admin.site.register(AccommodationCategory)
 
-admin.site.register(Day)
 
 admin.site.register(Reservation)
-

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <a href="{% url 'booking:view_prices' %}"><img src="/media/calendar.jpg"
+                    style="max-width:80%; max-height:80%;" alt="" /></a>
+            <h3>Manage daily prices</h3>
+        </div>
+        <div class="col text-center">
+            <a href="#"><img src="/media/messaging.jpg" style="max-width:80%; max-height:80%;" alt="" /></a>
+            <h3>Messaging</h3>
+        </div>
+    </div>
+</div>
+{% endblock content %}

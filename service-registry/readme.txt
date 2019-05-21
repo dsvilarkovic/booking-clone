@@ -1,0 +1,2 @@
+Eureka Servis Registar - cuva sve instance mikroservisa pod nekim imenima, preko kojih moze klijent ili mikrosevis da pristupi, a da ne zna
+koju instancu mikroservisa je dobio (trazi forexService mikroservis, a registar mu dodeli forexService100)

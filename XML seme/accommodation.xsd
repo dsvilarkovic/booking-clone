@@ -27,9 +27,11 @@
                 <xs:element ref="accommodation:AccommodationType"/>
                 <xs:element maxOccurs="unbounded" minOccurs="0"
                     ref="accommodation:AdditionalService"/>
-                <xs:element maxOccurs="unbounded" ref="accommodation:Image"/>
+                <xs:element maxOccurs="unbounded" ref="accommodation:Image" minOccurs="0"/>
                 <xs:element ref="accommodation:Location"/>
                 <xs:element ref="user:User"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0"
+                    ref="accommodation:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

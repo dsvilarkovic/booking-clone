@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://www.ftn.uns.ac.rs/reservation"
+    targetNamespace="http://www.ftn.uns.ac.rs/tim1/reservation"
     xmlns:accommodation="http://www.ftn.uns.ac.rs/tim1/accommodation"
     xmlns:user="http://www.ftn.uns.ac.rs/tim1/user"
-    xmlns:reservation="http://www.ftn.uns.ac.rs/reservation">
+    xmlns:reservation="http://www.ftn.uns.ac.rs/tim1/reservation">
     <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/accommodation"
         schemaLocation="accommodation.xsd"/>
     <xs:import namespace="http://www.ftn.uns.ac.rs/tim1/user" schemaLocation="user.xsd"/>

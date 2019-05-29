@@ -176,7 +176,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
-                <xs:element name="date" type="xs:date"/>
+                <xs:element name="date" type="xs:long"/>
                 <xs:element name="price">
                     <xs:simpleType>
                         <xs:restriction base="xs:decimal">

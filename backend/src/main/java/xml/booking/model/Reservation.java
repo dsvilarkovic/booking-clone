@@ -24,9 +24,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -40,8 +38,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="beginning_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
- *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="beginning_date" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="end_date" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="finalPrice">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}decimal">
@@ -51,9 +49,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *           &lt;/simpleType>
  *         &lt;/element>
  *         &lt;element name="checked_in" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/reservation}Rating" minOccurs="0"/>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/reservation}Message" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/reservation}Comment" minOccurs="0"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Rating" minOccurs="0"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Message" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Comment" minOccurs="0"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}Accommodation"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User" minOccurs="0"/>
  *       &lt;/sequence>
@@ -86,16 +84,14 @@ public class Reservation {
     protected Long id;
 	
     @XmlElement(name = "beginning_date", required = true)
-    @XmlSchemaType(name = "date")
     @Column(name = "beginningDate")
     @Transient
-    protected XMLGregorianCalendar beginningDate;
+    protected Long beginningDate;
     
     @XmlElement(name = "end_date", required = true)
-    @XmlSchemaType(name = "date")
     @Column(name = "endDate")
     @Transient
-    protected XMLGregorianCalendar endDate;
+    protected Long endDate;
     
     @XmlElement(required = true)
     @Column(name = "finalPrice")
@@ -145,50 +141,36 @@ public class Reservation {
     /**
      * Gets the value of the beginningDate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public XMLGregorianCalendar getBeginningDate() {
+    public long getBeginningDate() {
         return beginningDate;
     }
 
     /**
      * Sets the value of the beginningDate property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public void setBeginningDate(XMLGregorianCalendar value) {
+    public void setBeginningDate(long value) {
         this.beginningDate = value;
     }
+
 
     /**
      * Gets the value of the endDate property.
      * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public XMLGregorianCalendar getEndDate() {
+    public long getEndDate() {
         return endDate;
     }
 
     /**
      * Sets the value of the endDate property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public void setEndDate(XMLGregorianCalendar value) {
+    public void setEndDate(long value) {
         this.endDate = value;
     }
+
 
     /**
      * Gets the value of the finalPrice property.

@@ -11,8 +11,8 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
-                <xs:element name="beginning_date" type="xs:date"/>
-                <xs:element name="end_date" type="xs:date"/>
+                <xs:element name="beginning_date" type="xs:long"/>
+                <xs:element name="end_date" type="xs:long"/>
                 <xs:element name="finalPrice">
                     <xs:simpleType>
                         <xs:restriction base="xs:decimal">
@@ -57,7 +57,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="date" type="xs:date"/>
+                <xs:element name="date" type="xs:long"/>
                 <xs:element ref="user:User"/>
             </xs:sequence>
         </xs:complexType>

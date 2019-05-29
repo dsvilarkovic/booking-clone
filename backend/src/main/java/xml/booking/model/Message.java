@@ -14,15 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -43,7 +40,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -76,8 +73,7 @@ public class Message {
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     @Column(name = "date")
-    @Transient
-    protected XMLGregorianCalendar date;
+    protected Long date;
     
     
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user", required = true)
@@ -127,26 +123,19 @@ public class Message {
     /**
      * Gets the value of the date property.
      * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public XMLGregorianCalendar getDate() {
+    public long getDate() {
         return date;
     }
 
     /**
      * Sets the value of the date property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public void setDate(XMLGregorianCalendar value) {
+    public void setDate(long value) {
         this.date = value;
     }
+
 
     /**
      * Gets the value of the user property.

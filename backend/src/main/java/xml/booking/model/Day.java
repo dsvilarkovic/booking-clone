@@ -15,14 +15,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -36,7 +34,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}date"/>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="price">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}decimal">
@@ -72,9 +70,10 @@ public class Day {
 	
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
-    @Transient
+   
+    
     @Column(name = "date")
-    protected XMLGregorianCalendar date;
+    protected Long date;
     
     
     @XmlElement(required = true)
@@ -104,26 +103,19 @@ public class Day {
     /**
      * Gets the value of the date property.
      * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public XMLGregorianCalendar getDate() {
+    public long getDate() {
         return date;
     }
 
     /**
      * Sets the value of the date property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
      */
-    public void setDate(XMLGregorianCalendar value) {
+    public void setDate(long value) {
         this.date = value;
     }
+
 
     /**
      * Gets the value of the price property.

@@ -26,7 +26,7 @@ public class MessagingSoapEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "createMessageRequest")
 	@ResponsePayload
-	private CreateMessageResponse createMessage(@RequestPayload CreateMessageRequest request) {
+	public CreateMessageResponse createMessage(@RequestPayload CreateMessageRequest request) {
 		CreateMessageResponse createMessageResponse = new CreateMessageResponse();
 		
 		//TODO: podesi vreme u longu
@@ -46,7 +46,7 @@ public class MessagingSoapEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getMessagesRequest")
 	@ResponsePayload
-	private GetMessagesResponse getMessages(@RequestPayload GetMessagesRequest request) {
+	public GetMessagesResponse getMessages(@RequestPayload GetMessagesRequest request) {
 		GetMessagesResponse getMessagesResponse = new GetMessagesResponse();
 		
 		//TODO: dodati poziv ka servisu za rezervacije da se dobije id od rezervacije

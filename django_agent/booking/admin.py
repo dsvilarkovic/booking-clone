@@ -11,6 +11,7 @@ from .models import Day
 from .models import Profile
 from .models import Guest
 from .models import Reservation
+from .models import Message
 
 
 class ProfileInline(admin.StackedInline):
@@ -53,3 +54,4 @@ admin.site.register(AccommodationCategory)
 
 
 admin.site.register(Reservation)
+admin.site.register(Message)

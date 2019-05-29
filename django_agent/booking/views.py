@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from .models import AccommodationUnit, Day
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import AccommodationUnit, Day, Guest, Message, Reservation
 from datetime import date, timedelta, datetime
 
 #import pdb; pdb.set_trace()
@@ -57,3 +57,45 @@ def edit_prices(request):
             iday.save()
             # TODO: Add backend logic here
         return render(request, 'booking/view_prices.html')
+
+
+def create_guest_list(reslist):
+    guest_list = []
+    for res in reslist:
+        guest_name = str(res.guest)
+        unit_name = str(res.unit)
+        val = {
+            'guest_name': guest_name,
+            'unit_name': unit_name,
+            'reservation_id': res.id
+        }
+        guest_list.append(val)
+    return guest_list
+
+
+def view_messages(request):
+    resers = Reservation.objects.all()
+    context = {'guest_list': create_guest_list(resers)}
+    return render(request, 'booking/view_messages.html', context)
+
+
+def messaging(request, reservation_id):
+    if request.method == 'GET':
+        resers = Reservation.objects.all()
+        msgs = Message.objects.filter(reservation=reservation_id)
+        curr_id = reservation_id
+        context = {
+            'guest_list': create_guest_list(resers),
+            'message_list': msgs,
+            'curr_id': curr_id
+        }
+        return render(request, 'booking/view_messages.html', context)
+    if request.method == 'POST':
+        msg = Message()
+        msg.reservation = Reservation.objects.get(pk=reservation_id)
+        msg.text = request.POST.get('msg_text')
+        msg.mine = True
+        msg.timestamp = datetime.now()
+        msg.save()
+        # TODO: backend comms here
+        return redirect('booking:messaging', reservation_id=reservation_id)

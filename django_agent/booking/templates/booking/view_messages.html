@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <h3>Guests</h3>
+            <table class="table table-striped">
+                <tbody>
+                    {% for guest in guest_list %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'booking:messaging' guest.reservation_id %}">{{ guest.guest_name }}</a>
+                            <br />
+                            <small><strong>Unit:</strong> {{ guest.unit_name }}</small>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-9">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <h3>Messages</h3>
+                    </div>
+                </div>
+                {% if message_list is not Null %}
+                {% for msg in message_list %}
+                <div class="row">
+                    {% if msg.mine %}
+                    <div class="col"></div>
+                    <div class="col">
+                        <div class="card bg-light">
+                            <div class="card-body">{{msg.text}}
+                                <br />
+                                <small>Sent {{msg.timestamp}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% else%}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">{{msg.text}}
+                                <br />
+                                <small>Sent {{msg.timestamp}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p>No messages.</p>
+                {% endfor %}
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <form class="form" action="{% url 'booking:messaging' curr_id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <div class="col-lg-11">
+                                    <input type="textarea" class="form-control" id="msg_text" name="msg_text"
+                                        placeholder="Type message here...">
+                                </div>
+                                <div class="col-lg-1">
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <br />
+                <p>Please select a person to message on the left.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

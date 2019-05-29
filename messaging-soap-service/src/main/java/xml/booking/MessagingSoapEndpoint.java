@@ -34,7 +34,7 @@ public class MessagingSoapEndpoint {
 		
 		//snimi poruku u repozitorijum i uzmi id
 		Message message = request.getMessage();
-		
+		message.setDate(timeNow);
 		message = messageRepository.save(message);
 		
 		createMessageResponse.setMessageId(message.getId());

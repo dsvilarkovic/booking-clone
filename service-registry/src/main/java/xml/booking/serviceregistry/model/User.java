@@ -6,7 +6,7 @@
 //
 
 
-package xml.booking.model;
+package xml.booking.serviceregistry.model;
 
 import java.util.Set;
 

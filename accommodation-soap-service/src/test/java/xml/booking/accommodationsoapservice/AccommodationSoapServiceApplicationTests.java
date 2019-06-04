@@ -1,4 +1,4 @@
-package xml.booking;
+package xml.booking.accommodationsoapservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,5 @@
 import { Accommodation } from './accommodation';
+import { AccommodationUnit } from './accommodationunit';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -18,5 +19,12 @@ export class AccommodationService {
     const url = this.urlBase + '/accommodation/' + id;
 
     return this.http.get<Accommodation>(url);
+  }
+
+  // get accommodation units of an accommodation
+  getAccommodationUnits(id: number): Observable<AccommodationUnit> {
+    const url = this.urlBase + '/accommodationunit/accommodation/' + id;
+
+    return this.http.get<AccommodationUnit>(url);
   }
 }

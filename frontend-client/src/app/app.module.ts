@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
 import { AgmCoreModule } from '@agm/core';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
    declarations: [
@@ -28,7 +29,8 @@ import { AgmCoreModule } from '@agm/core';
       RegisterComponent,
       LoginFormComponent,
       ChatboxComponent,
-      AccommodationProfileComponent
+      AccommodationProfileComponent,
+      UserProfileComponent
    ],
    imports: [
       NgMultiSelectDropDownModule.forRoot(),

@@ -1,0 +1,32 @@
+.user-image{
+  width: 200px;
+  height: auto;
+}
+
+.reservations-list {
+  background: #fff;
+  width: 100%;
+  padding: 15px 15px 15px;
+}
+
+.reservation-left {
+  float: left; width: 20%; margin-right: 1%;
+}
+.hotel-img img {
+  width: 100%; height: auto;
+}
+
+.reservation-main {
+  float: left; width: 79%;
+}
+
+.info { display: inline-block; margin-right: 10px; color: #777; }
+.info span { font-weight: bold; }
+
+.reservation{
+  background: #fff;
+}
+.reservation:hover{
+  background: rgb(243, 242, 242);
+}
+

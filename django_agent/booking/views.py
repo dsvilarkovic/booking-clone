@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import AccommodationUnit, Day, Guest, Message, Reservation
+from .models import AccommodationUnit, Day, Guest, Message, Reservation, AccommodationType, AccommodationCategory, Accommodation
 from datetime import date, timedelta, datetime
-
+from zeep import Client, Settings, helpers
 #import pdb; pdb.set_trace()
 
 
@@ -99,3 +99,30 @@ def messaging(request, reservation_id):
         msg.save()
         # TODO: backend comms here
         return redirect('booking:messaging', reservation_id=reservation_id)
+
+WSDL_ADDRESS = 'http://localhost:9998/ws/accommodationsoap.wsdl'
+def sync_all_data(request):
+    settings = Settings(strict=False, xml_huge_tree=True)
+    client = Client(WSDL_ADDRESS, settings=settings)
+
+    # Accommodation Types
+    AccommodationType.objects.all().delete()
+
+    soap_response = client.service.getAccommodationTypes()
+    for atdict in soap_response:
+        tmp = helpers.serialize_object(atdict['AccommodationType'])
+        new_atype = AccommodationType(**tmp)
+        new_atype.save()
+
+
+    # Accommodation Categories
+    AccommodationCategory.objects.all().delete()
+    
+    soap_response = client.service.getAccommodationCategories()
+    for acdict in soap_response:
+        tmp = helpers.serialize_object(acdict['AccommodationCategory'])
+        new_acat = AccommodationCategory(**tmp)
+        new_acat.save()
+
+
+    return render(request, 'booking/view_index.html')

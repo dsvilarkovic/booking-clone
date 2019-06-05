@@ -8,4 +8,5 @@ urlpatterns = [
     path('edit_prices/', views.edit_prices, name="edit_prices"),
     path('view_messages/', views.view_messages, name="view_messages"),
     path('messaging/<int:reservation_id>', views.messaging, name="messaging"),
+    path('sync_all_data/', views.sync_all_data, name="sync_all_data"),
 ]

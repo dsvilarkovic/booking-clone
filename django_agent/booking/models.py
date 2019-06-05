@@ -11,10 +11,10 @@ class AccommodationType(models.Model):
 
 
 class AccommodationCategory(models.Model):
-    value = models.IntegerField(unique=True)
+    name = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
-        return str(self.value) + ' star'
+        return str(self.name) + ' star'
 
 
 class Location(models.Model):

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SearchResultsComponent } from './search/search-results/search-results.component';
 import { SearchFormComponent } from './search/search-form/search-form.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'accommodation/:id',
     component: AccommodationProfileComponent
+  },
+  {
+    path: 'user/:id',
+    component: UserProfileComponent
   }
 ];
 

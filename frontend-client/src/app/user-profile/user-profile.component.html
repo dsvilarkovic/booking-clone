@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row" style="margin-top:40px; margin-bottom:20px">
+    <div class="col-4">
+      <div class=" row image-container" style="margin-bottom: 10px;">
+          <img [src]="userImage" id="imgProfile" class="user-image img-thumbnail"/>
+      </div>
+      <div class="row">
+        <h5>{{user.firstName}} {{user.lastName}}</h5>
+      </div>
+      <div class="row">
+        <p><span class="fa fa-envelope" style="margin-right: 10px"></span></p>
+        <p>{{user.email}}</p>
+      </div>
+      <div class="row">
+          <p><span class="fa fa-map-marker" style="margin-right: 10px"></span></p>
+          <p>{{user.address}}</p>
+      </div>
+    </div>
+    <div class="col-8">
+      <ngb-tabset (tabChange) = "tabChange($event)">
+        <ngb-tab title="Current reservations" id="currentReservations">
+            <ng-template ngbTabContent>
+              <div class="reservations-list">
+                <div *ngFor="let reservation of currentReservations" class="list-group-item clearfix reservation">
+                  <div class="reservation-left">
+                    <div class="hotel-img"><img src="https://t-ec.bstatic.com/images/hotel/max1024x768/412/41215540.jpg"/></div>
+                  </div>
+                  <div class="reservation-main">
+                    <h5 class="reservation-name">
+                      {{reservation.hotel}}
+                      <span style="text-align: right; float: right;">{{reservation.beginning_date | date: 'M/d/yy'}} - {{reservation.end_date | date: 'M/d/yy'}}</span>
+                    </h5>
+                    <div class="reservation-info">
+                        <div class="info"><span class="">Room type:</span> {{reservation.room}}</div>
+                    </div>
+                    <div class="reservation-info">
+                        <div class="info"><span class="">Final price: </span>RSD {{reservation.final_price}}</div>
+                    </div>
+                    <div>
+                      <button style="text-align: center; float: right;" type="button" class="btn btn-info btn-sm col-2">Cancel</button>
+                      <button style="text-align: center; float: right; margin-right:10px;" type="button" class="btn btn-info btn-sm col-2">Message</button>
+                    </div>
+                  </div>
+                </div><!-- item -->
+              </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Accomodation category" id="accomodationCategory">
+            <ng-template ngbTabContent>
+                <div class="reservations-list">
+                  <div *ngFor="let reservation of pastReservations" class="list-group-item clearfix reservation">
+                    <div class="reservation-left">
+                      <div class="hotel-img"><img src="https://t-ec.bstatic.com/images/hotel/max1024x768/412/41215540.jpg"/></div>
+                    </div>
+                    <div class="reservation-main">
+                      <h5 class="reservation-name">
+                        {{reservation.hotel}}
+                        <span style="text-align: right; float: right;">{{reservation.beginning_date | date: 'M/d/yy'}} - {{reservation.end_date | date: 'M/d/yy'}}</span>
+                      </h5>
+                      <div class="reservation-info">
+                          <div class="info"><span class="">Room type:</span> {{reservation.room}}</div>
+                      </div>
+                      <div class="reservation-info">
+                          <div class="info"><span class="">Final price: </span>RSD {{reservation.final_price}}</div>
+                      </div>
+                      <div>
+                          <button style="text-align: center; float: right;" type="button" class="btn btn-info btn-sm col-2">Rate</button>
+                          <button style="text-align: center; float: right; margin-right:10px;" type="button" class="btn btn-info btn-sm col-2">Comment</button>
+                        </div>
+                    </div>
+                  </div><!-- item -->
+                </div>
+              </ng-template>
+          </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+

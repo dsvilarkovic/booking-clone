@@ -38,7 +38,6 @@
                     </div>
                     <div>
                       <button style="text-align: center; float: right;" type="button" class="btn btn-info btn-sm col-2">Cancel</button>
-                      <button style="text-align: center; float: right; margin-right:10px;" type="button" class="btn btn-info btn-sm col-2">Message</button>
                     </div>
                   </div>
                 </div><!-- item -->
@@ -64,8 +63,8 @@
                           <div class="info"><span class="">Final price: </span>RSD {{reservation.final_price}}</div>
                       </div>
                       <div>
-                          <button style="text-align: center; float: right;" type="button" class="btn btn-info btn-sm col-2">Rate</button>
-                          <button style="text-align: center; float: right; margin-right:10px;" type="button" class="btn btn-info btn-sm col-2">Comment</button>
+                          <button style="text-align: center; float: right;" type="button" (click)="open2(content2, reservation)" class="btn btn-info btn-sm col-2">Rate</button>
+                          <button style="text-align: center; float: right; margin-right:10px;" type="button" (click)="open1(content1, reservation)" class="btn btn-info btn-sm col-2">Comment</button>
                         </div>
                     </div>
                   </div><!-- item -->
@@ -76,4 +75,54 @@
     </div>
   </div>
 </div>
+
+<!-- Modal dialog with the comment -->
+<ng-template #content1 let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Leave a comment</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="commentForm" [formGroup] = "commentForm" (ngSubmit) = "postComment()">
+      <div class="form-group">
+          <label for="comment" class="form-control-label">Comment:</label>
+          <textarea class="form-control" id="comment" formControlName="comment" rows="3"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" form="commentForm" [disabled]="!commentForm.valid">Post</button>
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel</button>
+</div>
+</ng-template>
+
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">How would you rate your stay?</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form id="ratingForm" [formGroup] = "ratingForm" (ngSubmit) = "postRating()">
+      <div class="form-group">
+          <label for="rating" class="form-control-label">Rating:</label>
+          <select class="form-control" id="rating" formControlName="rating">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-success" form="ratingForm" [disabled]="!ratingForm.valid">Post</button>
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancel</button>
+</div>
+</ng-template>
+
 

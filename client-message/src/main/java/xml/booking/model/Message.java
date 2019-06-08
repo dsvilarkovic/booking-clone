@@ -13,12 +13,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -31,14 +32,16 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="name">
+ *         &lt;element name="value">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;maxLength value="60"/>
  *               &lt;minLength value="1"/>
+ *               &lt;maxLength value="280"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,29 +53,38 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "name",
-    "deleted"
+    "value",
+    "date",
+    "user"
 })
-@XmlRootElement(name = "AccommodationType")
+@XmlRootElement(name = "Message")
 @Entity
-public class AccommodationType {
+public class Message {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 	
     @XmlElement(required = true)
-    @Column(name = "name")
-    protected String name;
+    @Column(name = "value")
+    protected String value;
     
-    @Column(name = "deleted")
-	protected boolean deleted;
+    
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "date")
+    @Column(name = "date")
+    protected Long date;
+    
+    
+    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user", required = true)
+    @ManyToOne
+    protected User user;
 
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -80,40 +92,73 @@ public class AccommodationType {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-	public boolean isDeleted() {
-		return deleted;
-	}
+    /**
+     * Gets the value of the date property.
+     * 
+     */
+    public long getDate() {
+        return date;
+    }
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
+    /**
+     * Sets the value of the date property.
+     * 
+     */
+    public void setDate(long value) {
+        this.date = value;
+    }
+
+
+    /**
+     * Gets the value of the user property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link User }
+     *     
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets the value of the user property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link User }
+     *     
+     */
+    public void setUser(User value) {
+        this.user = value;
+    }
 
 }

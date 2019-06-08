@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "name"
+    "name",
+    "deleted"
 })
 @XmlRootElement(name = "AccommodationCategory")
 @Entity
@@ -53,6 +54,9 @@ public class AccommodationCategory {
 	
 	@Column(name = "name")
     protected String name;
+	
+	@Column(name = "deleted")
+	protected boolean deleted;
 
     /**
      * Gets the value of the id property.
@@ -85,5 +89,13 @@ public class AccommodationCategory {
     public void setName(String value) {
         this.name = value;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 }

@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import xml.booking.dto.CodebookDTO;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -62,11 +64,21 @@ public class AccommodationType {
     protected Long id;
 	
     @XmlElement(required = true)
-    @Column(name = "name")
+    @Column(name = "name",nullable=false)
     protected String name;
     
     @Column(name = "deleted")
-	protected boolean deleted;
+	protected Boolean deleted;
+    
+    public AccommodationType() {
+    	
+    }
+    public AccommodationType(CodebookDTO dto) {
+		this.id = dto.getId();
+		this.name = dto.getName();
+		this.deleted = false;
+		
+	}
 
     /**
      * Gets the value of the id property.
@@ -108,7 +120,7 @@ public class AccommodationType {
         this.name = value;
     }
 
-	public boolean isDeleted() {
+	public Boolean isDeleted() {
 		return deleted;
 	}
 

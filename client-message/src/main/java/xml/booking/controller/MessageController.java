@@ -34,7 +34,7 @@ public class MessageController {
 	@GetMapping("")
 	public ResponseEntity<?> getAllMessages() {
 		// proba rest template
-		/*HttpHeaders headers = new HttpHeaders();
+		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 
@@ -46,7 +46,7 @@ public class MessageController {
 			e.printStackTrace();
 		}
 
-		System.out.println(response);*/
+		System.out.println(response);
 		return ResponseEntity.ok(messageManager.getAllMessages());
 	}
 

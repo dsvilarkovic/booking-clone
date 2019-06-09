@@ -13,10 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -34,13 +32,12 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         &lt;element name="value">
  *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;minLength value="1"/>
- *               &lt;maxLength value="280"/>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}integer">
+ *               &lt;minInclusive value="0"/>
+ *               &lt;maxInclusive value="5"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -52,33 +49,24 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "value",
-    "user"
+    "value"
 })
-@XmlRootElement(name = "Comment")
+@XmlRootElement(name = "Rating")
 @Entity
-public class Comment {
+public class Rating {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 	
-    @XmlElement(required = true)
-    @Column(name = "value")
-    protected String value;
-    
-    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
-    @ManyToOne
-    protected User user;
-    
-    @Column(name = "deleted")
-	protected boolean deleted;
+	@Column(name = "value")
+    protected int value;
 
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -86,64 +74,24 @@ public class Comment {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
     /**
      * Gets the value of the value property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
     /**
      * Sets the value of the value property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
      */
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
-
-    /**
-     * Gets the value of the user property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link User }
-     *     
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the value of the user property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link User }
-     *     
-     */
-    public void setUser(User value) {
-        this.user = value;
-    }
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
 
 }

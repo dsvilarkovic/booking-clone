@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User" minOccurs="0"/>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -53,11 +54,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "id",
     "value",
+    "date",
     "user"
 })
-@XmlRootElement(name = "Comment")
+@XmlRootElement(name = "Message")
 @Entity
-public class Comment {
+public class Message {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,18 +69,22 @@ public class Comment {
     @Column(name = "value")
     protected String value;
     
-    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
+    
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "date")
+    @Column(name = "date")
+    protected Long date;
+    
+    
+    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user", required = true)
     @ManyToOne
     protected User user;
-    
-    @Column(name = "deleted")
-	protected boolean deleted;
 
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -86,7 +92,7 @@ public class Comment {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
@@ -115,6 +121,23 @@ public class Comment {
     }
 
     /**
+     * Gets the value of the date property.
+     * 
+     */
+    public long getDate() {
+        return date;
+    }
+
+    /**
+     * Sets the value of the date property.
+     * 
+     */
+    public void setDate(long value) {
+        this.date = value;
+    }
+
+
+    /**
      * Gets the value of the user property.
      * 
      * @return
@@ -137,13 +160,5 @@ public class Comment {
     public void setUser(User value) {
         this.user = value;
     }
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
 
 }

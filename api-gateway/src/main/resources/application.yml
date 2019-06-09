@@ -1,0 +1,15 @@
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+
+zuul:
+  host:
+    socket-timeout-millis: 4000
+    connect-timeout-millis: 4000
+
+ribbon:
+    ConnectTimeout: 4000
+    ReadTimeout: 4000

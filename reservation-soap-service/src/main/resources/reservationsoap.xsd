@@ -400,7 +400,7 @@
     <xs:element name="updateReservationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="success"/>
+                <xs:element name="success" type="xs:boolean"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -92,8 +92,7 @@ public class ReservationSoapEndpoint {
 		return declineReservationResponse;
 	}
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "declineReservation")
-	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "updateReservation")	
 	@ResponsePayload
 	public UpdateReservationResponse updateReservationResponse(@RequestPayload UpdateReservationRequest updateReservationRequest) {
 		UpdateReservationResponse updateReservationResponse = new UpdateReservationResponse();

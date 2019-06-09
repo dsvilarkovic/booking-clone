@@ -34,16 +34,20 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-			
+		
+		System.out.println("ee1");
 		User user = userRepository.findByEmail(username);
+		System.out.println(username);
+		System.out.println();
 		
 		if(user != null) {
+			System.out.println("ee2");
 			// Remember that Spring needs roles to be in this format: "ROLE_" + userRole (i.e. "ROLE_ADMIN")
 			// So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).
 			List<GrantedAuthority> grantedAuthorities =  getAuthorities(user.getRoles());//AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_" + user.getRoles());
 			return new org.springframework.security.core.userdetails.User(username, user.getPassword(), grantedAuthorities);
 		}
-		
+		System.out.println("ee3");
 		// If user not found. Throw this exception.
 		throw new UsernameNotFoundException("Username: " + username + " not found");
 	}
@@ -52,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
 	private List<GrantedAuthority> getAuthorities(Set<Role> roles){
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		for (Role role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role.getRole()));
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
 		}
 		
 		return authorities;

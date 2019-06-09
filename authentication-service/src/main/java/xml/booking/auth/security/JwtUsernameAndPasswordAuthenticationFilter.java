@@ -45,14 +45,16 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 			throws AuthenticationException {
 		
 		try {
-			
+			System.out.println("E1");
 			// 1. Get credentials from request
 			UserCredentials creds = new ObjectMapper().readValue(request.getInputStream(), UserCredentials.class);
+			System.out.println("E2 ");
 			
 			// 2. Create auth object (contains credentials) which will be used by auth manager
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 					creds.getUsername(), creds.getPassword(), Collections.emptyList());
 				
+			System.out.println("E E E E E E E");
 			// 3. Authentication manager authenticate the user, and use UserDetialsServiceImpl::loadUserByUsername() method to load the user.
 			return authManager.authenticate(authToken);
 			

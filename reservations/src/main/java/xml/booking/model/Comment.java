@@ -70,9 +70,6 @@ public class Comment {
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
     @ManyToOne
     protected User user;
-    
-    @Column(name = "deleted")
-	protected boolean deleted;
 
     /**
      * Gets the value of the id property.
@@ -137,13 +134,5 @@ public class Comment {
     public void setUser(User value) {
         this.user = value;
     }
-
-	public boolean isDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
 
 }

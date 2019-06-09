@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,15 +31,14 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="value">
+ *         &lt;element name="name">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;maxLength value="60"/>
  *               &lt;minLength value="1"/>
- *               &lt;maxLength value="280"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -52,24 +50,20 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
-    "value",
-    "user"
+    "name",
+    "deleted"
 })
-@XmlRootElement(name = "Comment")
+@XmlRootElement(name = "AccommodationType")
 @Entity
-public class Comment {
+public class AccommodationType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 	
     @XmlElement(required = true)
-    @Column(name = "value")
-    protected String value;
-    
-    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
-    @ManyToOne
-    protected User user;
+    @Column(name = "name")
+    protected String name;
     
     @Column(name = "deleted")
 	protected boolean deleted;
@@ -91,51 +85,27 @@ public class Comment {
     }
 
     /**
-     * Gets the value of the value property.
+     * Gets the value of the name property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getValue() {
-        return value;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Sets the value of the value property.
+     * Sets the value of the name property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Gets the value of the user property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link User }
-     *     
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the value of the user property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link User }
-     *     
-     */
-    public void setUser(User value) {
-        this.user = value;
+    public void setName(String value) {
+        this.name = value;
     }
 
 	public boolean isDeleted() {

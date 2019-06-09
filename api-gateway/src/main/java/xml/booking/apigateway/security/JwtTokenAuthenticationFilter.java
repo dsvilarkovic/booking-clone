@@ -32,16 +32,12 @@ public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
 		
 		// 1. get the authentication header. Tokens are supposed to be passed in the authentication header
 		String header = request.getHeader(jwtConfig.getHeader());
-		System.out.println("a1");
-		System.out.println(jwtConfig.getHeader() +  " : " + jwtConfig.getUri());
 		// 2. validate the header and check the prefix
 		if(header == null || !header.startsWith(jwtConfig.getPrefix())) {
-			System.out.println("a2");
 
 			chain.doFilter(request, response);  		// If not valid, go to the next filter.
 			return;
 		}
-		System.out.println("a3");
 
 		// If there is no token provided and hence the user won't be authenticated. 
 		// It's Ok. Maybe the user accessing a public path or asking for a token.

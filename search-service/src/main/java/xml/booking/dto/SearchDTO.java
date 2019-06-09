@@ -18,7 +18,6 @@ public class SearchDTO {
 		this.additionalServices = new ArrayList<Long>();
 	}
 	
-
 	public SearchDTO(String location, Long beginningDate, Long endDate, Integer numberOfPersons, Long accommodationType,
 			Long accommodationCategory, List<Long> additionalServices, Double distance) {
 		super();
@@ -31,8 +30,6 @@ public class SearchDTO {
 		this.additionalServices = additionalServices;
 		this.distance = distance;
 	}
-
-
 
 	public String getLocation() {
 		return location;

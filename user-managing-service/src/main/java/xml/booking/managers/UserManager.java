@@ -1,7 +1,13 @@
 package xml.booking.managers;
 
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import xml.booking.dto.UserDTO;
 import xml.booking.model.User;
 import xml.booking.repositories.UserRepository;
 
@@ -11,11 +17,28 @@ import xml.booking.repositories.UserRepository;
 @Component
 public class UserManager {
 
-	private UserRepository userRepository;
-
 	@Autowired
-	public UserManager(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	private UserRepository userRepository;
+	
+	public Page<UserDTO> findAllUsersByType(String userType, Pageable page){
+		
+		Page<User> users = userRepository.findByUserType(userType, page);
+		
+		return mapToDTO(users);
+	}
+	
+	private Page<UserDTO> mapToDTO(Page<User> users){
+		
+		Page<UserDTO> dtos = users.map(new Function<User, UserDTO>() {
+		    @Override
+		    public UserDTO apply(User user) {		    	
+		    	UserDTO userDTO = new UserDTO(user);
+		   		return userDTO;
+		    }
+		});
+		
+		return dtos;		
 	}
 
+	
 }

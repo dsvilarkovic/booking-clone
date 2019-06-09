@@ -1,5 +1,7 @@
 package xml.booking.dto;
 
+import xml.booking.model.User;
+
 public class UserDTO {
 	
 	private Long id;
@@ -7,14 +9,14 @@ public class UserDTO {
 	private String lastName;
 	private String email;
 	private String userType;
-	private String pib;
+	private Integer pib;
 	private String address;
 	
 	public UserDTO() {
 		// TODO Auto-generated constructor stub
 	}
 		
-	public UserDTO(Long id, String firstName, String lastName, String email, String userType, String pib,
+	public UserDTO(Long id, String firstName, String lastName, String email, String userType, Integer pib,
 			String address) {
 		super();
 		this.id = id;
@@ -24,6 +26,17 @@ public class UserDTO {
 		this.userType = userType;
 		this.pib = pib;
 		this.address = address;
+	}
+	
+	public UserDTO(User user) {
+		super();
+		this.id = user.getId();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.email = user.getEmail();
+		this.userType = user.getUserType();
+		this.pib = user.getPib();
+		this.address = user.getAddress();
 	}
 
 	public Long getId() {
@@ -66,11 +79,11 @@ public class UserDTO {
 		this.userType = userType;
 	}
 
-	public String getPib() {
+	public Integer getPib() {
 		return pib;
 	}
 
-	public void setPib(String pib) {
+	public void setPib(Integer pib) {
 		this.pib = pib;
 	}
 

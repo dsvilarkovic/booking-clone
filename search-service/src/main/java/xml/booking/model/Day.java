@@ -83,6 +83,10 @@ public class Day {
     @XmlElement(defaultValue = "true")
     @Column(name = "available")
     protected boolean available;
+    
+    @XmlElement(name = "deleted", required = true, defaultValue = "false")
+    @Column(name = "deleted")
+    protected boolean delete;
 
     /**
      * Gets the value of the id property.

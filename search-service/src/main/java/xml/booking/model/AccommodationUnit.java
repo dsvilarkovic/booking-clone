@@ -85,6 +85,10 @@ public class AccommodationUnit {
     @XmlElement(name = "Day")
     @OneToMany
     protected List<Day> day;
+    
+    @XmlElement(name = "deleted", required = true, defaultValue = "false")
+    @Column(name = "deleted")
+    protected boolean deleted;
 
     /**
      * Gets the value of the id property.
@@ -234,5 +238,13 @@ public class AccommodationUnit {
         }
         return this.day;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 }

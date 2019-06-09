@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +26,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 /**
@@ -99,16 +103,16 @@ public class Accommodation {
     
     
     @XmlElement(name = "AccommodationCategory", required = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER) 
     protected AccommodationCategory accommodationCategory;
     
     
     @XmlElement(name = "AccommodationType", required = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER) 
     protected AccommodationType accommodationType;
     
     @XmlElement(name = "AdditionalService")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)    
     protected List<AdditionalService> additionalService;
     
     @XmlElement(name = "Image")
@@ -124,7 +128,8 @@ public class Accommodation {
     protected User user;
     
     @XmlElement(name = "AccommodationUnit")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)   
+    @Fetch(value = FetchMode.SUBSELECT)
     protected List<AccommodationUnit> accommodationUnit;
 
     /**
@@ -373,5 +378,9 @@ public class Accommodation {
         }
         return this.accommodationUnit;
     }
+
+	public void setImage(List<Image> image) {
+		this.image = image;		
+	}
 
 }

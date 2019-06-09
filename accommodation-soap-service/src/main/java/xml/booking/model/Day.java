@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}Long"/>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}Long"/>
  *         &lt;element name="price">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}decimal">
@@ -88,7 +88,7 @@ public class Day {
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -96,7 +96,7 @@ public class Day {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
@@ -104,7 +104,7 @@ public class Day {
      * Gets the value of the date property.
      * 
      */
-    public long getDate() {
+    public Long getDate() {
         return date;
     }
 
@@ -112,7 +112,7 @@ public class Day {
      * Sets the value of the date property.
      * 
      */
-    public void setDate(long value) {
+    public void setDate(Long value) {
         this.date = value;
     }
 

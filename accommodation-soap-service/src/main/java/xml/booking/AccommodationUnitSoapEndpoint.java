@@ -15,7 +15,9 @@ import xml.booking.accommodationsoap.GetAccommodationUnitResponse;
 import xml.booking.accommodationsoap.UpdateAccommodationUnitRequest;
 import xml.booking.accommodationsoap.UpdateAccommodationUnitResponse;
 import xml.booking.model.AccommodationUnit;
+import xml.booking.model.Day;
 import xml.booking.repositories.AccommodationUnitRepository;
+import xml.booking.repositories.DayRepository;
 
 @Endpoint
 public class AccommodationUnitSoapEndpoint {
@@ -25,12 +27,16 @@ public class AccommodationUnitSoapEndpoint {
 	@Autowired
 	private AccommodationUnitRepository accommodationUnitRepository;
 	
+	@Autowired
+	private DayRepository dayRepository;
+	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAccommodationUnitRequest")
 	@ResponsePayload
 	public GetAccommodationUnitResponse getAccommodationUnitRequest(
 			@RequestPayload GetAccommodationUnitRequest getAccommodationUnitRequest) {
 		GetAccommodationUnitResponse getAccommodationUnitResponse = new GetAccommodationUnitResponse();
-		AccommodationUnit accommodationUnit = accommodationUnitRepository.getOne(getAccommodationUnitRequest.getAccommodationUnitId());
+		AccommodationUnit accommodationUnit = accommodationUnitRepository.
+				findById(getAccommodationUnitRequest.getAccommodationUnitId()).orElse(null);
 		
 		getAccommodationUnitResponse.setAccommodationUnit(accommodationUnit);
 		
@@ -39,12 +45,18 @@ public class AccommodationUnitSoapEndpoint {
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "createAccommodationUnitRequest")
 	@ResponsePayload
+	//TODO: za svaki accommodation unit mora da se zalepi za accommodation pri create, al proveriti
 	public CreateAccommodationUnitResponse createAccommodationUnitRequest(
 			@RequestPayload CreateAccommodationUnitRequest createAccommodationUnitRequest) {
 		CreateAccommodationUnitResponse createAccommodationUnitResponse = new CreateAccommodationUnitResponse();
 		
+		AccommodationUnit accommodationUnit = createAccommodationUnitRequest.getAccommodationUnit();
 		
-		AccommodationUnit accommodationUnit =  accommodationUnitRepository.save(createAccommodationUnitRequest.getAccommodationUnit());
+		//snimi sve dane
+		for (Day day : accommodationUnit.getDay()) {
+			dayRepository.save(day);
+		}
+		accommodationUnit =  accommodationUnitRepository.save(createAccommodationUnitRequest.getAccommodationUnit());
 		createAccommodationUnitResponse.setAccommodationUnitId(accommodationUnit.getId());
 		
 		
@@ -71,6 +83,10 @@ public class AccommodationUnitSoapEndpoint {
 		UpdateAccommodationUnitResponse updateAccommodationUnitResponse = new UpdateAccommodationUnitResponse();
 		
 		AccommodationUnit accommodationUnit = updateAccommodationUnitRequest.getAccommodationUnit();
+		//snimi sve dane, mozda neki ne postoji
+		for (Day day : accommodationUnit.getDay()) {
+			dayRepository.save(day);
+		}
 		
 		accommodationUnit = accommodationUnitRepository.save(accommodationUnit);
 		

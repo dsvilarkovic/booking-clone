@@ -11,4 +11,5 @@ import xml.booking.model.Accommodation;
 @Repository
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long>, JpaSpecificationExecutor<Accommodation> {
 
+	Accommodation getOne(Long id);
 }

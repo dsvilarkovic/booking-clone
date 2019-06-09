@@ -65,6 +65,12 @@
 		  <artifactId>spring-data-generator</artifactId>
 		  <version>1.1.8</version>
 		  <type>maven-plugin</type>
+		  <exclusions>
+		  	<exclusion>
+		  		<groupId>javax.persistence</groupId>
+		  		<artifactId>persistence-api</artifactId>
+		  	</exclusion>
+		  </exclusions>
 		</dependency>
 		
 		

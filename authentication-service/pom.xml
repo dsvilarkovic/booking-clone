@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.eureka.zuul</groupId>
-	<artifactId>spring-eureka-zuul</artifactId>
+	<groupId>com.eureka.auth</groupId>
+	<artifactId>spring-eureka-auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-eureka-zuul</name>
+	<name>spring-eureka-auth</name>
 	<description>Demo project for Spring Boot Cloud</description>
 
 	<parent>
@@ -30,6 +30,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+			
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -39,37 +45,45 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.0</version>
         </dependency>
-        
-        <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
 		</dependency>
-		
-		<!-- dependency>
-			<groupId>com.eureka.common</groupId>
-			<artifactId>spring-eureka-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency -->
+
+
 		<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
+        
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.cmeza</groupId>
+		 	<artifactId>spring-data-generator</artifactId>
+		  	<version>1.1.8</version>
+		  	<type>maven-plugin</type>
+		  	<!-- exclusions>
+		  		<exclusion>
+		  			<groupId>javax.persistence</groupId>
+		  			<artifactId>persistence-api</artifactId>
+		  		</exclusion>
+		  	</exclusions -->
+		</dependency>
+		
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

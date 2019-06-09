@@ -2,6 +2,7 @@ package xml.booking.mockservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 import com.cmeza.sdgenerator.annotation.SDGenerator;
 
@@ -23,6 +24,7 @@ import com.cmeza.sdgenerator.annotation.SDGenerator;
 
 
 @SpringBootApplication
+@EnableEurekaClient
 public class MockServiceApplication {
 
 	public static void main(String[] args) {

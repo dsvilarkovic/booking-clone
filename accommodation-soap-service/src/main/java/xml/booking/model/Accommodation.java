@@ -123,7 +123,7 @@ public class Accommodation {
     @OneToOne
     protected Location location;
     
-    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user", required = true)
+    @XmlElement(name = "User", required = true)
     @ManyToOne
     protected User user;
     

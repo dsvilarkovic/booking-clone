@@ -1,5 +1,6 @@
 package xml.booking;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class AccommodationSoapEndpoint {
 			@RequestPayload GetAccommodationRequest getAccommodationRequest) {
 		GetAccommodationResponse getAccommodationResponse = new GetAccommodationResponse();
 		
-		Accommodation accommodation = accommodationRepository.findById(getAccommodationRequest.getAccommodationId()).orElse(null);
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationRequest.getAccommodationId(), false).orElse(null);
 		accommodation.setImage(null);
 		accommodation.setUser(deletePassword(accommodation.getUser()));
 		getAccommodationResponse.setAccommodation(accommodation);
@@ -74,7 +75,7 @@ public class AccommodationSoapEndpoint {
 			
 		//TODO: treba vratiti samo one za koje je trenutni agent zaduzen kao vlasnik
 		//potrebno logovanje
-		List<Accommodation> accommodations = accommodationRepository.findAll();
+		List<Accommodation> accommodations = accommodationRepository.findByDeletedEquals(false);
 		for (Accommodation accommodation : accommodations) {
 			accommodation.setImage(null);
 			accommodation.setUser(deletePassword(accommodation.getUser()));
@@ -107,9 +108,11 @@ public class AccommodationSoapEndpoint {
 	public DeleteAccommodationResponse deleteAccommodationRequest
 			(@RequestPayload DeleteAccommodationRequest deleteAccommodationRequest) {
 		DeleteAccommodationResponse deleteAccommodationResponse = new DeleteAccommodationResponse();
-		Accommodation accommodation = accommodationRepository.findById(deleteAccommodationRequest.getAccommodationId()).orElse(null);
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(deleteAccommodationRequest.getAccommodationId(), false).orElse(null);
 		
-		accommodationRepository.deleteById(accommodation.getId());
+		accommodation.setDeleted(true);
+		//accommodationRepository.deleteById(accommodation.getId());
+		accommodationRepository.save(accommodation);
 		
 		return deleteAccommodationResponse;
 	}
@@ -119,7 +122,7 @@ public class AccommodationSoapEndpoint {
 	public UpdateAccommodationResponse updateAccommodationRequest(
 			@RequestPayload UpdateAccommodationRequest updateAccommodationRequest) {
 		UpdateAccommodationResponse updateAccommodationResponse = new UpdateAccommodationResponse();
-		Accommodation accommodation = accommodationRepository.findById(updateAccommodationRequest.getAccommodation().getId()).orElse(null);
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(updateAccommodationRequest.getAccommodation().getId(), false).orElse(null);
 		
 		Location location = accommodation.getLocation();
 		locationRepository.save(location); //mozda ne postoji
@@ -138,7 +141,7 @@ public class AccommodationSoapEndpoint {
 			@RequestPayload GetAccommodationImagesRequest getAccommodationImagesRequest) {
 		GetAccommodationImagesResponse getAccommodationImagesResponse = new GetAccommodationImagesResponse();
 		
-		Accommodation accommodation = accommodationRepository.findById(getAccommodationImagesRequest.getAccommodation().getId()).orElse(null);
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationImagesRequest.getAccommodation().getId(), false).orElse(null);
 		List<Image> images =  accommodation.getImage();
 		
 		getAccommodationImagesResponse.setImage(images);
@@ -163,7 +166,12 @@ public class AccommodationSoapEndpoint {
 	public DeleteImageResponse deleteImageRequest(
 			@RequestPayload DeleteImageRequest deleteImageRequest) {
 		DeleteImageResponse deleteImageResponse = new DeleteImageResponse();
-		imageRepository.deleteById(deleteImageRequest.getImageId());
+		//imageRepository.deleteById(deleteImageRequest.getImageId());
+		
+		Image image = imageRepository.findById(deleteImageRequest.getImageId()).orElse(null);
+		image.setDeleted(true);
+		imageRepository.save(image);
+		
 		deleteImageResponse.setSuccess(true);
 		
 		return deleteImageResponse;
@@ -174,8 +182,22 @@ public class AccommodationSoapEndpoint {
 		user.setPassword("");
 		return user;
 	}
+
 	
-	
+	@SuppressWarnings("unused")
+	private Boolean isAttemptedDeletion(Object o) {
+		Class<?> c = o.getClass();
+		Method method = null;		
+		Boolean isAttempted = false;
+		
+		try {
+			method = c.getDeclaredMethod("getDeleted");
+			isAttempted = (Boolean) method.invoke(o);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return isAttempted;
+	}
 	
 	
 

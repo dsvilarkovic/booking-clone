@@ -36,7 +36,7 @@ public class AccommodationUnitSoapEndpoint {
 			@RequestPayload GetAccommodationUnitRequest getAccommodationUnitRequest) {
 		GetAccommodationUnitResponse getAccommodationUnitResponse = new GetAccommodationUnitResponse();
 		AccommodationUnit accommodationUnit = accommodationUnitRepository.
-				findById(getAccommodationUnitRequest.getAccommodationUnitId()).orElse(null);
+				findByIdAndDeleted(getAccommodationUnitRequest.getAccommodationUnitId(), false).orElse(null);
 		
 		getAccommodationUnitResponse.setAccommodationUnit(accommodationUnit);
 		

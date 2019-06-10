@@ -1,5 +1,7 @@
 package xml.booking.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -10,5 +12,7 @@ import xml.booking.model.AccommodationCategory;
 */
 @Repository
 public interface AccommodationCategoryRepository extends JpaRepository<AccommodationCategory, Long>, JpaSpecificationExecutor<AccommodationCategory> {
+
+	List<AccommodationCategory> findByDeletedEquals(boolean b);
 
 }

@@ -1,4 +1,4 @@
-INSERT INTO additional_service ("id", "name") VALUES 
+	INSERT INTO additional_service ("id", "name") VALUES 
 (1,'Pegla');
 INSERT INTO additional_service ("id", "name") VALUES 
 (2,'Wi fi');

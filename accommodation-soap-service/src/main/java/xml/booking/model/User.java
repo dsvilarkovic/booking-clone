@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -137,6 +136,9 @@ public class User {
     
     @Column(name = "address")
     protected String address;
+    
+    @Column(name = "deleted")
+	protected boolean deleted;
 
     /**
      * Gets the value of the id property.
@@ -321,5 +323,14 @@ public class User {
     public void setAddress(String value) {
         this.address = value;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+    
 
 }

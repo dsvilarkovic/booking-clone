@@ -86,6 +86,9 @@ public class AccommodationUnit {
     @XmlElement(name = "Day")
     @OneToMany(fetch = FetchType.EAGER)  
     protected List<Day> day;
+    
+    @Column(name = "deleted")
+	protected boolean deleted;
 
     /**
      * Gets the value of the id property.
@@ -235,5 +238,17 @@ public class AccommodationUnit {
         }
         return this.day;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public void setDay(List<Day> day) {
+		this.day = day;
+	}
 
 }

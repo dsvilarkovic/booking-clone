@@ -56,8 +56,13 @@ public class Image {
     @XmlElement(required = true)
     @Column(name = "value")
     protected byte[] value;
+    
+    @Column(name = "deleted")
+	protected boolean deleted;
 
-    /**
+
+
+	/**
      * Gets the value of the id property.
      * 
      */
@@ -95,4 +100,11 @@ public class Image {
         this.value = value;
     }
 
+    public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 }

@@ -145,6 +145,9 @@ public class User {
     @OneToMany
     private Set<Role> roles;
 
+    @Column(name = "deleted")
+	protected boolean deleted;
+    
     /**
      * Gets the value of the id property.
      * 
@@ -335,6 +338,14 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 

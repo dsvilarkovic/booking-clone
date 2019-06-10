@@ -54,11 +54,14 @@ public class AccommodationCategory {
 	@Column(name = "name")
     protected String name;
 
+	@Column(name = "deleted")
+	protected boolean deleted;
+	    
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -66,11 +69,19 @@ public class AccommodationCategory {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
-    /**
+    public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
      * Gets the value of the name property.
      * 
      */

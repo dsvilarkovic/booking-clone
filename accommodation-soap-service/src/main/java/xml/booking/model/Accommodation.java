@@ -20,7 +20,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -131,6 +130,10 @@ public class Accommodation {
     @OneToMany(fetch = FetchType.EAGER)   
     @Fetch(value = FetchMode.SUBSELECT)
     protected List<AccommodationUnit> accommodationUnit;
+    
+    @Column(name = "deleted")
+ 	protected boolean deleted;
+     
 
     /**
      * Gets the value of the name property.
@@ -382,5 +385,22 @@ public class Accommodation {
 	public void setImage(List<Image> image) {
 		this.image = image;		
 	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public void setAdditionalService(List<AdditionalService> additionalService) {
+		this.additionalService = additionalService;
+	}
+
+	public void setAccommodationUnit(List<AccommodationUnit> accommodationUnit) {
+		this.accommodationUnit = accommodationUnit;
+	}
+	
 
 }

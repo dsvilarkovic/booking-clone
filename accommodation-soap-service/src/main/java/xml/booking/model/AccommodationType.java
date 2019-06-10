@@ -63,6 +63,10 @@ public class AccommodationType {
     @XmlElement(required = true)
     @Column(name = "name")
     protected String name;
+    
+    @Column(name = "deleted")
+ 	protected boolean deleted;
+     
 
     /**
      * Gets the value of the id property.
@@ -103,5 +107,17 @@ public class AccommodationType {
     public void setName(String value) {
         this.name = value;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 }

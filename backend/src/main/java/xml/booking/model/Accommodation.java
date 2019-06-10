@@ -98,11 +98,6 @@ public class Accommodation {
     @Column
     protected String description;
     
-    @Column(name = "deleted")
-    @ColumnDefault(value = "false")
-	protected boolean deleted;
-    
-    
     @XmlElement(name = "AccommodationCategory", required = true)
     @ManyToOne
     protected AccommodationCategory accommodationCategory;
@@ -132,6 +127,11 @@ public class Accommodation {
     @OneToMany
     protected List<AccommodationUnit> accommodationUnit;
 
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
+    
     /**
      * Gets the value of the name property.
      * 

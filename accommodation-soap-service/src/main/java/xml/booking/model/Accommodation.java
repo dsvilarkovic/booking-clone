@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Fetch;
@@ -131,6 +132,7 @@ public class Accommodation {
     @Fetch(value = FetchMode.SUBSELECT)
     protected List<AccommodationUnit> accommodationUnit;
     
+    @XmlTransient
     @Column(name = "deleted")
  	protected boolean deleted;
      

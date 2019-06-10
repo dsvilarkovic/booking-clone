@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -87,6 +88,7 @@ public class AccommodationUnit {
     @OneToMany(fetch = FetchType.EAGER)  
     protected List<Day> day;
     
+    @XmlTransient
     @Column(name = "deleted")
 	protected boolean deleted;
 

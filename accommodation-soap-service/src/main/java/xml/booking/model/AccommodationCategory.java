@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -54,6 +55,7 @@ public class AccommodationCategory {
 	@Column(name = "name")
     protected String name;
 
+	@XmlTransient
 	@Column(name = "deleted")
 	protected boolean deleted;
 	    

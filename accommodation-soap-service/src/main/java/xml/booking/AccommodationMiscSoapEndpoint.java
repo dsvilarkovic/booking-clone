@@ -36,8 +36,9 @@ public class AccommodationMiscSoapEndpoint {
 	@ResponsePayload
 	public GetAccommodationTypesResponse getAccommodationTypesRequest() {
 		GetAccommodationTypesResponse getAccommodationTypesResponse = new GetAccommodationTypesResponse();
-		List<AccommodationType> accommodationTypes = accommodationTypeRepository.findAll();
+		List<AccommodationType> accommodationTypes = accommodationTypeRepository.findByDeletedEquals(false);
 		
+	
 		getAccommodationTypesResponse.setAccommodationTypes(accommodationTypes);
 		
 		return getAccommodationTypesResponse;
@@ -48,7 +49,7 @@ public class AccommodationMiscSoapEndpoint {
 	public GetAccommodationCategoriesResponse getAccommodationCategoriesRequest() {
 		GetAccommodationCategoriesResponse getAccommodationCategoriesResponse = new GetAccommodationCategoriesResponse();
 		
-		List<AccommodationCategory> accommodationCategories = accommodationCategoryRepository.findAll();
+		List<AccommodationCategory> accommodationCategories = accommodationCategoryRepository.findByDeletedEquals(false);
 		
 		getAccommodationCategoriesResponse.setAccommodationCategories(accommodationCategories);
 		
@@ -59,7 +60,7 @@ public class AccommodationMiscSoapEndpoint {
 	@ResponsePayload
 	public GetAdditionalServicesResponse getAccommodationCategoriesResponse() {
 		GetAdditionalServicesResponse getAdditionalServicesResponse = new GetAdditionalServicesResponse();
-		List<AdditionalService> additionalServices = additionalServiceRepository.findAll();
+		List<AdditionalService> additionalServices = additionalServiceRepository.findByDeletedEquals(false);
 		
 		getAdditionalServicesResponse.setAdditionalServices(additionalServices);
 		

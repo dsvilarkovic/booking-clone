@@ -1,0 +1,4 @@
+xml\booking\backend\BackendApplication.class
+xml\booking\model\JwtToken.class
+xml\booking\repositories\JwtTokenRepository.class
+xml\booking\managers\JwtTokenManager.class

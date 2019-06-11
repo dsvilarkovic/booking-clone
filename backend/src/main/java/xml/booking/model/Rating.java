@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -53,10 +54,11 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "Rating")
 @Entity
+@SequenceGenerator(name="seqRating", initialValue=100, allocationSize=50)
 public class Rating {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqRating")
     protected Long id;
 	
 	@Column(name = "value")

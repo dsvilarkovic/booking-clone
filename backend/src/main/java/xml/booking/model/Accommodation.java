@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -84,11 +85,12 @@ import org.hibernate.annotations.ColumnDefault;
 })
 @XmlRootElement(name = "Accommodation")
 @Entity
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
 public class Accommodation {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+    protected Long id;
 	
     @XmlElement(required = true)
     @Column
@@ -184,7 +186,7 @@ public class Accommodation {
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -192,7 +194,7 @@ public class Accommodation {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 

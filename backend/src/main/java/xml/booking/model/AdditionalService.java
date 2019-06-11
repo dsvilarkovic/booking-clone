@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -57,10 +58,11 @@ import org.hibernate.annotations.ColumnDefault;
 })
 @XmlRootElement(name = "AdditionalService")
 @Entity
+@SequenceGenerator(name="seqAddService", initialValue=100, allocationSize=50)
 public class AdditionalService {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqAddService")
     protected Long id;
 	
     @XmlElement(required = true)

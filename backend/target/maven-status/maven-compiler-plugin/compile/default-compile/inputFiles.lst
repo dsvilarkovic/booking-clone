@@ -1,46 +1,46 @@
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\AdditionalServiceRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationTypeManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationTypeRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\AccommodationCategory.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Reservation.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\LocationManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\RatingManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\JwtTokenRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\ImageManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\ImageRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\JwtToken.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\AccommodationType.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\RoleManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationUnitManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\ReservationManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Day.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\MessageManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\JwtTokenManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Location.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Rating.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\DayRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\MessageRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Image.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\ReservationRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\RatingRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\UserRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationCategoryManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\AdditionalService.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Accommodation.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Comment.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\LocationRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\CommentManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\DayManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\UserManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationUnitRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\CommentRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationCategoryRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\managers\AdditionalServiceManager.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\User.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\RoleRepository.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Message.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\Role.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\backend\BackendApplication.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\model\AccommodationUnit.java
-C:\Users\IlijaDjuranovic\Documents\XML-WS\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\AccommodationType.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\AccommodationCategory.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\JwtTokenRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\CommentManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\ReservationRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\RatingManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationTypeManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\MessageManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\RoleManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationUnitManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\LocationManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Comment.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Role.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\AccommodationCategoryManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Reservation.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\ReservationManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Message.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\ImageManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationCategoryRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationUnitRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\JwtTokenManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\JwtToken.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\LocationRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\UserRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\AdditionalServiceManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\User.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\RatingRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\AdditionalService.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\MessageRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Rating.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\AccommodationUnit.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Image.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Accommodation.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Day.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\DayRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\CommentRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\model\Location.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\DayManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\managers\UserManager.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\AdditionalServiceRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\backend\BackendApplication.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\AccommodationTypeRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\ImageRepository.java
+C:\Users\Vesna Milic\Documents\GitHub\booking-clone\backend\src\main\java\xml\booking\repositories\RoleRepository.java

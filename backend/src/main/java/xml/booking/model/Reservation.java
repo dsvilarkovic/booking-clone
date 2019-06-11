@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -79,10 +80,11 @@ import org.hibernate.annotations.ColumnDefault;
 })
 @XmlRootElement(name = "Reservation")
 @Entity
+@SequenceGenerator(name="seqReserv", initialValue=100, allocationSize=50)
 public class Reservation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqReserv")
     protected Long id;
 	
     @XmlElement(name = "beginning_date", required = true)

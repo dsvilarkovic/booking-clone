@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { DatePipe } from '@angular/common';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
    declarations: [
@@ -29,7 +30,8 @@ import { DatePipe } from '@angular/common';
       BrowserModule,
       AppRoutingModule,
       ReactiveFormsModule,
-      FormsModule
+      FormsModule,
+      AngularFontAwesomeModule
    ],
    exports: [
       NavigationBarComponent,

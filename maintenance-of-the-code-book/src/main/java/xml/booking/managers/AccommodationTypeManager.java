@@ -1,7 +1,13 @@
 package xml.booking.managers;
 
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import xml.booking.dto.CodeBookDTO;
 import xml.booking.model.AccommodationType;
 import xml.booking.repositories.AccommodationTypeRepository;
 
@@ -18,4 +24,47 @@ public class AccommodationTypeManager {
 		this.accommodationTypeRepository = accommodationTypeRepository;
 	}
 
+	public Page<CodeBookDTO> getAllAccommodationTypes(Pageable page) {
+		return accommodationTypeRepository.findByDeleted(page,false).map(new Function<AccommodationType, CodeBookDTO>() {
+			@Override
+			public CodeBookDTO apply(AccommodationType type) {
+				CodeBookDTO codeBookDTO = new CodeBookDTO(type);
+				return codeBookDTO;
+			}
+		});
+	}
+	
+	public CodeBookDTO findOne(Long id) {
+		AccommodationType type = accommodationTypeRepository.findByDeletedAndId(false, id);
+		return (type == null) ? null : new CodeBookDTO(type);
+	}
+	
+	public CodeBookDTO save(CodeBookDTO codeBook) {
+		if(codeBook.getId()== null || !accommodationTypeRepository.findById(codeBook.getId()).isPresent()) {
+			AccommodationType type = accommodationTypeRepository.save(new AccommodationType(codeBook));
+			codeBook.setId(type.getId());
+			return codeBook;
+		}
+		return null;
+	}
+	
+	public boolean remove(Long id) {
+		AccommodationType type = accommodationTypeRepository.findByDeletedAndId(false, id);
+		if(type!= null) {
+			type.setDeleted(true);
+			return (accommodationTypeRepository.save(type) == null)?false:true;
+		}
+		return false;
+	}
+	
+	public boolean update(CodeBookDTO codeBook, Long id) {
+		AccommodationType type = accommodationTypeRepository.findByDeletedAndId(false, id);
+		if(type!= null) {
+			type.setName(codeBook.getName());
+			accommodationTypeRepository.save(type);
+			return true;
+		}
+		
+		return false;
+	}
 }

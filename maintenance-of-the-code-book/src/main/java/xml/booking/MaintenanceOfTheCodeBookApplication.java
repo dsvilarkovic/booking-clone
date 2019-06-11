@@ -21,7 +21,6 @@ public class MaintenanceOfTheCodeBookApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MaintenanceOfTheCodeBookApplication.class, args);
-		System.out.println("RADI NESTO");
 	}
 
 }

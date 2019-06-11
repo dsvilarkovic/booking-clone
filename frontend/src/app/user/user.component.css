@@ -2,12 +2,14 @@
     color: black;
 }
 
-/deep/ .pagination .page-item .page-link {
-    border-radius: 0 !important;
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    border-color: rgba(128,128,128,0.4) !important;
+    background-color: #f6f6f6 !important;
+    color: black !important;
 }
 
-/deep/ .pagination .page-link {
-    border-color: gray !important;
-    background-color: #f6f6f6 !important;
+ngb-pagination ::ng-deep ul > li.active > a {
+    border-color: rgba(128,128,128,0.4) !important;
+    background-color: rgba(170, 170, 170, 0.6) !important;
     color: black !important;
 }

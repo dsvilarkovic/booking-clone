@@ -36,7 +36,7 @@
                   </tbody>    
               </table>
               <ngb-pagination [(collectionSize)]="collectionSize" [(page)] = "page" [(pageSize)]="pageSize" [boundaryLinks]="true"
-                style="float:right" (pageChange)="onPageChange(pageNo)">
+                style="float:right" (pageChange)="onPageChange($event)">
               </ngb-pagination>
           </ng-template>  
 
@@ -62,7 +62,7 @@
                   </tbody>    
               </table>
               <ngb-pagination [(collectionSize)]="collectionSize" [(page)] = "page" [(pageSize)]="pageSize" [boundaryLinks]="true"
-                style="float:right" (pageChange)="onPageChange(pageNo)">
+                style="float:right" (pageChange)="onPageChange($event)">
               </ngb-pagination>
           </ng-template>  
       </ngb-tab>
@@ -87,7 +87,7 @@
                   </tbody>    
               </table>
               <ngb-pagination [(collectionSize)]="collectionSize" [(page)] = "page" [(pageSize)]="pageSize" [boundaryLinks]="true"
-                style="float:right" (pageChange)="onPageChange(pageNo)">
+                style="float:right" (pageChange)="onPageChange($event)">
               </ngb-pagination>
           </ng-template>  
       </ngb-tab>  

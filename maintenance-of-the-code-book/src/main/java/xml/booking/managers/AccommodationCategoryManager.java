@@ -1,10 +1,13 @@
 package xml.booking.managers;
 
-import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import xml.booking.dto.CodeBookDTO;
 import xml.booking.model.AccommodationCategory;
 import xml.booking.repositories.AccommodationCategoryRepository;
 
@@ -22,7 +25,47 @@ public class AccommodationCategoryManager {
 	}
 
 	
-	public List<AccommodationCategory> getAllAccommodationCategories() {
-		return accommodationCategoryRepository.findAll();
+	public Page<CodeBookDTO> getAllAccommodationCategories(Pageable page) {
+		return accommodationCategoryRepository.findByDeleted(page,false).map(new Function<AccommodationCategory, CodeBookDTO>() {
+			@Override
+			public CodeBookDTO apply(AccommodationCategory category) {
+				CodeBookDTO codeBookDTO = new CodeBookDTO(category);
+				return codeBookDTO;
+			}
+		});
+	}
+	
+	public CodeBookDTO findOne(Long id) {
+		AccommodationCategory category = accommodationCategoryRepository.findByDeletedAndId(false, id);
+		return (category == null)? null: new CodeBookDTO(category) ;
+	}
+	
+	public CodeBookDTO save(CodeBookDTO codeBook) {
+		if(codeBook.getId() == null || !accommodationCategoryRepository.findById(codeBook.getId()).isPresent()) {
+			AccommodationCategory saved = accommodationCategoryRepository.save(new AccommodationCategory(codeBook));
+			codeBook.setId(saved.getId());
+			return codeBook;
+		}
+		return null;
+	}
+	
+	public boolean remove(Long id) {
+		AccommodationCategory category = accommodationCategoryRepository.findByDeletedAndId(false, id);
+		if(category!= null) {
+			category.setDeleted(true);
+			return (accommodationCategoryRepository.save(category) == null)?false:true;
+		}
+		return false;
+	}
+	
+	public boolean update(CodeBookDTO codeBook, Long id) {
+		AccommodationCategory category = accommodationCategoryRepository.findByDeletedAndId(false, id);
+		if(category!= null) {
+			category.setName(codeBook.getName());
+			accommodationCategoryRepository.save(category);
+			return true;
+		}
+		
+		return false;
 	}
 }

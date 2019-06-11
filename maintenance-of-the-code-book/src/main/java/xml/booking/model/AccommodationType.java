@@ -5,7 +5,6 @@
 // Generated on: 2019.05.18 at 12:12:13 AM CEST 
 //
 
-
 package xml.booking.model;
 
 import javax.persistence.Column;
@@ -13,19 +12,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import xml.booking.dto.CodebookDTO;
+import org.hibernate.annotations.ColumnDefault;
 
+import xml.booking.dto.CodeBookDTO;
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -50,82 +54,81 @@ import xml.booking.dto.CodebookDTO;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "name",
-    "deleted"
-})
+@XmlType(name = "", propOrder = { "id", "name", "deleted" })
 @XmlRootElement(name = "AccommodationType")
 @Entity
+@SequenceGenerator(name = "seqAccType", initialValue = 100, allocationSize = 50)
 public class AccommodationType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
-	
-    @XmlElement(required = true)
-    @Column(name = "name",nullable=false)
-    protected String name;
-    
-    @Column(name = "deleted")
-	protected Boolean deleted;
-    
-    public AccommodationType() {
-    	
-    }
-    public AccommodationType(CodebookDTO dto) {
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAccType")
+	protected Long id;
+
+	@XmlElement(required = true)
+	@Column(name = "name")
+	protected String name;
+
+	@Column(name = "deleted")
+	@ColumnDefault(value = "false")
+	protected boolean deleted;
+
+	public AccommodationType() {
+	}
+
+	public AccommodationType(CodeBookDTO dto) {
 		this.id = dto.getId();
 		this.name = dto.getName();
 		this.deleted = false;
-		
+
 	}
 
-    /**
-     * Gets the value of the id property.
-     * 
-     */
-    public long getId() {
-        return id;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * Sets the value of the id property.
-     * 
-     */
-    public void setId(long value) {
-        this.id = value;
-    }
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 */
+	public void setId(Long value) {
+		this.id = value;
+	}
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Gets the value of the name property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+	/**
+	 * Sets the value of the name property.
+	 * 
+	 * @param value allowed object is {@link String }
+	 * 
+	 */
+	public void setName(String value) {
+		this.name = value;
+	}
 
-	public Boolean isDeleted() {
+	public boolean isDeleted() {
 		return deleted;
 	}
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	@Override
+	public String toString() {
+		return "AccommodationType [id=" + id + ", name=" + name + ", deleted=" + deleted + "]";
 	}
 
 }

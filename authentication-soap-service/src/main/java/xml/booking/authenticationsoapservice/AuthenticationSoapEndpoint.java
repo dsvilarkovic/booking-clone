@@ -1,6 +1,5 @@
 package xml.booking.authenticationsoapservice;
 
-import org.springframework.data.authentication.UserCredentials;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -22,14 +21,23 @@ public class AuthenticationSoapEndpoint {
 	public LoginResponse loginSoap(@RequestPayload LoginRequest loginRequest) {
 		String username = loginRequest.getUsername();
 		String password = loginRequest.getPassword();
-		
+
+		LoginResponse loginResponse = new LoginResponse();
 		
 		String url = "http://localhost:9994/auth/"; // "http://auth-service/auth/"  kad bude pod jednim gateway-om
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<?> responseEntity = restTemplate.postForEntity(url, new UserDTO(username, password), ResponseEntity.class);
 		//
+		HttpHeaders headers = responseEntity.getHeaders();
+		String authContent = null;
+		try {
+			authContent = headers.get("Authorization").get(0);
+		}
+		catch(Exception e) {
+			loginResponse.setSuccess(false);
+			return loginResponse;
+		}
 		
-		LoginResponse loginResponse = new LoginResponse();
 		loginResponse.setSuccess(true);
 		
 		return loginResponse;

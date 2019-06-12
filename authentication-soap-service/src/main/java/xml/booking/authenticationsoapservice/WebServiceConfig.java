@@ -21,32 +21,26 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	
 	
 	
-	@Override
-	public void addInterceptors(List<EndpointInterceptor> interceptors) {
-		interceptors.add(new ResponseAuthorizationInterceptor());
-		super.addInterceptors(interceptors);
-	}
-
 	@Bean
 	public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
 		servlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean(servlet, "/ws/*");
+		return new ServletRegistrationBean(servlet, "/authsoap/*");
 	}
 
-	@Bean(name = "loginsoap")
+	@Bean(name = "authsoap")
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema accommodationsoapSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("LoginSoapPort");
-		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://www.ftn.uns.ac.rs/tim1/loginsoap");
+		wsdl11Definition.setLocationUri("/authsoap");
+		wsdl11Definition.setTargetNamespace("http://www.ftn.uns.ac.rs/tim1/authsoap");
 		wsdl11Definition.setSchema(accommodationsoapSchema);
 		return wsdl11Definition;
 	}
 
 	@Bean
 	public XsdSchema countriesSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("loginsoap.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("authsoap.xsd"));
 	}
 }

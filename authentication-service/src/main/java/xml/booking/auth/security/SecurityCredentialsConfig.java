@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import xml.booking.auth.security.JwtConfig;
 
@@ -23,6 +24,11 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtConfig jwtConfig;
+	
+	@Bean
+	public JwtTokenAuthenticationFilter authenticationJwtTokenFilter() {
+		return new JwtTokenAuthenticationFilter(jwtConfig);
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -43,10 +49,13 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 			//allow registration to anyone
 			.antMatchers("/registration").permitAll()
+			.antMatchers("/whoami").permitAll()
 		    // allow all POST requests 
 		    .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
 		    // any other requests must be authenticated
 		    .anyRequest().authenticated();
+		
+		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	// Spring has UserDetailsService interface, which can be overriden to provide our implementation for fetching user from database (or any other source).

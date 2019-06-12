@@ -6,7 +6,7 @@ export class Codebook {
 
 
 export let codebookTypeMap = {
-    'Accomodation type' : 'accomodationType',
-    'Accomodation category' : 'accomodationCategory',
-    'Additional services' : 'additionalService'
+    'Accomodation type' : 'ACCOMMODATION_TYPE',
+    'Accomodation category' : 'ACCOMMODATION_CATEGORY',
+    'Additional services' : 'ADDITIONAL_SERVICE'
 };

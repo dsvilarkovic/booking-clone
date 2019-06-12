@@ -1,0 +1,15 @@
+.tab-title {
+    color: black;
+}
+
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    border-color: rgba(128,128,128,0.4) !important;
+    background-color: #f6f6f6 !important;
+    color: black !important;
+}
+
+ngb-pagination ::ng-deep ul > li.active > a {
+    border-color: rgba(128,128,128,0.4) !important;
+    background-color: rgba(170, 170, 170, 0.6) !important;
+    color: black !important;
+}

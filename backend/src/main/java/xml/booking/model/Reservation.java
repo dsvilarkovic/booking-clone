@@ -55,7 +55,7 @@ import org.hibernate.annotations.ColumnDefault;
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Rating" minOccurs="0"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Message" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Comment" minOccurs="0"/>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}Accommodation"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}AccommodationUnit"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -75,7 +75,7 @@ import org.hibernate.annotations.ColumnDefault;
     "rating",
     "message",
     "comment",
-    "accommodation",
+    "accommodationUnit",
     "user"
 })
 @XmlRootElement(name = "Reservation")
@@ -118,9 +118,9 @@ public class Reservation {
     @ManyToOne
     protected Comment comment;
     
-    @XmlElement(name = "Accommodation", namespace = "http://www.ftn.uns.ac.rs/tim1/accommodation", required = true)
+    @XmlElement(name = "AccommodationUnit", namespace = "http://www.ftn.uns.ac.rs/tim1/accommodationUnit", required = true)
     @ManyToOne
-    protected Accommodation accommodation;
+    protected AccommodationUnit accommodationUnit;
     
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
     @ManyToOne
@@ -297,31 +297,16 @@ public class Reservation {
         this.comment = value;
     }
 
-    /**
-     * Gets the value of the accommodation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Accommodation }
-     *     
-     */
-    public Accommodation getAccommodation() {
-        return accommodation;
-    }
+    
+    public AccommodationUnit getAccommodationUnit() {
+		return accommodationUnit;
+	}
 
-    /**
-     * Sets the value of the accommodation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Accommodation }
-     *     
-     */
-    public void setAccommodation(Accommodation value) {
-        this.accommodation = value;
-    }
+	public void setAccommodationUnit(AccommodationUnit accommodationUnit) {
+		this.accommodationUnit = accommodationUnit;
+	}
 
-    /**
+	/**
      * Gets the value of the user property.
      * 
      * @return

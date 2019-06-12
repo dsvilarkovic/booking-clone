@@ -1,16 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: xml.booking.backend.BackendApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 27.286 s <<< FAILURE! - in xml.booking.backend.BackendApplicationTests
-contextLoads(xml.booking.backend.BackendApplicationTests)  Time elapsed: 0.002 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: 
-Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Initialization of bean failed; nested exception is org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #12 of URL [file:/C:/Users/IlijaDjuranovic/Documents/XML-WS/booking-clone/backend/target/classes/data.sql]: INSERT INTO public.users (address,email,first_name,last_name,"password",pib,user_type) VALUES (NULL,'admin@admin.rs',NULL,NULL,'123',NULL,NULL); nested exception is org.postgresql.util.PSQLException: ERROR: null value in column "id" violates not-null constraint
-  Detail: Failing row contains (null, null, f, admin@admin.rs, null, null, 123, null, null).
-Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: 
-Failed to execute SQL script statement #12 of URL [file:/C:/Users/IlijaDjuranovic/Documents/XML-WS/booking-clone/backend/target/classes/data.sql]: INSERT INTO public.users (address,email,first_name,last_name,"password",pib,user_type) VALUES (NULL,'admin@admin.rs',NULL,NULL,'123',NULL,NULL); nested exception is org.postgresql.util.PSQLException: ERROR: null value in column "id" violates not-null constraint
-  Detail: Failing row contains (null, null, f, admin@admin.rs, null, null, 123, null, null).
-Caused by: org.postgresql.util.PSQLException: 
-ERROR: null value in column "id" violates not-null constraint
-  Detail: Failing row contains (null, null, f, admin@admin.rs, null, null, 123, null, null).
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.86 s - in xml.booking.backend.BackendApplicationTests

@@ -313,8 +313,8 @@
                 <xs:element maxOccurs="1" minOccurs="0" ref="ms:Rating"/>
                 <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Message"/>
                 <xs:element minOccurs="0" ref="ms:Comment"/>
-                <xs:element ref="ms:Accommodation"/>
                 <xs:element minOccurs="0" ref="ms:User"/>
+                <xs:element minOccurs="1" ref="ms:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -332,75 +332,11 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="getReservationsListRequest">
+    <xs:element name="checkinReservationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="ms:User"/>
-                <xs:element name="pageNumber" type="xs:int"/>
-                <xs:element name="size" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="getReservationsListResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Reservation"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="getReservationMessagesRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="reservation_id" type="xs:int"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="getReservationMessagesResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Message"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="createReservationRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="ms:Reservation"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="createReservationResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="success" type="xs:boolean"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="declineReservationRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="reservation_id" type="xs:long"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="declineReservationResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="success" type="xs:boolean"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="updateReservationRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="ms:Reservation"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="updateReservationResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="success" type="xs:boolean"/>
+                <xs:element name="reservation_id"/>
+                <xs:element name="newElement"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

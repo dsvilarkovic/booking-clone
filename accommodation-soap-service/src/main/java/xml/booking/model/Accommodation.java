@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,6 +30,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -87,17 +90,18 @@ import org.hibernate.annotations.FetchMode;
 })
 @XmlRootElement(name = "Accommodation")
 @Entity
+@SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Accommodation {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
     protected long id;
 	
     @XmlElement(required = true)
     @Column
     protected String name;
     
-    @XmlElement(required = true)
     @Column
     protected String description;
     

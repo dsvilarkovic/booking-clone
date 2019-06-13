@@ -11,4 +11,5 @@ import xml.booking.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
+	User findByEmail(String email);
 }

@@ -3,6 +3,8 @@ package xml.booking;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -25,14 +27,18 @@ import xml.booking.accommodationsoap.GetAccommodationsResponse;
 import xml.booking.accommodationsoap.UpdateAccommodationRequest;
 import xml.booking.accommodationsoap.UpdateAccommodationResponse;
 import xml.booking.model.Accommodation;
+import xml.booking.model.AccommodationUnit;
 import xml.booking.model.Image;
 import xml.booking.model.Location;
 import xml.booking.model.User;
 import xml.booking.repositories.AccommodationRepository;
+import xml.booking.repositories.AccommodationUnitRepository;
 import xml.booking.repositories.ImageRepository;
 import xml.booking.repositories.LocationRepository;
+import xml.booking.repositories.UserRepository;
 
 @Endpoint
+@Transactional
 public class AccommodationSoapEndpoint {
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/accommodationsoap";
 	
@@ -45,7 +51,11 @@ public class AccommodationSoapEndpoint {
 	@Autowired
 	private LocationRepository locationRepository;
 	
+	@Autowired
+	private UserRepository userRepository;
 	
+	@Autowired 
+	private AccommodationUnitRepository accommodationUnitRepository; 
 
 	/**
 	 * Vraca trazeni smestaj po id-u
@@ -60,6 +70,7 @@ public class AccommodationSoapEndpoint {
 		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationRequest.getAccommodationId(), false).orElse(null);
 		accommodation.setImage(null);
 		accommodation.setUser(deletePassword(accommodation.getUser()));
+		
 		getAccommodationResponse.setAccommodation(accommodation);
 		
 		return getAccommodationResponse;
@@ -72,7 +83,8 @@ public class AccommodationSoapEndpoint {
 	@ResponsePayload
 	public GetAccommodationsResponse getAccommodationsRequest() {
 		GetAccommodationsResponse getAccommodationsResponse = new GetAccommodationsResponse();
-			
+		
+		
 		//TODO: treba vratiti samo one za koje je trenutni agent zaduzen kao vlasnik
 		//potrebno logovanje
 		List<Accommodation> accommodations = accommodationRepository.findByDeletedEquals(false);
@@ -91,14 +103,20 @@ public class AccommodationSoapEndpoint {
 			@RequestPayload CreateAccommodationRequest createAccommodationRequest) {
 		CreateAccommodationResponse createAccommodationResponse = new CreateAccommodationResponse();
 		
-		System.out.println(createAccommodationRequest.getAccommodation().getName());
 	
 		Accommodation accommodation = createAccommodationRequest.getAccommodation();
 		Location location = accommodation.getLocation();
-		locationRepository.save(location);
+		location = locationRepository.save(location);
 		
-		accommodation =	accommodationRepository.save(createAccommodationRequest.getAccommodation());
+		//uzmi usera iz repository i sacuvaj ga za accommodation
+		User user = userRepository.findByEmail(accommodation.getUser().getEmail());
+		accommodation.setUser(user);
+		//sacuvaj snimljenu lokaciju u accommdoation
+		accommodation.setLocation(location);
+		
+		accommodation =	accommodationRepository.save(accommodation);
 		createAccommodationResponse.setAccommodationId(accommodation.getId());
+		createAccommodationResponse.setLocationId(location.getId());
 		
 		return createAccommodationResponse;
 	}
@@ -111,8 +129,18 @@ public class AccommodationSoapEndpoint {
 		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(deleteAccommodationRequest.getAccommodationId(), false).orElse(null);
 		
 		accommodation.setDeleted(true);
-		//accommodationRepository.deleteById(accommodation.getId());
 		accommodationRepository.save(accommodation);
+		
+		for (AccommodationUnit accommodationUnit: accommodation.getAccommodationUnit()) {
+			accommodationUnit.setDeleted(true);
+			accommodationUnitRepository.save(accommodationUnit);
+		}
+		for (Image image : accommodation.getImage()) {
+			image.setDeleted(true);
+			imageRepository.save(image);
+		}
+		
+		deleteAccommodationResponse.setSuccess(true);
 		
 		return deleteAccommodationResponse;
 	}
@@ -122,15 +150,26 @@ public class AccommodationSoapEndpoint {
 	public UpdateAccommodationResponse updateAccommodationRequest(
 			@RequestPayload UpdateAccommodationRequest updateAccommodationRequest) {
 		UpdateAccommodationResponse updateAccommodationResponse = new UpdateAccommodationResponse();
-		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(updateAccommodationRequest.getAccommodation().getId(), false).orElse(null);
+
+		//uzmi verziju smestaja iz request
+		Accommodation requestAccommodation = updateAccommodationRequest.getAccommodation();
 		
-		Location location = accommodation.getLocation();
-		locationRepository.save(location); //mozda ne postoji
+		//uzmi verziju smestaja iz repoziotrijuma
+		Accommodation repositoryAccommodation = accommodationRepository.findByIdAndDeleted(requestAccommodation.getId(), false).orElse(null);
 		
-		accommodationRepository.save(updateAccommodationRequest.getAccommodation());
+		//azuriraj nasu verziju
+		repositoryAccommodation.setAccommodationCategory(requestAccommodation.getAccommodationCategory());
+		repositoryAccommodation.setAccommodationType(requestAccommodation.getAccommodationType());
+		repositoryAccommodation.setAdditionalService(requestAccommodation.getAdditionalService());
+		
+		repositoryAccommodation.setDescription(requestAccommodation.getDescription());
+		repositoryAccommodation.setName(requestAccommodation.getName());
+	
+		
+		
+		accommodationRepository.save(repositoryAccommodation);
 		
 		updateAccommodationResponse.setSuccess(true);
-		
 		return updateAccommodationResponse;
 	}
 	
@@ -141,7 +180,7 @@ public class AccommodationSoapEndpoint {
 			@RequestPayload GetAccommodationImagesRequest getAccommodationImagesRequest) {
 		GetAccommodationImagesResponse getAccommodationImagesResponse = new GetAccommodationImagesResponse();
 		
-		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationImagesRequest.getAccommodation().getId(), false).orElse(null);
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationImagesRequest.getAccommodationId(), false).orElse(null);
 		List<Image> images =  accommodation.getImage();
 		
 		getAccommodationImagesResponse.setImage(images);
@@ -157,6 +196,12 @@ public class AccommodationSoapEndpoint {
 		
 		Image image = imageRepository.save(createImageRequest.getImage());
 		createImageResponse.setImageId(image.getId());
+		
+		//snimi i u acommodation
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(createImageRequest.getAccommodationId(), false).orElse(null);
+		accommodation.getImage().add(image);
+		
+		accommodationRepository.save(accommodation);
 		
 		return createImageResponse;
 	}

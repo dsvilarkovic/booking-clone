@@ -23,7 +23,7 @@
     <xs:element name="getAccommodationImagesRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="accsoap:Accommodation"/>
+                <xs:element name="accommodation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -413,6 +413,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="accsoap:Image"/>
+                <xs:element name="accommodation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

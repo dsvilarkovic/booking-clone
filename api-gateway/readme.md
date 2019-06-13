@@ -11,6 +11,7 @@ Za podesavanje vaseg mikroservisa u eureka server i zuul proxy potrebno je: <br>
 			<li> dodatak urlu zuul-proxyja preko koga ce se pristupati mikroservisu (npr, nas zuul proxy radi na localhost:8762/api/, ako namestite ovu putanju za mock-service, onda ce se operacijama tog mikroservisa pristupati preko <b>localhost:8762/api/mock-service/\*\*</b>):  <b>zuul.routes.mock-service.path=/mock-service/**</b> </li>
 			<li> id servisa kome cete pristupati, cisto informativno ubaciti, ne secam se poente: zuul.routes.mock-service.service-id= mock-service </li>
 			<li> zuul.routes.<b><<ime servisa u application.properties vaseg mikroservisa, tj ovo iz 1.i.>></b>.</li>
+			<li> **Obavezno podesiti header-e koje zuul ne prosledjuje**: zuul.routes.ime-servisa.sensitive-headers=Cookie,Set-Cookie</li>
 		</ol>
 
 Napomene: <br>

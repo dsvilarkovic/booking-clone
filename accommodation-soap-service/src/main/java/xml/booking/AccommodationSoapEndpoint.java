@@ -259,8 +259,17 @@ public class AccommodationSoapEndpoint {
 	
 	
 	private User deletePassword(User user) {
-		user.setPassword("");
-		return user;
+		User noPasswordUser = new User();
+		noPasswordUser.setFirstName(user.getFirstName());
+		noPasswordUser.setLastName(user.getLastName());
+		noPasswordUser.setAddress(user.getAddress());
+		noPasswordUser.setDeleted(false);
+		noPasswordUser.setEmail(user.getEmail());
+		noPasswordUser.setId(user.getId());
+		noPasswordUser.setPib(user.getPib());
+		noPasswordUser.setUserType(user.getUserType());
+		noPasswordUser.setPassword("");
+		return noPasswordUser;
 	}
 
 	

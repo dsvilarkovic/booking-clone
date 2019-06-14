@@ -92,12 +92,10 @@ public class Reservation {
 	
     @XmlElement(name = "beginning_date", required = true)
     @Column(name = "beginningDate")
-    @Transient
     protected Long beginningDate;
     
     @XmlElement(name = "end_date", required = true)
     @Column(name = "endDate")
-    @Transient
     protected Long endDate;
     
     @XmlElement(required = true)

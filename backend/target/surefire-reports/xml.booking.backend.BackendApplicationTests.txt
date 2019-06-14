@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: xml.booking.backend.BackendApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.86 s - in xml.booking.backend.BackendApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.384 s - in xml.booking.backend.BackendApplicationTests

@@ -19,12 +19,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -82,12 +87,14 @@ import javax.xml.bind.annotation.XmlType;
     "accommodationUnit"
 })
 @XmlRootElement(name = "Accommodation")
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
 @Entity
+@EqualsAndHashCode
 public class Accommodation {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+	protected long id;
 	
     @XmlElement(required = true)
     @Column
@@ -126,6 +133,10 @@ public class Accommodation {
     @XmlElement(name = "AccommodationUnit")
     @OneToMany
     protected List<AccommodationUnit> accommodationUnit;
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
 
     /**
      * Gets the value of the name property.

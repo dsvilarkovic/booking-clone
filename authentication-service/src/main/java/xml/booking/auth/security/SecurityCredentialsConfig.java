@@ -48,14 +48,15 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 		    .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))	
 		.authorizeRequests()
 			//allow registration to anyone
-			.antMatchers("/registration").permitAll()
-			.antMatchers("/whoami").permitAll()
+			.antMatchers("/user/registration").permitAll()
+			.antMatchers("/user/whoami").permitAll()
 		    // allow all POST requests 
 		    .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
 		    // any other requests must be authenticated
 		    .anyRequest().authenticated();
 		
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.logout();
 	}
 	
 	// Spring has UserDetailsService interface, which can be overriden to provide our implementation for fetching user from database (or any other source).

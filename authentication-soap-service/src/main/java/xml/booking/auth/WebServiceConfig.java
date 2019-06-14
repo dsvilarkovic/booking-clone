@@ -1,4 +1,4 @@
-package xml.booking.authenticationsoapservice;
+package xml.booking.auth;
 
 import java.util.List;
 
@@ -26,21 +26,21 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		MessageDispatcherServlet servlet = new MessageDispatcherServlet();
 		servlet.setApplicationContext(applicationContext);
 		servlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean(servlet, "/authsoap/*");
+		return new ServletRegistrationBean(servlet, "/loginsoap/*");
 	}
 
-	@Bean(name = "authsoap")
+	@Bean(name = "loginsoap")
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema accommodationsoapSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("LoginSoapPort");
-		wsdl11Definition.setLocationUri("/authsoap");
-		wsdl11Definition.setTargetNamespace("http://www.ftn.uns.ac.rs/tim1/authsoap");
+		wsdl11Definition.setLocationUri("/loginsoap");
+		wsdl11Definition.setTargetNamespace("http://www.ftn.uns.ac.rs/tim1/loginsoap");
 		wsdl11Definition.setSchema(accommodationsoapSchema);
 		return wsdl11Definition;
 	}
 
 	@Bean
 	public XsdSchema countriesSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("authsoap.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("loginsoap.xsd"));
 	}
 }

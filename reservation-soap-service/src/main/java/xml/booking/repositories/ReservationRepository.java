@@ -15,4 +15,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
 
 	List<Reservation> findByUserId(Long id);
 
+	Reservation findByIdAndDeleted(Long reservationId, boolean b);
+
+	List<Reservation> findByUserIdAndDeleted(Long id, boolean b);
+
 }

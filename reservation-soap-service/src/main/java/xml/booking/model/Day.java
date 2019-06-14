@@ -15,12 +15,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -61,12 +64,14 @@ import javax.xml.bind.annotation.XmlType;
     "available"
 })
 @XmlRootElement(name = "Day")
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
 @Entity
+@EqualsAndHashCode
 public class Day {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+	protected Long id;
 	
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")

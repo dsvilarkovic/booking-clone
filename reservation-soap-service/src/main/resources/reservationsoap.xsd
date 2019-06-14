@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://www.ftn.uns.ac.rs/tim1/messagingsoap"
-    xmlns:ms="http://www.ftn.uns.ac.rs/tim1/messagingsoap"
-    xmlns:ns1="http://www.ftn.uns.ac.rs/tim1/accommodation"
-    xmlns:ns2="http://www.ftn.uns.ac.rs/tim1/user"
-    xmlns:ns3="http://www.ftn.uns.ac.rs/tim1/reservation">
+    targetNamespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap"
+    xmlns:rs="http://www.ftn.uns.ac.rs/tim1/reservationsoap">
     <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
@@ -214,7 +211,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Day"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="rs:Day"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -237,13 +234,13 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element name="id" type="xs:long"/>
-                <xs:element ref="ms:AccommodationCategory"/>
-                <xs:element ref="ms:AccommodationType"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:AdditionalService"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Image"/>
-                <xs:element ref="ms:Location"/>
-                <xs:element ref="ms:User"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:AccommodationUnit"/>
+                <xs:element ref="rs:AccommodationCategory"/>
+                <xs:element ref="rs:AccommodationType"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="rs:AdditionalService"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="rs:Image"/>
+                <xs:element ref="rs:Location"/>
+                <xs:element ref="rs:User"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="rs:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -275,7 +272,7 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element name="date" type="xs:long"/>
-                <xs:element ref="ms:User"/>
+                <xs:element ref="rs:User"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -291,7 +288,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element minOccurs="0" ref="ms:User"/>
+                <xs:element minOccurs="0" ref="rs:User"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -310,11 +307,11 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element default="false" name="checked_in" type="xs:boolean"/>
-                <xs:element maxOccurs="1" minOccurs="0" ref="ms:Rating"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Message"/>
-                <xs:element minOccurs="0" ref="ms:Comment"/>
-                <xs:element minOccurs="0" ref="ms:User"/>
-                <xs:element minOccurs="1" ref="ms:AccommodationUnit"/>
+                <xs:element maxOccurs="1" minOccurs="0" ref="rs:Rating"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="rs:Message"/>
+                <xs:element minOccurs="0" ref="rs:Comment"/>
+                <xs:element minOccurs="0" ref="rs:User"/>
+                <xs:element minOccurs="1" ref="rs:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -328,7 +325,7 @@
     <xs:element name="getReservationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="ms:Reservation"/>
+                <xs:element ref="rs:Reservation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -336,7 +333,28 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="reservation_id"/>
-                <xs:element name="newElement"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getMessagesRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservation_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getMessagesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="rs:Message"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getReservationListRequest"/>
+    <xs:element name="getReservationListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="rs:Reservation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

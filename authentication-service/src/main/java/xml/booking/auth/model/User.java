@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -112,12 +113,13 @@ import lombok.EqualsAndHashCode;
 })
 @XmlRootElement(name = "User")
 @Entity(name = "users")
+@SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
+	protected Long id;
 	
     @XmlElement(name = "first_name", required = true)
     @Column(name = "firstName")
@@ -128,7 +130,7 @@ public class User {
     protected String lastName;
     
     @XmlElement(required = true)
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     protected String email;
     
     @XmlElement(required = true)

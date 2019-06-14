@@ -1,16 +1,11 @@
 package xml.booking.auth.controllers;
 
-import java.nio.file.attribute.UserPrincipal;
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +61,7 @@ public class UserController {
 		String username = (String) authentication.getPrincipal(); 
 		
 		User user = userRepository.findByEmail(username);
-		UserDTO userDTO = new UserDTO(user.getEmail(), "", 
+		UserDTO userDTO = new UserDTO(user.getId(), user.getEmail(), "", 
 										user.getFirstName(), 
 										user.getLastName(), 
 										user.getUserType(), 
@@ -75,5 +70,6 @@ public class UserController {
 		
 		return ResponseEntity.ok(userDTO);
 	}
+	
 	
 }

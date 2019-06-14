@@ -1,4 +1,4 @@
-package xml.booking.auth.soap.dto;
+package xml.booking.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

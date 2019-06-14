@@ -19,12 +19,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -76,21 +81,21 @@ import javax.xml.bind.annotation.XmlType;
     "user"
 })
 @XmlRootElement(name = "Reservation")
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
 @Entity
+@EqualsAndHashCode
 public class Reservation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+	protected Long id;
 	
     @XmlElement(name = "beginning_date", required = true)
     @Column(name = "beginningDate")
-    @Transient
     protected Long beginningDate;
     
     @XmlElement(name = "end_date", required = true)
     @Column(name = "endDate")
-    @Transient
     protected Long endDate;
     
     @XmlElement(required = true)
@@ -121,6 +126,10 @@ public class Reservation {
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
     @ManyToOne
     protected User user;
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
 
     /**
      * Gets the value of the id property.

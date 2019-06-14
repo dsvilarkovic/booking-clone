@@ -7,8 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import lombok.EqualsAndHashCode;
+
 @Entity(name = "role")
 @SequenceGenerator(name="seqRole", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqRole")

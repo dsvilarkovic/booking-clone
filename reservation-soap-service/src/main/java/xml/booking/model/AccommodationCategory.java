@@ -5,10 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -45,17 +50,20 @@ import javax.xml.bind.annotation.XmlType;
     "deleted"
 })
 @XmlRootElement(name = "AccommodationCategory")
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
 @Entity
+@EqualsAndHashCode
 public class AccommodationCategory {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+	protected Long id;
 	
 	@Column(name = "name")
     protected String name;
 	
-	@Column(name = "deleted")
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
 	protected boolean deleted;
 
     /**

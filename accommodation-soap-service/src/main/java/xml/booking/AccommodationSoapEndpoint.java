@@ -3,13 +3,24 @@ package xml.booking;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.transport.context.TransportContext;
+import org.springframework.ws.transport.context.TransportContextHolder;
+import org.springframework.ws.transport.http.HttpServletConnection;
+
 
 import xml.booking.accommodationsoap.CreateAccommodationRequest;
 import xml.booking.accommodationsoap.CreateAccommodationResponse;
@@ -40,6 +51,7 @@ import xml.booking.repositories.UserRepository;
 @Endpoint
 @Transactional
 public class AccommodationSoapEndpoint {
+	private static final String AUTH_URL = "http://localhost:9994/user";
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/accommodationsoap";
 	
 	@Autowired
@@ -54,9 +66,20 @@ public class AccommodationSoapEndpoint {
 	@Autowired
 	private UserRepository userRepository;
 	
+	
 	@Autowired 
 	private AccommodationUnitRepository accommodationUnitRepository; 
 
+	protected HttpServletRequest getHttpServletRequest() {
+	    TransportContext ctx = TransportContextHolder.getTransportContext();
+	    return ( null != ctx ) ? ((HttpServletConnection ) ctx.getConnection()).getHttpServletRequest() : null;
+	}
+
+	protected String getHttpHeaderValue( final String headerName ) {
+	    HttpServletRequest httpServletRequest = getHttpServletRequest();
+	    return ( null != httpServletRequest ) ? httpServletRequest.getHeader( headerName ) : null;
+	}
+	
 	/**
 	 * Vraca trazeni smestaj po id-u
 	 * @return
@@ -82,12 +105,24 @@ public class AccommodationSoapEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAccommodationsRequest")
 	@ResponsePayload
 	public GetAccommodationsResponse getAccommodationsRequest() {
+		
+		//nadji trenutno ulogovanog user-a na osnovu /whoami
+		RestTemplate restTemplate = new RestTemplate();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", getHttpHeaderValue("Authorization"));
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+		
+		ResponseEntity<User> response = restTemplate.exchange(AUTH_URL + "/whoami", HttpMethod.GET, entity, User.class);
+		User user = response.getBody();
+		
 		GetAccommodationsResponse getAccommodationsResponse = new GetAccommodationsResponse();
 		
 		
 		//TODO: treba vratiti samo one za koje je trenutni agent zaduzen kao vlasnik
 		//potrebno logovanje
-		List<Accommodation> accommodations = accommodationRepository.findByDeletedEquals(false);
+		
+		List<Accommodation> accommodations = accommodationRepository.findByUserEmailAndDeleted(user.getEmail(),false);
 		for (Accommodation accommodation : accommodations) {
 			accommodation.setImage(null);
 			accommodation.setUser(deletePassword(accommodation.getUser()));

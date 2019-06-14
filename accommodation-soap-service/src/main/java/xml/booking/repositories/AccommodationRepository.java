@@ -19,4 +19,6 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 	Optional<Accommodation> findByIdAndDeleted(long accommodationId, boolean b);
 
 	List<Accommodation> findByDeletedEquals(boolean b);
+
+	List<Accommodation> findByUserEmailAndDeleted(String email, boolean b);
 }

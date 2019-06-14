@@ -14,12 +14,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>Java class for anonymous complex type.
@@ -58,12 +63,14 @@ import javax.xml.bind.annotation.XmlType;
     "user"
 })
 @XmlRootElement(name = "Message")
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
 @Entity
+@EqualsAndHashCode
 public class Message {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+	protected Long id;
 	
     @XmlElement(required = true)
     @Column(name = "value")
@@ -79,6 +86,10 @@ public class Message {
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user", required = true)
     @ManyToOne
     protected User user;
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
 
     /**
      * Gets the value of the id property.

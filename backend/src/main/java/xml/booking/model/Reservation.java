@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -81,6 +83,7 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlRootElement(name = "Reservation")
 @Entity
 @SequenceGenerator(name="seqReserv", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Reservation {
 
 	@Id

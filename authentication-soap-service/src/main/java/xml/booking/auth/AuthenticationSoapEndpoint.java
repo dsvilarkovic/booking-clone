@@ -1,4 +1,4 @@
-package xml.booking.authenticationsoapservice;
+package xml.booking.auth;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +8,9 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import xml.booking.auth.dto.UserDTO;
 import xml.booking.auth.soap.LoginRequest;
 import xml.booking.auth.soap.LoginResponse;
-import xml.booking.auth.soap.dto.UserDTO;
 
 @Endpoint
 public class AuthenticationSoapEndpoint {
@@ -34,11 +34,11 @@ public class AuthenticationSoapEndpoint {
 			authContent = headers.get("Authorization").get(0);
 		}
 		catch(Exception e) {
-			loginResponse.setSuccess(false);
+			loginResponse.setAuthorization("");;
 			return loginResponse;
 		}
 		
-		loginResponse.setSuccess(true);
+		loginResponse.setAuthorization(authContent);
 		
 		return loginResponse;
 	}

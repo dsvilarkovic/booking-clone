@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import AccommodationUnit, Day, Guest, Message, Reservation, AccommodationType, AccommodationCategory, Accommodation
+from django.conf import settings
+from .models import AccommodationUnit, Day, Guest, Message, Reservation, AccommodationType, AccommodationCategory, Accommodation, Location, AdditionalService
 from datetime import date, timedelta, datetime
 from zeep import Client, Settings, helpers
+from zeep.plugins import HistoryPlugin
+from lxml import etree
 #import pdb; pdb.set_trace()
 
 
@@ -100,15 +103,20 @@ def messaging(request, reservation_id):
         # TODO: backend comms here
         return redirect('booking:messaging', reservation_id=reservation_id)
 
-WSDL_ADDRESS = 'http://localhost:9998/ws/accommodationsoap.wsdl'
-def sync_all_data(request):
-    settings = Settings(strict=False, xml_huge_tree=True)
-    client = Client(WSDL_ADDRESS, settings=settings)
 
+def sync_all_data(request):
+    history = HistoryPlugin()
+    client_settings = Settings(strict=False, xml_huge_tree=True)
+    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
+    auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
+
+    #TODO: izmeniti username i password
+    token = auth_client.service.login(username='postman', password='postman')
+    acc_client.transport.session.headers.update({'Authorization': token})
     # Accommodation Types
     AccommodationType.objects.all().delete()
 
-    soap_response = client.service.getAccommodationTypes()
+    soap_response = acc_client.service.getAccommodationTypes()
     for atdict in soap_response:
         tmp = helpers.serialize_object(atdict['AccommodationType'])
         new_atype = AccommodationType(**tmp)
@@ -118,11 +126,101 @@ def sync_all_data(request):
     # Accommodation Categories
     AccommodationCategory.objects.all().delete()
     
-    soap_response = client.service.getAccommodationCategories()
+    soap_response = acc_client.service.getAccommodationCategories()
     for acdict in soap_response:
         tmp = helpers.serialize_object(acdict['AccommodationCategory'])
         new_acat = AccommodationCategory(**tmp)
         new_acat.save()
 
 
+    # Additional Services
+    AdditionalService.objects.all().delete()
+
+    soap_response = acc_client.service.getAdditionalServices()
+    for addser in soap_response:
+        tmp = helpers.serialize_object(addser['AdditionalService'])
+        new_addser = AdditionalService(**tmp)
+        new_addser.save()
+
+    # Accommodations
+    Accommodation.objects.all().delete()
+    Location.objects.all().delete()
+
+    soap_response = acc_client.service.getAccommodations()
+    for hist in [history.last_sent, history.last_received]:
+        print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
+    for adict in soap_response:
+        import pdb; pdb.set_trace()
+        tmp = helpers.serialize_object(adict['Accommodation'])
+        aid = tmp['id']
+        atype = tmp['AccommodationType']
+        acat = tmp['AccommodationCategory']
+        loc = tmp['Location']
+        name = tmp['name']
+        desc = tmp['description']
+        services = tmp['AdditionalService']
+        units = tmp['AccommodationUnit']
+        
+        # Create location
+        new_location = Location()
+        new_location.id = loc['id']
+        new_location.address = loc['address']
+        new_location.city = loc['city']
+        new_location.longitude = loc['longitude']
+        new_location.latitude = loc['latitude']
+        new_location.save()
+
+        new_acom = Accommodation()
+        new_acom.id = aid
+        new_acom.accommodation_type = AccommodationType.objects.get(pk=atype['id'])
+        new_acom.category = AccommodationCategory.objects.get(pk=acat['id'])        
+
+        new_acom.location = new_location
+        new_acom.name = name
+        new_acom.description = desc
+
+        new_acom.save()
+
+        #services
+        for service in services:
+            new_acom.services.add(AdditionalService.objects.get(pk=service['id']))
+
+        #units
+        for unit in units:
+            uid = unit['id']
+            name = unit['name']
+            capacity = unit['capacity']
+            default_price = unit['default_price']
+            cancelation_period = unit['cancelation_period']
+            days = unit['Day']
+
+            new_unit = AccommodationUnit()
+            new_unit.id = uid
+            new_unit.name = name
+            new_unit.capacity = capacity
+            new_unit.default_price = default_price
+            new_unit.cancelation_period = cancelation_period
+            new_unit.accommodation = new_acom
+
+            new_unit.save()
+
+            # days
+            for day in days:
+                did = day['id']
+                day_date = day['date']
+                price = day['price']
+                available = day['available']
+
+                new_day = Day()
+                new_day.id = did
+                new_day.date = date.fromtimestamp(day_date)
+                new_day.price = price
+                new_day.available = available
+                new_day.unit = new_unit
+
+                new_day.save()
+
+
+        
+        
     return render(request, 'booking/view_index.html')

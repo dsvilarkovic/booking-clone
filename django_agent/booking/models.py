@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.forms.models import model_to_dict
 
 
 class AccommodationType(models.Model):
@@ -8,6 +9,9 @@ class AccommodationType(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def to_dict(self):
+        return model_to_dict(self)
 
 
 class AccommodationCategory(models.Model):
@@ -15,6 +19,9 @@ class AccommodationCategory(models.Model):
 
     def __str__(self):
         return str(self.name) + ' star'
+    
+    def to_dict(self):
+        return model_to_dict(self)
 
 
 class Location(models.Model):
@@ -33,6 +40,9 @@ class Location(models.Model):
     def __str__(self):
         return self.address + ', ' + self.city
 
+    def to_dict(self):
+        return model_to_dict(self)
+
 
 class AdditionalService(models.Model):
     name = models.CharField(max_length=60, unique=True)
@@ -40,13 +50,16 @@ class AdditionalService(models.Model):
     def __str__(self):
         return self.name
 
+    def to_dict(self):
+        return model_to_dict(self)
+
 
 class Accommodation(models.Model):
     accommodation_type = models.ForeignKey(
         AccommodationType, on_delete=models.CASCADE)
     category = models.ForeignKey(
         AccommodationCategory, on_delete=models.CASCADE)
-    location = models.OneToOneField(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     description = models.TextField(max_length=200, blank=True)
     services = models.ManyToManyField(AdditionalService, blank=True)
@@ -58,6 +71,26 @@ class Accommodation(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         # TODO: Add backend logic here
+
+    def to_dict(self):
+        fields = ['name', 'description']
+        ret_val = model_to_dict(self, fields=fields)
+
+        ret_val['AccommodationType'] = self.accommodation_type.to_dict()
+        ret_val['AccommodationCategory'] = self.category.to_dict()
+        ret_val['Location'] = self.location.to_dict()
+        
+        servs = []
+        for service in self.services.all():
+            servs.append(service.to_dict())
+
+        ret_val['AdditionalService'] = servs
+        ret_val['AccommodationUnit'] = []
+        # TODO izmeniti email
+        ret_val['User'] = {'email' : 'postman'}
+
+        return ret_val
+        
 
 
 class AccommodationUnit(models.Model):
@@ -71,7 +104,7 @@ class AccommodationUnit(models.Model):
     cancelation_period = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.name + ' | ' + str(self.accommodation)
+        return self.name + ' | ' + str(self.accommodation)        
 
 
 class Day(models.Model):
@@ -123,14 +156,14 @@ class Reservation(models.Model):
 
 class Message(models.Model):
     reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
-    text = models.TextField(280)
+    text = models.TextField(max_length=280)
     timestamp = models.DateTimeField()
     mine = models.BooleanField()
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.OneToOneField(Location, on_delete=models.CASCADE)
+    address = models.TextField(max_length=200)
     pib = models.CharField(max_length=9)
 
     def __str__(self):

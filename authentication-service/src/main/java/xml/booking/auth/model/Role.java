@@ -11,10 +11,10 @@ import lombok.EqualsAndHashCode;
 
 @Entity(name = "role")
 @EqualsAndHashCode
-@SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
+@SequenceGenerator(name="seqRole", initialValue=100, allocationSize=50)
 public class Role {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqRole")
 	private Long id;
 	
 	@Column(name = "role")

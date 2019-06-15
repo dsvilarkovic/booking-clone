@@ -113,12 +113,12 @@ import lombok.EqualsAndHashCode;
 })
 @XmlRootElement(name = "User")
 @Entity(name = "users")
-@SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
+@SequenceGenerator(name="seqUser", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqUser")
 	protected Long id;
 	
     @XmlElement(name = "first_name", required = true)

@@ -12,4 +12,6 @@ import xml.booking.auth.model.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
 
+	Role findByRole(String upperCase);
+
 }

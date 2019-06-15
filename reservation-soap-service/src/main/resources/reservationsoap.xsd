@@ -318,7 +318,7 @@
     <xs:element name="getReservationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reservation_id" type="xs:int"/>
+                <xs:element name="reservation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -332,7 +332,7 @@
     <xs:element name="checkinReservationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reservation_id"/>
+                <xs:element name="reservation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -353,7 +353,7 @@
     <xs:element name="getReservationListRequest"/>
     <xs:element name="getReservationListResponse">
         <xs:complexType>
-            <xs:sequence>
+            <xs:sequence maxOccurs="unbounded" minOccurs="0">
                 <xs:element ref="rs:Reservation"/>
             </xs:sequence>
         </xs:complexType>

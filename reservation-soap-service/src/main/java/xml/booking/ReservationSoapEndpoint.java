@@ -31,6 +31,7 @@ import xml.booking.reservationsoap.GetReservationResponse;
 @Endpoint
 public class ReservationSoapEndpoint {
 
+	//TODO: izmeniti ovde za eureku
 	private static final String AUTH_URL = "http://localhost:9994/user";
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/reservationsoap";
 
@@ -48,10 +49,10 @@ public class ReservationSoapEndpoint {
 	}
 	
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getReservation")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getReservationRequest")
 	@ResponsePayload
 	public GetReservationResponse getReservationRequest(@RequestPayload GetReservationRequest getReservationRequest) {
-		Long reservationId = (long) getReservationRequest.getReservationId();
+		Long reservationId = getReservationRequest.getReservationId();
 		Reservation reservation = reservationRepository.findByIdAndDeleted(reservationId, false);
 		
 		GetReservationResponse getReservationResponse = new GetReservationResponse();
@@ -66,10 +67,10 @@ public class ReservationSoapEndpoint {
 	 * @param getReservationMessagesRequest
 	 * @return
 	 */
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getReservationList")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getReservationListRequest")
 	@ResponsePayload
-	public GetReservationListResponse getReservationsListRequest() {
-		GetReservationListResponse getReservationsListResponse = new GetReservationListResponse();
+	public GetReservationListResponse getReservationListRequest() {
+		GetReservationListResponse getReservationListResponse = new GetReservationListResponse();
 		
 		//nadji trenutno ulogovanog user-a na osnovu /whoami
 		RestTemplate restTemplate = new RestTemplate();
@@ -84,15 +85,15 @@ public class ReservationSoapEndpoint {
 		List<Reservation> reservation = reservationRepository.findByUserIdAndDeleted(user.getId(), false);
 		
 	
-		getReservationsListResponse.setReservation(reservation);
+		getReservationListResponse.setReservation(reservation);
 		
-		return getReservationsListResponse;
+		return getReservationListResponse;
 
 	}
 	
 
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "checkinReservation")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "checkinReservationRequest")
 	public void checkinReservation(@RequestPayload CheckinReservationRequest checkinReservationRequest) {
 		Long reservationId = checkinReservationRequest.getReservationId();
 		
@@ -103,7 +104,7 @@ public class ReservationSoapEndpoint {
 		reservationRepository.save(reservation);
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getMessages")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getMessagesRequest")
 	@ResponsePayload
 	public GetMessagesResponse getMessages(@RequestPayload GetMessagesRequest getMessagesRequest ) {
 		Long reservationId = getMessagesRequest.getReservationId();

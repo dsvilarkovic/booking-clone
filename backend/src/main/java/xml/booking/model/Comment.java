@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -61,6 +63,7 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlRootElement(name = "Comment")
 @Entity
 @SequenceGenerator(name="seqComment", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Comment {
 
 	@Id

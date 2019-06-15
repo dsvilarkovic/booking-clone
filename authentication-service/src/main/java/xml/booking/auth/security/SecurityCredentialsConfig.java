@@ -48,7 +48,7 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 		    .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))	
 		.authorizeRequests()
 			//allow registration to anyone
-			.antMatchers("/user/registration").permitAll()
+			.antMatchers("/user").permitAll()
 			.antMatchers("/user/whoami").permitAll()
 		    // allow all POST requests 
 		    .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()

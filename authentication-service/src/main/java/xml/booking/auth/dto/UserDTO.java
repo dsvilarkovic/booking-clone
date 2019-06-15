@@ -14,6 +14,11 @@ public class UserDTO {
 	private String email;
 	private String password;
 	
+	/**
+	 * Ako se updateuje password, da se proveri da li je prethodni dobar
+	 */
+	private String oldPassword;
+	
     private String firstName;
     
     private String lastName;

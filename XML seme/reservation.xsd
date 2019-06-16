@@ -75,6 +75,15 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element minOccurs="0" ref="user:User"/>
+                <xs:element name="commentState">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="NOT_REVIEWED"/>
+                            <xs:enumeration value="UNPUBLISHED"/>
+                            <xs:enumeration value="PUBLISHED"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

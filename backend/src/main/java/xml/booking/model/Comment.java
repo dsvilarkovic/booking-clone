@@ -58,7 +58,8 @@ import lombok.EqualsAndHashCode;
 @XmlType(name = "", propOrder = {
     "id",
     "value",
-    "user"
+    "user",
+    "commentState"
 })
 @XmlRootElement(name = "Comment")
 @Entity
@@ -82,6 +83,10 @@ public class Comment {
     @ColumnDefault(value = "false")
 	protected boolean deleted;
 
+    @Column
+    @XmlElement(required = true)
+    @ColumnDefault(value = "NOT_REVIEWED")
+    protected String commentState;
     /**
      * Gets the value of the id property.
      * 
@@ -152,6 +157,14 @@ public class Comment {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getCommentState() {
+		return commentState;
+	}
+
+	public void setCommentState(String commentState) {
+		this.commentState = commentState;
 	}
 
 }

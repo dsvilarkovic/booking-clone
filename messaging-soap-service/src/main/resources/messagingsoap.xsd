@@ -22,6 +22,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="ms:Message"/>
+                <xs:element name="reservation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -53,15 +54,15 @@
     <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
-                <xs:element name="first_name">
+                <xs:element name="id" type="xs:long" minOccurs="0"/>
+                <xs:element name="first_name" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="2"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="last_name">
+                <xs:element name="last_name" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="2"/>
@@ -83,7 +84,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="user_type">
+                <xs:element name="user_type" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="registered"/>

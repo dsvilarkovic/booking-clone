@@ -54,13 +54,13 @@ import lombok.EqualsAndHashCode;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name = "Message", propOrder = {
     "id",
     "value",
     "date",
     "user"
-})
-@XmlRootElement(name = "Message")
+},namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
+//@XmlRootElement(name = "Message")
 @Entity
 @SequenceGenerator(name="seqMessage", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
@@ -68,16 +68,18 @@ public class Message {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqMessage")
+	@XmlElement(namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     protected Long id;
 	
     @Column(name = "value")
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     protected String value;
     
     @Column(name = "date")
+    @XmlElement(namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     protected Long date;
     
-    @XmlElement(name = "User", required = true)
+    @XmlElement(name = "User", required = true, namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @ManyToOne
     protected User user;
 

@@ -90,40 +90,40 @@ import lombok.EqualsAndHashCode;
     "defaultPrice",
     "cancelationPeriod",
     "day"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "AccommodationUnit")
 @Entity
 @SequenceGenerator(name="seqAccUnit", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class AccommodationUnit {
 
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAccUnit")
     protected Long id;
     
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "name")
     protected String name;
     
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "capacity")
     protected Integer capacity;
     
     
-    @XmlElement(name = "default_price", required = true)
+    @XmlElement(name = "default_price", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "defaultPrice")
     protected Double defaultPrice;
     
     
-    @XmlElement(name = "cancelation_period")
+    @XmlElement(name = "cancelation_period", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "cancelationPeriod")
     protected Integer cancelationPeriod;
     
     
-    @XmlElement(name = "Day")
+    @XmlElement(name = "Day", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @OneToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     protected List<Day> day;

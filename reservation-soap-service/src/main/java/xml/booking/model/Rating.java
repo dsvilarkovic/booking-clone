@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -53,17 +54,19 @@ import lombok.EqualsAndHashCode;
 @XmlType(name = "", propOrder = {
     "id",
     "value"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Rating")
 @Entity
 @SequenceGenerator(name="seqRating", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Rating {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqRating")
     protected Long id;
 	
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Column(name = "value")
     protected Integer value;
 

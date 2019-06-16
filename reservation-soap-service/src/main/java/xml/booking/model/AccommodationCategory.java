@@ -55,18 +55,19 @@ import lombok.EqualsAndHashCode;
 @XmlType(name = "", propOrder = {
     "id",
     "name"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "AccommodationCategory")
 @Entity
 @SequenceGenerator(name="seqAccCat", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class AccommodationCategory {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seqAccCat")
     protected long id;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Column(name = "name")
     protected String name;
     

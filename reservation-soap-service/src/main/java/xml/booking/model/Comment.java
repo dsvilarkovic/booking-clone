@@ -57,23 +57,24 @@ import lombok.EqualsAndHashCode;
     "id",
     "value",
     "user"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Comment")
 @Entity
 @SequenceGenerator(name="seqComment", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Comment {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqComment")
     protected Long id;
 	
     @Column(name = "value")
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     protected String value;
     
     
-    @XmlElement(name = "User")
+    @XmlElement(name = "User", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @ManyToOne
     protected User user;
 

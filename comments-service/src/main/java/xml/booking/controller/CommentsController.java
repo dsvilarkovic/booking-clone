@@ -1,14 +1,10 @@
 package xml.booking.controller;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import xml.booking.model.Accommodation;
 import xml.booking.model.Comment;
 import xml.booking.model.CommentState;
-import xml.booking.model.Reservation;
 import xml.booking.model.User;
-import xml.booking.repositories.AccommodationRepository;
 import xml.booking.repositories.CommentRepository;
 import xml.booking.repositories.ReservationRepository;
 import xml.booking.repositories.UserRepository;
@@ -64,7 +55,7 @@ public class CommentsController {
 	 * Vraca komentare ulogovanog korisnika
 	 * @return
 	 */
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<?> getComments(Pageable pageable, Principal principal){
 		User user = getLoggedUser(principal);
 		

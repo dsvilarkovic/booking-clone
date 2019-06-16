@@ -92,34 +92,35 @@ import lombok.EqualsAndHashCode;
     "country",
     "latitude",
     "Longitude"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Location")
 @Entity
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Location {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
     protected Long id;
 	
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "address")
     protected String address;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "city")
     protected String city;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "country")
     protected String country;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "latitude")
     protected BigDecimal latitude;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "longitude")
     protected BigDecimal Longitude;
 

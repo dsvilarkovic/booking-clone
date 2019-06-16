@@ -59,27 +59,28 @@ import lombok.EqualsAndHashCode;
     "value",
     "date",
     "user"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Message")
 @Entity
 @SequenceGenerator(name="seqMessage", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Message {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqMessage")
     protected Long id;
 	
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "value")
     protected String value;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "date")
     protected Long date;
     
     
-    @XmlElement(name = "User", required = true)
+    @XmlElement(name = "User", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @ManyToOne
     protected User user;
 

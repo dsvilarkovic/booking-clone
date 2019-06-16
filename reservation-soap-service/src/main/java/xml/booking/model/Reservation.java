@@ -80,52 +80,53 @@ import lombok.EqualsAndHashCode;
     "comment",
     "user",
     "accommodationUnit"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Reservation")
 @Entity
 @SequenceGenerator(name="seqReserv", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Reservation {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqReserv")
     protected Long id;
 	
 	
-    @XmlElement(name = "beginning_date", required = true)
+    @XmlElement(name = "beginning_date", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "beginningDate")
     protected Long beginningDate;
     
-    @XmlElement(name = "end_date", required = true)
+    @XmlElement(name = "end_date", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "endDate")
     protected Long endDate;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "finalPrice")
     protected BigDecimal finalPrice;
     
-    @XmlElement(name = "checked_in", defaultValue = "false")
+    @XmlElement(name = "checked_in", defaultValue = "false", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "checkedIn")
     protected Boolean checkedIn;
     
-    @XmlElement(name = "Rating")
+    @XmlElement(name = "Rating", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @ManyToOne
     protected Rating rating;
     
-    @XmlElement(name = "Message")
+    @XmlElement(name = "Message", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @OneToMany(fetch = FetchType.EAGER)
     protected List<Message> message;
     
-    @XmlElement(name = "Comment")
+    @XmlElement(name = "Comment", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @ManyToOne
     protected Comment comment;
     
     
-    @XmlElement(name = "User")
+    @XmlElement(name = "User", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @ManyToOne
     protected User user;
     
-    @XmlElement(name = "AccommodationUnit", required = true)
+    @XmlElement(name = "AccommodationUnit", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @ManyToOne
     protected AccommodationUnit accommodationUnit;
 

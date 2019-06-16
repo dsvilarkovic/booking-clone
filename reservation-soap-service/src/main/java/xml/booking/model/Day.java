@@ -61,27 +61,28 @@ import lombok.EqualsAndHashCode;
     "date",
     "price",
     "available"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Day")
 @Entity
 @SequenceGenerator(name="seqDay", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Day {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqDay")
     protected Long id;
 	
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "date")
     protected Long date;
     
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "price")
     protected BigDecimal price;
     
-    @XmlElement(defaultValue = "true")
+    @XmlElement(defaultValue = "true", namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "available")
     protected Boolean available;
 

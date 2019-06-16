@@ -50,18 +50,19 @@ import lombok.EqualsAndHashCode;
 @XmlType(name = "", propOrder = {
     "id",
     "value"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "Image")
 @Entity
 @SequenceGenerator(name="seqImage", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class Image {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqImage")
     protected Long id;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "value")
     protected byte[] value;
 

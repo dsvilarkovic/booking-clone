@@ -5,5 +5,6 @@
 // Generated on: 2019.06.15 at 09:56:20 PM CEST 
 //
 
+
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package xml.booking.messagingsoap;

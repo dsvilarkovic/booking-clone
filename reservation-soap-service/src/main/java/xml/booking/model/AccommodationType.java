@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -56,22 +57,24 @@ import lombok.EqualsAndHashCode;
 @XmlType(name = "", propOrder = {
     "id",
     "name"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "AccommodationType")
 @Entity
 @SequenceGenerator(name="seqAccType", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class AccommodationType {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAccType")
     protected Long id;
 	
 	
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "name")
     protected String name;
     
+    @XmlTransient
     @Column(name = "deleted")
     @ColumnDefault(value = "false")
 	protected boolean deleted;

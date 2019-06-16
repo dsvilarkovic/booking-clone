@@ -105,42 +105,45 @@ import lombok.EqualsAndHashCode;
     "userType",
     "pib",
     "address"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "User")
 @Entity(name = "users")
 @SequenceGenerator(name="seqUser", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class User {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqUser")
     protected Long id;
 	
 	
-    @XmlElement(name = "first_name", required = true)
+    @XmlElement(name = "first_name", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "firstName")
     protected String firstName;
     
-    @XmlElement(name = "last_name", required = true)
+    @XmlElement(name = "last_name", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "lastName")
     protected String lastName;
     
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "email")
     protected String email;
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "password")
     protected String password;
     
-    @XmlElement(name = "user_type", required = true)
+    @XmlElement(name = "user_type", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "userType")
     protected String userType;
     
+    @XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "pib")
     protected Integer pib;
     
+    @XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "address")
     protected String address;
 

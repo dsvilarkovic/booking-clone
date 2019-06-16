@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap"
-    xmlns="http://www.ftn.uns.ac.rs/tim1/accommodationsoap">
+    xmlns:accsoap="http://www.ftn.uns.ac.rs/tim1/accommodationsoap">
     <xs:element name="getAccommodationCategoriesRequest"/>
     <xs:element name="getAccommodationCategoriesResponse">
         <xs:complexType>
             <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                <xs:element ref="AccommodationCategory"/>
+                <xs:element ref="accsoap:AccommodationCategory"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -14,7 +14,7 @@
     <xs:element name="getAccommodationTypesResponse">
         <xs:complexType>
             <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                <xs:element ref="AccommodationType"/>
+                <xs:element ref="accsoap:AccommodationType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -28,7 +28,7 @@
     <xs:element name="getAccommodationImagesResponse">
         <xs:complexType>
             <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                <xs:element ref="Image"/>
+                <xs:element ref="accsoap:Image"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -36,7 +36,7 @@
     <xs:element name="getAdditionalServicesResponse">
         <xs:complexType>
             <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                <xs:element ref="AdditionalService"/>
+                <xs:element ref="accsoap:AdditionalService"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -59,13 +59,13 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element minOccurs="0" name="id" type="xs:long"/>
-                <xs:element ref="AccommodationCategory"/>
-                <xs:element ref="AccommodationType"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="AdditionalService"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="Image"/>
-                <xs:element minOccurs="1" ref="Location"/>
-                <xs:element ref="User"/>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="AccommodationUnit"/>
+                <xs:element ref="accsoap:AccommodationCategory"/>
+                <xs:element ref="accsoap:AccommodationType"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accsoap:AdditionalService"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accsoap:Image"/>
+                <xs:element minOccurs="1" ref="accsoap:Location"/>
+                <xs:element ref="accsoap:User"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accsoap:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -102,7 +102,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="Day"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="accsoap:Day"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -285,7 +285,7 @@
     <xs:element name="createAccommodationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Accommodation"/>
+                <xs:element ref="accsoap:Accommodation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -300,7 +300,7 @@
     <xs:element name="createAccommodationUnitRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="AccommodationUnit"/>
+                <xs:element ref="accsoap:AccommodationUnit"/>
                 <xs:element name="accommodation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
@@ -315,7 +315,7 @@
     <xs:element name="updateAccommodationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Accommodation"/>
+                <xs:element ref="accsoap:Accommodation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -329,7 +329,7 @@
     <xs:element name="updateAccommodationUnitRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="AccommodationUnit"/>
+                <xs:element ref="accsoap:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -338,7 +338,7 @@
             <xs:sequence>
                 <xs:element name="success" type="xs:boolean"/>
                 <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                    <xs:element ref="Day"/>
+                    <xs:element ref="accsoap:Day"/>
                 </xs:sequence>
             </xs:sequence>
         </xs:complexType>
@@ -381,7 +381,7 @@
     <xs:element name="getAccommodationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Accommodation"/>
+                <xs:element ref="accsoap:Accommodation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -395,7 +395,7 @@
     <xs:element name="getAccommodationUnitResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="AccommodationUnit"/>
+                <xs:element ref="accsoap:AccommodationUnit"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -403,14 +403,14 @@
     <xs:element name="getAccommodationsResponse">
         <xs:complexType>
             <xs:sequence maxOccurs="unbounded" minOccurs="0">
-                <xs:element ref="Accommodation"/>
+                <xs:element ref="accsoap:Accommodation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <xs:element name="createImageRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Image"/>
+                <xs:element ref="accsoap:Image"/>
                 <xs:element name="accommodation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>

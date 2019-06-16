@@ -96,7 +96,7 @@ import lombok.EqualsAndHashCode;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name = "User", propOrder = {
     "id",
     "firstName",
     "lastName",
@@ -105,8 +105,8 @@ import lombok.EqualsAndHashCode;
     "userType",
     "pib",
     "address"
-})
-@XmlRootElement(name = "User")
+},namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
+//@XmlRootElement(name = "User")
 @Entity(name = "users")
 @SequenceGenerator(name="seqUser", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
@@ -114,33 +114,36 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqUser")
+	@XmlElement(namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     protected Long id;
 	
 	
-    @XmlElement(name = "first_name")
+    @XmlElement(name = "first_name", namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "firstName")
     protected String firstName;
     
-    @XmlElement(name = "last_name")
+    @XmlElement(name = "last_name", namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "lastName")
     protected String lastName;
     
     
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "email")
     protected String email;
     
-    @XmlElement(name = "password")
+    @XmlElement(name = "password", namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "password")
     protected String password;
     
-    @XmlElement(name = "user_type", required = true)
+    @XmlElement(name = "user_type", required = true, namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "userType")
     protected String userType;
     
+    @XmlElement(namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "pib")
     protected Integer pib;
     
+    @XmlElement(namespace = "http://www.ftn.uns.ac.rs/tim1/messagingsoap")
     @Column(name = "address")
     protected String address;
 

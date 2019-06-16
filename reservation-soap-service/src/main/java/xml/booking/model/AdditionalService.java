@@ -55,18 +55,19 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlType(name = "", propOrder = {
     "id",
     "name"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 @XmlRootElement(name = "AdditionalService")
 @Entity
 @SequenceGenerator(name="seqAddService", initialValue=100, allocationSize=50)
 public class AdditionalService {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqAddService")
     protected Long id;
 	
 	
-    @XmlElement(required = true)
+    @XmlElement(required = true, namespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap")
     @Column(name = "name")
     protected String name;
     

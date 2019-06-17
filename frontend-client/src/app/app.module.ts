@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
 import { AgmCoreModule } from '@agm/core';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ReservationCheckoutComponent } from './reservation-checkout/reservation-checkout.component';
 
 @NgModule({
    declarations: [
@@ -30,7 +31,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
       LoginFormComponent,
       ChatboxComponent,
       AccommodationProfileComponent,
-      UserProfileComponent
+      UserProfileComponent,
+      ReservationCheckoutComponent
    ],
    imports: [
       NgMultiSelectDropDownModule.forRoot(),

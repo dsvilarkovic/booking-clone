@@ -5,6 +5,7 @@ import { SearchResultsComponent } from './search/search-results/search-results.c
 import { SearchFormComponent } from './search/search-form/search-form.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ReservationCheckoutComponent } from './reservation-checkout/reservation-checkout.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'user/:id',
     component: UserProfileComponent
+  },
+  //TODO: obrisati ovaj primer, samo za testiranje sluzi
+  {
+    path: 'reservation-checkout',
+    component: ReservationCheckoutComponent
   }
 ];
 

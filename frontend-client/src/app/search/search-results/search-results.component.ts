@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Accommodation } from 'src/app/object-interfaces/accommodation';
+import { ActivatedRoute } from '@angular/router';
+import { SearchService } from '../search.service';
+import { AccommodationUnit } from 'src/app/accommodation-profile/accommodationunit';
+import { AccommodationCategory } from '../model/accommodationcategory';
+import { AccommodationType } from '../model/accommodationtype';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-results',
@@ -9,65 +16,49 @@ import { Accommodation } from 'src/app/object-interfaces/accommodation';
 })
 export class SearchResultsComponent implements OnInit {
 
-  constructor() { }
-  additionalServicesList = [];
+  constructor(private route: ActivatedRoute,
+              private searchService: SearchService, private router: Router) { }
+
+  searchObject = {
+    location: null,
+    beginningDate: null,
+    endDate: null,
+    numberOfPersons: null
+  };
+
   dropdownSettings = {};
   sort = 'none';
+
   categoriesList = [];
   accTypeList = [];
+  additionalServicesList = [];
+
   filterForm: any = {};
-  accommodationResultList: Accommodation[] = [
+
+  accommodationUnitList: AccommodationUnit[] = [
+    {
+      id: 0,
+      name: 'Master Suite',
+      capacity: 2,
+      cancelationPeriod : null,
+      defaultPrice : 200,
+      image : null
+    },
     {
       id: 1,
-      name: 'Hotel Park',
-      accommodationCategory: 'Uncategorized',
-      accommodationType: 'Hotel', 
-      additionalService: ['WI-FI', "Parking"],
-      cancelationPeriod: undefined,
-      capacity: 10,
-      defaultPrice: 200,
-      description: "Round mound of rebound",
-      user: undefined,
-      rating: 2.5
+      name: 'Double room',
+      capacity: 2,
+      cancelationPeriod : null,
+      defaultPrice : 300,
+      image : null
     },
     {
       id: 2,
-      name: "Hotel Master",
-      accommodationCategory: "5 stars",
-      accommodationType: "Hotel", 
-      additionalService: ["WI-FI", "TV"],
-      cancelationPeriod: undefined,
-      capacity: 4,
-      defaultPrice: 200,
-      description: "Fantastic, majestic, great excellent",
-      user: undefined,
-      rating: 3
-    },
-    {
-      id: 3,
-      name: "FTN Apartmani",
-      accommodationCategory: "Uncategorized",
-      accommodationType: "Apartments", 
-      additionalService: ["WI-FI", "Parking"],
-      cancelationPeriod: undefined,
-      capacity: 666,
-      defaultPrice: 404,
-      description: "Look at my look shoes, aaaand look at me lucky suiteee.",
-      user: undefined,
-      rating: 4
-    },
-    {
-      id: 4,
-      name: "Motel Bosna",
-      accommodationCategory: "Uncategorized",
-      accommodationType: "Motel", 
-      additionalService: ["TV", "Parking", "Shower", "4G"],
-      cancelationPeriod: undefined,
-      capacity: 2,
-      defaultPrice: 3200,
-      description: "Ozbiljan hotel, za galantne goste.",
-      user: undefined,
-      rating: 4.6
+      name: 'Single room',
+      capacity: 1,
+      cancelationPeriod : null,
+      defaultPrice : 400,
+      image : null
     },
   ];
 
@@ -76,15 +67,29 @@ export class SearchResultsComponent implements OnInit {
   pageSize = 5;
 
   ngOnInit() {
+    // preuzimanje parametara iz putanje
+    this.route.queryParams
+      .subscribe(params => {
+        this.searchObject.location = params.location;
+        console.log(this.searchObject.location);
 
+        this.searchObject.beginningDate = params.beginningDate;
+        this.searchObject.endDate = params.endDate;
+        this.searchObject.numberOfPersons = params.numberOfPersons;
+      });
+
+    // rezultati pretrage
+    this.getNormalSearchResults(0);
+
+    // popunjavanje lista za filtraciju
     this.getAccomodationTypes();
     this.getCategories();
     this.getAdditonalServices();
 
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
+      idField: 'id',
+      textField: 'name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
@@ -93,23 +98,36 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getAdditonalServices() {
-    // TODO 0: preuzimanje definisanih servisa
-    this.additionalServicesList = [
-      { item_id: 1, item_text: 'WI-FI' },
-      { item_id: 2, item_text: 'Parking' },
-      { item_id: 3, item_text: 'All inclusive' },
-      { item_id: 4, item_text: 'TV' }
-    ];
+    this.searchService.getAdditionalServices().subscribe(
+      data => {
+        this.additionalServicesList = data;
+      },
+      error => {
+        console.log('error');
+      }
+    );
   }
 
   getCategories() {
-    // TODO 1: preuzimanje definisanih kategorija
-    this.categoriesList = ['None', '1 star'];
+    this.searchService.getAccommodationCategories().subscribe(
+      data => {
+        this.categoriesList = data;
+      },
+      error => {
+        console.log('error');
+      }
+    );
   }
 
   getAccomodationTypes() {
-    // TODO 2: preuzimanje definisanih kategorija
-    this.accTypeList = ['Hotel', 'Bed&breakfast', 'Apartman'];
+    this.searchService.getAccommodationTypes().subscribe(
+      data => {
+        this.accTypeList = data;
+      },
+      error => {
+        console.log('error');
+      }
+    );
   }
 
   onItemSelect(item: any) {
@@ -124,11 +142,41 @@ export class SearchResultsComponent implements OnInit {
   }
 
   onPageChange(pageNo: number) {
-    // TODO: Dusan insert something
+    this.getNormalSearchResults(pageNo - 1);
   }
 
-  reserve(accommodation: Accommodation) {
+  // accommodationUnit: AccommodationUnit = {
+  //   id : 1,
+  //   cancelationPeriod : 5,
+  //   capacity : 10,
+  //   defaultPrice : 100,
+  //   name : 'Luxury Suite',
+  //   image : null
+  // };
+  reserveCheckout(accommodationUnit: AccommodationUnit) {
     // TODO: Dusan insert login
+    sessionStorage.setItem('accommodationUnit', JSON.stringify(accommodationUnit));
+    this.router.navigateByUrl('/reservation-checkout');
   }
+
+  getNormalSearchResults(page: number) {
+    this.searchService.normalSearch(this.searchObject.location, this.searchObject.beginningDate,
+      this.searchObject.endDate, this.searchObject.numberOfPersons, page).subscribe(
+        data => {
+          this.accommodationUnitList = data['content'];
+          this.collectionSize = data['totalElements'];
+          this.pageSize = data['pageable'].pageSize;
+          this.page = data['pageable'].pageNumber + 1;
+        },
+        error => {
+          console.log('error!');
+        }
+    );
+  }
+
+  getAdvancedSearchResults(page: number) {
+
+  }
+
 
 }

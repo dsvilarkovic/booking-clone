@@ -1,4 +1,4 @@
-package xml.booking.controller;
+package xml.booking.dto;
 
 import java.util.List;
 

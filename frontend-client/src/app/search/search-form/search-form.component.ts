@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-search-form',
@@ -11,7 +12,8 @@ export class SearchFormComponent implements OnInit {
 
   searchForm: FormGroup;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private searchService: SearchService) { }
 
   ngOnInit() {
     this.searchForm = new FormGroup(
@@ -25,7 +27,11 @@ export class SearchFormComponent implements OnInit {
   }
 
   searchFormSubmit() {
-    this.router.navigateByUrl('/searchResults');
+    // redirect to the results page
+    this.router.navigate(['/searchResults'], { queryParams:
+               { location: this.searchForm.value.location, beginningDate: this.searchForm.value.checkInDate,
+                 endDate: this.searchForm.value.checkOutDate, numberOfPersons: this.searchForm.value.numberOfPersons} });
+
   }
 
 }

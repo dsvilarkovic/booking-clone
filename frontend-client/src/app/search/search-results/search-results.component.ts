@@ -32,10 +32,11 @@ export class SearchResultsComponent implements OnInit {
   categoriesList = [];
   accTypeList = [];
   additionalServicesList = [];
+  accommodationUnitList: AccommodationUnit[] = [];
 
   filterForm: any = {};
 
-  accommodationUnitList: AccommodationUnit[] = [
+  /*accommodationUnitList: AccommodationUnit[] = [
     {
       id: 0,
       name: 'Master Suite',
@@ -61,6 +62,8 @@ export class SearchResultsComponent implements OnInit {
       image : null
     },
   ];
+  */
+  
 
   collectionSize = 4;
   page = 1;

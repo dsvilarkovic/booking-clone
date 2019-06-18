@@ -15,12 +15,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -62,16 +65,16 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "Day")
 @Entity
+@SequenceGenerator(name="seqDay", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Day {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqDay")
     protected Long id;
 	
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
-   
-    
     @Column(name = "date")
     protected Long date;
     
@@ -83,16 +86,12 @@ public class Day {
     @XmlElement(defaultValue = "true")
     @Column(name = "available")
     protected boolean available;
-    
-    @XmlElement(name = "deleted", required = true, defaultValue = "false")
-    @Column(name = "deleted")
-    protected boolean delete;
 
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -100,7 +99,7 @@ public class Day {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 

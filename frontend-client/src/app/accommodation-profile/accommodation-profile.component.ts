@@ -52,7 +52,7 @@ export class AccommodationProfileComponent implements OnInit {
       name: 'Double room',
       capacity: 2,
       cancelationPeriod: 2,
-      defaultPrice: 100
+      defaultPrice: 100,
       image : null
     },
     {
@@ -60,7 +60,7 @@ export class AccommodationProfileComponent implements OnInit {
       name: 'Single room',
       capacity: 1,
       cancelationPeriod: 2,
-      defaultPrice: 100
+      defaultPrice: 100,
       image : null
     },
   ];

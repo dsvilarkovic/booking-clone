@@ -28,8 +28,67 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
+
+/**
+ * <p>Java class for anonymous complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType>
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="name">
+ *           &lt;simpleType>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;maxLength value="60"/>
+ *               &lt;minLength value="1"/>
+ *             &lt;/restriction>
+ *           &lt;/simpleType>
+ *         &lt;/element>
+ *         &lt;element name="description">
+ *           &lt;simpleType>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;maxLength value="200"/>
+ *             &lt;/restriction>
+ *           &lt;/simpleType>
+ *         &lt;/element>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}AccommodationCategory"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}AccommodationType"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}AdditionalService" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}Image" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}Location"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}AccommodationUnit" maxOccurs="unbounded" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {
+    "name",
+    "description",
+    "id",
+    "accommodationCategory",
+    "accommodationType",
+    "additionalService",
+    "image",
+    "location",
+    "user",
+    "accommodationUnit"
+})
+@XmlRootElement(name = "Accommodation")
 @Entity
 @SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Accommodation {
 
 	@Id
@@ -60,7 +119,8 @@ public class Accommodation {
     @XmlElement(name = "AccommodationUnit")
     @OneToMany
     protected List<AccommodationUnit> accommodationUnit;
-   
+
+    
     @Column(name = "deleted")
     @ColumnDefault(value = "false")
 	protected boolean deleted;

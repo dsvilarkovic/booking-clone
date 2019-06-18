@@ -26,8 +26,46 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
+
+/**
+ * <p>Java class for anonymous complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType>
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}anyType"/>
+ *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}anyType"/>
+ *         &lt;element name="capacity" type="{http://www.w3.org/2001/XMLSchema}anyType"/>
+ *         &lt;element name="default_price" type="{http://www.w3.org/2001/XMLSchema}anyType"/>
+ *         &lt;element name="cancelation_period" type="{http://www.w3.org/2001/XMLSchema}anyType"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}Day" maxOccurs="unbounded" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {
+    "id",
+    "name",
+    "capacity",
+    "defaultPrice",
+    "cancelationPeriod",
+    "day"
+})
+@XmlRootElement(name = "AccommodationUnit")
 @Entity
 @SequenceGenerator(name="seqAccUnit", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class AccommodationUnit {
 
     @XmlElement(required = true)

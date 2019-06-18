@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -86,6 +88,7 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlRootElement(name = "Accommodation")
 @Entity
 @SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Accommodation {
 
 	@Id
@@ -113,17 +116,9 @@ public class Accommodation {
     @OneToMany
     protected List<AdditionalService> additionalService;
     
-    @XmlElement(name = "Image")
-    @OneToMany
-    protected List<Image> image;
-    
     @XmlElement(name = "Location", required = true)
     @OneToOne
     protected Location location;
-    
-    @XmlElement(name = "User", required = true)
-    @ManyToOne
-    protected User user;
     
     @XmlElement(name = "AccommodationUnit")
     @OneToMany
@@ -276,35 +271,6 @@ public class Accommodation {
     }
 
     /**
-     * Gets the value of the image property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the image property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getImage().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Image }
-     * 
-     * 
-     */
-    public List<Image> getImage() {
-        if (image == null) {
-            image = new ArrayList<Image>();
-        }
-        return this.image;
-    }
-
-    /**
      * Gets the value of the location property.
      * 
      * @return
@@ -326,30 +292,6 @@ public class Accommodation {
      */
     public void setLocation(Location value) {
         this.location = value;
-    }
-
-    /**
-     * Gets the value of the user property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link User }
-     *     
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the value of the user property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link User }
-     *     
-     */
-    public void setUser(User value) {
-        this.user = value;
     }
 
     /**
@@ -391,10 +333,6 @@ public class Accommodation {
 
 	public void setAdditionalService(List<AdditionalService> additionalService) {
 		this.additionalService = additionalService;
-	}
-
-	public void setImage(List<Image> image) {
-		this.image = image;
 	}
 
 	public void setAccommodationUnit(List<AccommodationUnit> accommodationUnit) {

@@ -1,5 +1,7 @@
 package xml.booking.managers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,18 @@ public class AccommodationTypeManager {
 		});
 	}
 	
+	public List<CodeBookDTO> getAllAccommodationTypes() {
+		List<AccommodationType> accommodationTypeList = accommodationTypeRepository.findByDeleted(false);
+		List<CodeBookDTO> dtoList = new ArrayList<CodeBookDTO>();
+		
+		for(AccommodationType act : accommodationTypeList) {
+			CodeBookDTO codeBookDTO = new CodeBookDTO(act);
+			dtoList.add(codeBookDTO);
+		}
+			
+		return dtoList;
+	}
+	
 	public CodeBookDTO findOne(Long id) {
 		AccommodationType type = accommodationTypeRepository.findByDeletedAndId(false, id);
 		return (type == null) ? null : new CodeBookDTO(type);
@@ -66,5 +80,10 @@ public class AccommodationTypeManager {
 		}
 		
 		return false;
+	}
+	
+	public CodeBookDTO findTypeByAccommodationUnitId(Long accommodationUnitId) {
+		AccommodationType category = accommodationTypeRepository.findCategoryByAccommodationUnitId(accommodationUnitId);		
+		return (category == null)? null: new CodeBookDTO(category) ;
 	}
 }

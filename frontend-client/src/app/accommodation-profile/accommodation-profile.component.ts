@@ -42,17 +42,23 @@ export class AccommodationProfileComponent implements OnInit {
     {
       id: 0,
       name: 'Master Suite',
-      capacity: 2
+      capacity: 2,
+      cancelationPeriod: 2,
+      defaultPrice: 100
     },
     {
       id: 1,
       name: 'Double room',
-      capacity: 2
+      capacity: 2,
+      cancelationPeriod: 2,
+      defaultPrice: 100
     },
     {
       id: 2,
       name: 'Single room',
-      capacity: 1
+      capacity: 1,
+      cancelationPeriod: 2,
+      defaultPrice: 100
     },
   ];
 

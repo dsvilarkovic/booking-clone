@@ -29,8 +29,13 @@ public class AdditionalServiceController {
 	private AdditionalServiceManager additionalServiceManager;
 
 	@GetMapping("")
-	public ResponseEntity<?> getAllAccommodationCategories(@RequestParam(defaultValue = "0") int page) {
+	public ResponseEntity<?> getAllAccommodationCategoriesPageable(@RequestParam(defaultValue = "0") int page) {
 		return ResponseEntity.ok(additionalServiceManager.getAllAdditionalServices(PageRequest.of(page, 9)));
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllAccommodationCategories() {
+		return ResponseEntity.ok(additionalServiceManager.getAllAdditionalServices());
 	}
 
 	@GetMapping("/{additionalServiceId}")

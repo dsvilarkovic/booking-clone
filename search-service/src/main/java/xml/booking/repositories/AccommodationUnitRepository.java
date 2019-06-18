@@ -1,8 +1,12 @@
 package xml.booking.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
 import xml.booking.model.AccommodationUnit;
 
 /**
@@ -10,5 +14,18 @@ import xml.booking.model.AccommodationUnit;
 */
 @Repository
 public interface AccommodationUnitRepository extends JpaRepository<AccommodationUnit, Long>, JpaSpecificationExecutor<AccommodationUnit> {
+	
+	@Query("select distinct au from Accommodation as acc inner join acc.accommodationUnit as au inner join acc.location as loc "
+		 + "where ( lower(loc.address) like lower(concat('%', ?1,'%')) or lower(loc.country) like lower(concat('%', ?1,'%')) "
+	     + "or lower(loc.city) like lower(concat('%', ?1,'%')) ) and au.capacity = ?2 ")
+	Page<AccommodationUnit> normalSearch(Pageable page, String location, Integer numberOfPersons);
+	
+	@Query("select distinct au from Accommodation as acc inner join acc.accommodationUnit as au inner join acc.location as loc "
+		 + "inner join acc.accommodationType as act inner join acc.accommodationCategory as acat "
+		 + "where ( lower(loc.address) like lower(concat('%', ?1,'%')) or lower(loc.country) like lower(concat('%', ?1,'%')) "
+         + "or lower(loc.city) like lower(concat('%', ?1,'%')) ) and au.capacity = ?2 and act.id = ?3 and acat.id = ?4")
+	Page<AccommodationUnit> advancedSearch(Pageable page, String location, Integer numberOfPersons, Long accommodationType, Long accommodationCategory);
+	
+	
 
 }

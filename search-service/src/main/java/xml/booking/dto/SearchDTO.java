@@ -1,13 +1,14 @@
 package xml.booking.dto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SearchDTO {
 	
 	private String location;
-	private Long beginningDate;
-	private Long endDate;
+	private Date beginningDate;
+	private Date endDate;
 	private Integer numberOfPersons;
 	private Long accommodationType;
 	private Long accommodationCategory;
@@ -18,7 +19,7 @@ public class SearchDTO {
 		this.additionalServices = new ArrayList<Long>();
 	}
 	
-	public SearchDTO(String location, Long beginningDate, Long endDate, Integer numberOfPersons, Long accommodationType,
+	public SearchDTO(String location, Date beginningDate, Date endDate, Integer numberOfPersons, Long accommodationType,
 			Long accommodationCategory, List<Long> additionalServices, Double distance) {
 		super();
 		this.location = location;
@@ -39,19 +40,19 @@ public class SearchDTO {
 		this.location = location;
 	}
 
-	public Long getBeginningDate() {
+	public Date getBeginningDate() {
 		return beginningDate;
 	}
 
-	public void setBeginningDate(Long beginningDate) {
+	public void setBeginningDate(Date beginningDate) {
 		this.beginningDate = beginningDate;
 	}
 
-	public Long getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Long endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

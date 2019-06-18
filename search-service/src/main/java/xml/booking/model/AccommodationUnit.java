@@ -16,12 +16,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
 
 
 /**
@@ -59,11 +63,12 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "AccommodationUnit")
 @Entity
+@SequenceGenerator(name="seqAccUnit", initialValue=100, allocationSize=50)
 public class AccommodationUnit {
 
     @XmlElement(required = true)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAccUnit")
     protected Long id;
     
     @XmlElement(required = true)
@@ -82,15 +87,15 @@ public class AccommodationUnit {
     @Column(name = "cancelationPeriod")
     protected Integer cancelationPeriod;
     
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
+    
     @XmlElement(name = "Day")
     @OneToMany
     protected List<Day> day;
     
-    @XmlElement(name = "deleted", required = true, defaultValue = "false")
-    @Column(name = "deleted")
-    protected boolean deleted;
-
-    /**
+	/**
      * Gets the value of the id property.
      * 
      * @return

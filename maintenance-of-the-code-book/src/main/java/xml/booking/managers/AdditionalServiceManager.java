@@ -1,5 +1,7 @@
 package xml.booking.managers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,19 @@ public class AdditionalServiceManager {
 				return codeBookDTO;
 			}
 		});
+	}
+	
+	public List<CodeBookDTO> getAllAdditionalServices() {
+		List<AdditionalService> additionalServiceList =  additionalServiceRepository.findByDeleted(false);
+		List<CodeBookDTO> dtoList = new ArrayList<CodeBookDTO>();
+		
+		for(AdditionalService ads : additionalServiceList) {
+			CodeBookDTO codeBookDTO = new CodeBookDTO(ads);
+			
+			dtoList.add(codeBookDTO);
+		}
+		
+		return dtoList;
 	}
 	
 	public CodeBookDTO findOne(Long id) {

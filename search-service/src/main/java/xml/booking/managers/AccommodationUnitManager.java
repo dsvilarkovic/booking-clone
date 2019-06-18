@@ -1,8 +1,24 @@
 package xml.booking.managers;
 
+import java.util.Date;
+import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import xml.booking.dto.AccommodationUnitDTO;
+import xml.booking.dto.CodeBookDTO;
+import xml.booking.dto.SearchDTO;
+import xml.booking.model.Accommodation;
+import xml.booking.model.AccommodationCategory;
+import xml.booking.model.AccommodationType;
 import xml.booking.model.AccommodationUnit;
+import xml.booking.repositories.AccommodationCategoryRepository;
+import xml.booking.repositories.AccommodationRepository;
+import xml.booking.repositories.AccommodationTypeRepository;
 import xml.booking.repositories.AccommodationUnitRepository;
 
 /**
@@ -13,7 +29,77 @@ public class AccommodationUnitManager {
 
 	@Autowired
 	private AccommodationUnitRepository accommodationUnitRepository;
+	
+	@Autowired
+	private AccommodationTypeRepository accommodationTypeRepository;
+	
+	@Autowired
+	private AccommodationCategoryRepository accommodationCategoryRepository;
+	
+	@Autowired
+	private AccommodationRepository accommodationRepository;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
+	public Page<AccommodationUnitDTO> normalSearch(String location, Date beginningDate, Date endDate, Integer numberOfPersons, Pageable page) {
+		
+		return mapToDTO(accommodationUnitRepository.normalSearch(page, location, numberOfPersons));
+		
+		//TODO: calculate price
+	}
+	
+	public Page<AccommodationUnitDTO> advancedSearch(SearchDTO searchObject, Pageable page) {
+		
+		return mapToDTO(accommodationUnitRepository.advancedSearch(page, searchObject.getLocation(), searchObject.getNumberOfPersons(), searchObject.getAccommodationType(), searchObject.getAccommodationCategory()));
+	}
+	
+	
+	private Page<AccommodationUnitDTO> mapToDTO(Page<AccommodationUnit> accommodationUnits){
+		
+		Page<AccommodationUnitDTO> dtos = accommodationUnits.map(new Function<AccommodationUnit, AccommodationUnitDTO>() {
+		    @Override
+		    public AccommodationUnitDTO apply(AccommodationUnit accommodationUnit) {		    	
+		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(accommodationUnit);
+		    	
+		    	Accommodation accommodation = accommodationRepository.findAccommodationByAccommodationUnitId(accommodationUnit.getId());
+		    	accommodationUnitDTO.setAccommodation(accommodation.getName());
+		    	accommodationUnitDTO.setDescription(accommodation.getDescription());
+		    	
+		    	AccommodationCategory category = accommodationCategoryRepository.findCategoryByAccommodationUnitId(accommodationUnit.getId());		    	
+		    	accommodationUnitDTO.setAccommodationCategory(category.getName());
+		    	
+		    	AccommodationType type = accommodationTypeRepository.findTypeByAccommodationUnitId(accommodationUnit.getId());
+		    	accommodationUnitDTO.setAccommodationType(type.getName());
+		    	
+		   		return accommodationUnitDTO;
+		    }
+		});
+		
+		return dtos;		
+	}
+	
+	private CodeBookDTO getAccommodationType(Long accommodationUnitId) {
+		//TODO: promeniti na zuul
+		String codebookUrl = "http://localhost:9979/accommodationType/accommodationUnit/"+ accommodationUnitId; 
+		
+		System.out.println(codebookUrl);
+		
+	    CodeBookDTO accommodationType = restTemplate.getForObject(codebookUrl, CodeBookDTO.class);
+		
+	    return accommodationType;
+	}
+	
+	private CodeBookDTO getAccommodationCategory(Long accommodationUnitId) {
+		//TODO: promeniti na zuul
+		String codebookUrl = "http://localhost:9979/accommodationCategory/accommodationUnit/"+accommodationUnitId; 
+
+		System.out.println(codebookUrl);
+		
+	    CodeBookDTO accommodationType = restTemplate.getForObject(codebookUrl, CodeBookDTO.class);
+		
+	    return accommodationType;
+	}
 	
 
 }

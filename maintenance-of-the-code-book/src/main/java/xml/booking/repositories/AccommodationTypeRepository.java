@@ -1,9 +1,12 @@
 package xml.booking.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import xml.booking.model.AccommodationType;
@@ -15,4 +18,10 @@ import xml.booking.model.AccommodationType;
 public interface AccommodationTypeRepository extends JpaRepository<AccommodationType, Long>, JpaSpecificationExecutor<AccommodationType> {
 	Page<AccommodationType> findByDeleted(Pageable page,boolean deleted);
 	AccommodationType findByDeletedAndId(boolean deleted, Long id);
+	
+	List<AccommodationType> findByDeleted(boolean deleted);
+	
+	@Query("select act from Accommodation as acc inner join acc.accommodationUnit as au "
+			 + "inner join acc.accommodationType as act where au.id = ?1")
+		AccommodationType findCategoryByAccommodationUnitId(Long accommodationUnitId);
 }

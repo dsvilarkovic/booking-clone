@@ -29,8 +29,13 @@ public class AccommodationTypeController {
 	private AccommodationTypeManager accommodationTypeManager;
 
 	@GetMapping("")
-	public ResponseEntity<?> getAllAccommodationTypes(@RequestParam(defaultValue = "0") int page) {
+	public ResponseEntity<?> getAllAccommodationTypesPageable(@RequestParam(defaultValue = "0") int page) {
 		return ResponseEntity.ok(accommodationTypeManager.getAllAccommodationTypes(PageRequest.of(page, 9)));
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllAccommodationTypes() {
+		return ResponseEntity.ok(accommodationTypeManager.getAllAccommodationTypes());
 	}
 
 	@GetMapping("/{accommodationTypeId}")
@@ -57,5 +62,11 @@ public class AccommodationTypeController {
 	public ResponseEntity<?> deleteAccommodationType(@PathVariable Long accommodationTypeId) {
 		return (accommodationTypeManager.remove(accommodationTypeId)) ? ResponseEntity.status(200).build()
 				: ResponseEntity.status(400).build();
+	}
+	
+	@GetMapping("/accommodationUnit/{accommodationUnitId}")
+	public ResponseEntity<?> getAccommodationTypeByAccommodationUnitId(@PathVariable Long accommodationUnitId) {
+		CodeBookDTO category = accommodationTypeManager.findTypeByAccommodationUnitId(accommodationUnitId);
+		return (category == null) ? ResponseEntity.status(404).build() : ResponseEntity.ok(category);
 	}
 }

@@ -14,7 +14,11 @@ import xml.booking.messagingsoap.CreateMessageResponse;
 import xml.booking.messagingsoap.GetMessagesRequest;
 import xml.booking.messagingsoap.GetMessagesResponse;
 import xml.booking.model.Message;
+import xml.booking.model.Reservation;
+import xml.booking.model.User;
 import xml.booking.repositories.MessageRepository;
+import xml.booking.repositories.ReservationRepository;
+import xml.booking.repositories.UserRepository;
 
 @Endpoint
 public class MessagingSoapEndpoint {
@@ -23,19 +27,30 @@ public class MessagingSoapEndpoint {
 	@Autowired
 	private MessageRepository messageRepository;
 	
+	@Autowired
+	private ReservationRepository reservationRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "createMessageRequest")
 	@ResponsePayload
 	public CreateMessageResponse createMessage(@RequestPayload CreateMessageRequest request) {
-		CreateMessageResponse createMessageResponse = new CreateMessageResponse();
-		
 		//TODO: podesi vreme u longu
 		long timeNow = System.currentTimeMillis();
-		
 		//snimi poruku u repozitorijum i uzmi id
 		Message message = request.getMessage();
+		CreateMessageResponse createMessageResponse = new CreateMessageResponse();
+		Long reservationId = request.getReservationId();
+		
+		Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+		User user = userRepository.findByEmail(message.getUser().getEmail()).orElse(null);
+		
+		message.setUser(user);
 		message.setDate(timeNow);
 		message = messageRepository.save(message);
+		reservationRepository.save(reservation);
 		
 		createMessageResponse.setMessageId(message.getId());
 		
@@ -48,15 +63,12 @@ public class MessagingSoapEndpoint {
 	@ResponsePayload
 	public GetMessagesResponse getMessages(@RequestPayload GetMessagesRequest request) {
 		GetMessagesResponse getMessagesResponse = new GetMessagesResponse();
+		Long reservationId = request.getReservationId();
 		
-		//TODO: dodati poziv ka servisu za rezervacije da se dobije id od rezervacije
-		List<Message> messages = new ArrayList<Message>();
-		messages.add(new Message());
-		messages.add(new Message());
-		messages.add(new Message());
+		Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+		List<Message> messages = reservation.getMessage();
 		
 		getMessagesResponse.setMessage(messages);
-		
-		return getMessagesResponse;		
+		return getMessagesResponse;
 	}
 }

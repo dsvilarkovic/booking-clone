@@ -22,6 +22,7 @@ public class MessagingSoapServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MessagingSoapServiceApplication.class, args);
+		System.out.println("MessagingSoap radi");
 	}
 
 }

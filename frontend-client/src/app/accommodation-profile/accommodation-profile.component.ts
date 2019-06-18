@@ -44,7 +44,8 @@ export class AccommodationProfileComponent implements OnInit {
       name: 'Master Suite',
       capacity: 2,
       cancelationPeriod: 2,
-      defaultPrice: 100
+      defaultPrice: 100,
+      image : null
     },
     {
       id: 1,
@@ -52,6 +53,7 @@ export class AccommodationProfileComponent implements OnInit {
       capacity: 2,
       cancelationPeriod: 2,
       defaultPrice: 100
+      image : null
     },
     {
       id: 2,
@@ -59,6 +61,7 @@ export class AccommodationProfileComponent implements OnInit {
       capacity: 1,
       cancelationPeriod: 2,
       defaultPrice: 100
+      image : null
     },
   ];
 

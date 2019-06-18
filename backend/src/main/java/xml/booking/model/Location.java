@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -94,6 +96,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Location")
 @Entity
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Location {
 
 	@Id

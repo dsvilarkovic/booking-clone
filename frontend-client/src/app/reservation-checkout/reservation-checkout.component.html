@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-75" style="margin-top: 50px; margin-bottom: 100px">
+    <div class="container">
+      <form *ngIf="reservationDone == false">
+
+        <div class="row">
+          <div class="col-50">
+            <h3 style="text-align: center">Reservation checkout</h3>
+            <hr/>
+
+            <h4>User details</h4>
+            <div class="row">
+              <div class="col-50">
+                <label for="firstName">First name</label>
+                <input type="text" id="state" name="firstName" placeholder="John" value="{{user.firstName}}" disabled>
+              </div>
+              <div class="col-50">
+                <label for="lastName">Last name</label>
+                <input type="text" id="zip" name="lastName" placeholder="Doe" value="{{user.lastName}}" disabled>
+              </div>
+            </div>
+
+            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+            <input type="text" id="email" name="email" placeholder="john@example.com" value="{{user.email}}" disabled>
+            <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+            <input type="text" id="adr" name="address" placeholder="542 W. 15th Street" value="{{user.address}}" disabled>
+
+            <h4>Accommodation unit details</h4>
+            <div class="row">
+              <div class="col-50">
+                <label for="accommodationUnitName">Name</label>
+                <input type="text" id="accommodationUnitName" name="accommodationUnitName" placeholder="Luxury suite" value="{{accommodationUnit.name}}" disabled>
+              </div>
+              <div class="col-50">
+                <label for="accommodationUnitCapacity">Capacity (people number)</label>
+                <input type="text" id="accommodationUnitCapacity" name="accommodationUnitCapacity" placeholder="4" value="{{accommodationUnit.capacity}}" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-50">
+                <label for="accommodationUnitDefaultPrice">Default price per day</label>
+                <input type="text" id="accommodationUnitDefaultPrice" name="accommodationUnitDefaultPrice" placeholder="" value="{{accommodationUnit.defaultPrice}}" disabled>
+              </div>
+            </div>
+
+            <h4>Choose date period</h4>
+            <div class="row">
+              <div class="col-50">
+                <!-- <div class="input-group"> -->
+                  <label><i class="fa fa-calendar" aria-hidden="true"></i> Beginning date </label> 
+                  <input type="date" name="beginningDate" class="form-control" placeholder="Check out" (change)="calculateReservation()" [(ngModel)]="beginningDate">
+                <!-- </div> -->
+              </div>
+              <div class="col-50">
+                <!-- <div class="input-group"> -->
+                  <label><i class="fa fa-calendar" aria-hidden="true"></i> End date</label>
+                  <input type="date" name="endDate" class="form-control" placeholder="Check out" (change)="calculateReservation()" [(ngModel)]="endDate">
+                <!-- </div> -->
+              </div>              
+            </div>
+
+            <hr/>
+            <h4>Total price in RSD: </h4>
+            <div class="row">
+              <div class="col-50">
+                <input type="text" id="reservationFinalPrice" name="reservationFinalPrice" placeholder="" value="{{reservation.finalPrice}}" disabled>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="difInDays < 0" class="alert alert-danger" role="alert" >
+          End date has to be later than beginningDate
+        </div>
+        <input type="submit" value="Confirm checkout, and go back to home" class="btn" [disabled] = "difInDays <= 0" (click) = "confirmReservation()">
+
+      </form>
+      <div *ngIf="reservationDone == true" class="alert alert-success" role="alert" >
+          Success! Reservation has been done! Go back to <a href="/">searching new accommodation </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -55,6 +57,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Rating")
 @Entity
 @SequenceGenerator(name="seqRating", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Rating {
 
 	@Id

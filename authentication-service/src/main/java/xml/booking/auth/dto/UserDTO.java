@@ -9,8 +9,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserDTO {
 
-	private String username;
+	private Long id;
+	
+	private String email;
 	private String password;
+	
+	/**
+	 * Ako se updateuje password, da se proveri da li je prethodni dobar
+	 */
+	private String oldPassword;
 	
     private String firstName;
     

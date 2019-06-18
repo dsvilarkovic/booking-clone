@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -46,17 +47,19 @@ import lombok.EqualsAndHashCode;
 @XmlType(name = "", propOrder = {
     "id",
     "name"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
 @XmlRootElement(name = "AccommodationCategory")
 @Entity
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 public class AccommodationCategory {
 
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
     protected Long id;
 	
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
 	@Column(name = "name")
     protected String name;
 

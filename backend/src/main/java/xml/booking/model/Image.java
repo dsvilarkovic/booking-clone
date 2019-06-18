@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -51,6 +53,7 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlRootElement(name = "Image")
 @Entity
 @SequenceGenerator(name="seqImage", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Image {
 
 	@Id

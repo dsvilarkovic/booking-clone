@@ -10,7 +10,7 @@
                     <label class="form-label">Accommodation type</label>
                     <select [(ngModel)]="filterForm.accomodationType" name="accomodationType" #accomodationType="ngModel" class="form-control" >
                         <option class="selectoption" *ngFor="let type of accTypeList" value={{type}}>
-                        {{type}}
+                        {{type.name}}
                       </option>
                      </select>
                 </div>
@@ -18,7 +18,7 @@
                     <label class="form-label">Accomodation category</label>
                     <select class="form-control" [(ngModel)]="filterForm.accommodationCategory" name="accommodationCategory" #accommodationCategory="ngModel">
                         <option class="selectoption" *ngFor="let category of categoriesList" value={{category}}>
-                        {{category}}
+                        {{category.name}}
                       </option>
                      </select>
                 </div>
@@ -42,32 +42,32 @@
           <div class="filter">
             <h5>There are {{collectionSize}} results</h5>
             <hr>
-            <div *ngFor="let accommodation of accommodationResultList" class="list-group-item clearfix accommodation">
+            <div *ngFor="let accommodationUnit of accommodationUnitList" class="list-group-item clearfix accommodation">
                 <div class="profile-teaser-left">
                     <div class="profile-img"><img src="https://t-ec.bstatic.com/images/hotel/max1024x768/412/41215540.jpg"/></div>
                 </div>
                 <div class="profile-teaser-main">
                     <h2 class="profile-name">
-                        <a routerLink="/accommodation/+accommodation.id" style="text-decoration:none; color:black">{{accommodation.name}}</a>
-                      <span style="text-align: right; float: right;">RSD {{accommodation.defaultPrice}}</span>
+                        <a routerLink="/accommodation/+accommodation.id" style="text-decoration:none; color:black">{{accommodationUnit.name}}</a>
+                      <span style="text-align: right; float: right;">RSD {{accommodationUnit.defaultPrice}}</span>
                     </h2>
-                    <h2>
-                      <div>
+                    <!--<h2>
+                      div>
                           <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 0.5}"></span>
                           <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 1.5}"></span>
                           <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 2.5}"></span>
                           <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 3.5}"></span>
                           <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 4.5}"></span>
                       </div>
-                    </h2>
+                    </h2>-->
                     <div class="profile-info">
-                        <div class="info"><span class="">Type:</span> {{accommodation.accommodationType}}</div>
-                        <div class="info"><span class="">Category:</span> {{accommodation.accommodationCategory}}</div>
-                        <div class="info"><span class="">Capacity:</span> {{accommodation.capacity}}</div>
-                        <div class="info"><span class="">Description:</span> {{accommodation.description}}</div>
+                        <div class="info"><span class="">Type:</span> {{accommodationUnit.accommodationType}}</div>
+                        <div class="info"><span class="">Category:</span> {{accommodationUnit.accommodationCategory}}</div>
+                        <div class="info"><span class="">Capacity:</span> {{accommodationUnit.capacity}}</div>
+                        <div class="info"><span class="">Description:</span> {{accommodationUnit.description}}</div>
                     </div>
                     <div>
-                      <button type="button" class="btn btn-info btn-lg col-3" (click)="reserve(accommodation)" >Reserve</button>
+                      <button type="button" class="btn btn-info btn-lg col-3" (click)="reserveCheckout(accommodationUnit)" >Reserve</button>
                     </div>
                 </div>
             </div><!-- item -->

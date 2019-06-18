@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -64,6 +66,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Day")
 @Entity
 @SequenceGenerator(name="seqDay", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Day {
 
 	@Id

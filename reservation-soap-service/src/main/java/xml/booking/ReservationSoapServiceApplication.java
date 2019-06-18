@@ -22,6 +22,7 @@ public class ReservationSoapServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReservationSoapServiceApplication.class, args);
+		System.out.println("Radi ReservationSoap");
 	}
 
 }

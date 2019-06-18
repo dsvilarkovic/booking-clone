@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -50,6 +52,7 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlRootElement(name = "AccommodationCategory")
 @Entity
 @SequenceGenerator(name="seqAccCat", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class AccommodationCategory {
 
 	@Id

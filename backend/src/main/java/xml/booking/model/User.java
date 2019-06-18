@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,11 +25,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>The following
+ *  schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -112,6 +115,7 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlRootElement(name = "User")
 @Entity(name = "users")
 @SequenceGenerator(name="seqUser", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class User {
 
 	@Id
@@ -145,7 +149,7 @@ public class User {
     protected String address;
     
     
-    @OneToMany
+    @ManyToMany
     private Set<Role> roles;
 
     @Column(name = "deleted")

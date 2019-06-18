@@ -25,7 +25,7 @@
                 <xs:element maxOccurs="1" minOccurs="0" ref="reservation:Rating"/>
                 <xs:element maxOccurs="unbounded" minOccurs="0" ref="reservation:Message"/>
                 <xs:element minOccurs="0" ref="reservation:Comment"/>
-                <xs:element ref="accommodation:Accommodation"/>
+                <xs:element ref="accommodation:AccommodationUnit"/>
                 <xs:element minOccurs="0" ref="user:User"/>
             </xs:sequence>
         </xs:complexType>
@@ -75,6 +75,15 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element minOccurs="0" ref="user:User"/>
+                <xs:element name="commentState">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="NOT_REVIEWED"/>
+                            <xs:enumeration value="UNPUBLISHED"/>
+                            <xs:enumeration value="PUBLISHED"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

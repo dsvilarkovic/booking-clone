@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://www.ftn.uns.ac.rs/tim1/messagingsoap"
-    xmlns:ms="http://www.ftn.uns.ac.rs/tim1/messagingsoap"
-    xmlns:reservation="http://www.ftn.uns.ac.rs/tim1/reservation"
-    xmlns:ns1="http://www.ftn.uns.ac.rs/tim1/user">
+    xmlns:ms="http://www.ftn.uns.ac.rs/tim1/messagingsoap">
     <xs:element name="getMessagesRequest">
         <xs:complexType>
             <xs:sequence>
@@ -14,14 +12,15 @@
     <xs:element name="getMessagesResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" minOccurs="0" ref="ms:Message"/>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name = "Message" type="ms:Message"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <xs:element name="createMessageRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="ms:Message"/>
+                <xs:element name = "Message" type="ms:Message"/>
+                <xs:element name="reservation_id" type="xs:long"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -33,8 +32,8 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="Message">
-        <xs:complexType>
+    <!--xs:element name="Message"-->
+        <xs:complexType name = "Message">
             <xs:sequence>
                 <xs:element minOccurs="0" name="id" type="xs:long"/>
                 <xs:element name="value">
@@ -46,22 +45,22 @@
                     </xs:simpleType>
                 </xs:element>
                 <xs:element minOccurs="0" name="date" type="xs:long"/>
-                <xs:element ref="ms:User"/>
+                <xs:element name = "User" type="ms:User"/>
             </xs:sequence>
         </xs:complexType>
-    </xs:element>
-    <xs:element name="User">
-        <xs:complexType>
+    <!--/xs:element-->
+    <!--xs:element name="User"-->
+        <xs:complexType name = "User">
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
-                <xs:element name="first_name">
+                <xs:element name="id" type="xs:long" minOccurs="0"/>
+                <xs:element name="first_name" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="2"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="last_name">
+                <xs:element name="last_name" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="2"/>
@@ -83,7 +82,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="user_type">
+                <xs:element name="user_type" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="registered"/>
@@ -110,5 +109,5 @@
                 </xs:element>
             </xs:sequence>
         </xs:complexType>
-    </xs:element>
+    <!--/xs:element-->
 </xs:schema>

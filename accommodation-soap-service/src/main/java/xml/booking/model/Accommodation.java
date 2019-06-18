@@ -87,7 +87,7 @@ import lombok.EqualsAndHashCode;
     "location",
     "user",
     "accommodationUnit"
-})
+}, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
 @XmlRootElement(name = "Accommodation")
 @Entity
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
@@ -96,42 +96,44 @@ public class Accommodation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqLocation")
+	@XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     protected long id;
 	
-    @XmlElement(required = true)
+    @XmlElement(required = true,namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @Column
     protected String name;
     
+    @XmlElement(namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @Column
     protected String description;
     
     
-    @XmlElement(name = "AccommodationCategory", required = true)
+    @XmlElement(name = "AccommodationCategory", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @ManyToOne(fetch = FetchType.EAGER) 
     protected AccommodationCategory accommodationCategory;
     
     
-    @XmlElement(name = "AccommodationType", required = true)
+    @XmlElement(name = "AccommodationType", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @ManyToOne(fetch = FetchType.EAGER) 
     protected AccommodationType accommodationType;
     
-    @XmlElement(name = "AdditionalService")
+    @XmlElement(name = "AdditionalService",namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @OneToMany(fetch = FetchType.EAGER)    
     protected List<AdditionalService> additionalService;
     
-    @XmlElement(name = "Image")
+    @XmlElement(name = "Image",namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @OneToMany
     protected List<Image> image;
     
-    @XmlElement(name = "Location", required = true)
+    @XmlElement(name = "Location", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @OneToOne
     protected Location location;
     
-    @XmlElement(name = "User", required = true)
+    @XmlElement(name = "User", required = true,namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @ManyToOne
     protected User user;
     
-    @XmlElement(name = "AccommodationUnit")
+    @XmlElement(name = "AccommodationUnit", namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
     @OneToMany(fetch = FetchType.EAGER)   
     @Fetch(value = FetchMode.SUBSELECT)
     protected List<AccommodationUnit> accommodationUnit;

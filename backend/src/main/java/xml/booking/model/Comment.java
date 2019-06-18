@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import lombok.EqualsAndHashCode;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -56,11 +58,13 @@ import org.hibernate.annotations.ColumnDefault;
 @XmlType(name = "", propOrder = {
     "id",
     "value",
-    "user"
+    "user",
+    "commentState"
 })
 @XmlRootElement(name = "Comment")
 @Entity
 @SequenceGenerator(name="seqComment", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Comment {
 
 	@Id
@@ -79,6 +83,10 @@ public class Comment {
     @ColumnDefault(value = "false")
 	protected boolean deleted;
 
+    @Column
+    @XmlElement(required = true)
+    @ColumnDefault(value = "NOT_REVIEWED")
+    protected String commentState;
     /**
      * Gets the value of the id property.
      * 
@@ -149,6 +157,14 @@ public class Comment {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getCommentState() {
+		return commentState;
+	}
+
+	public void setCommentState(String commentState) {
+		this.commentState = commentState;
 	}
 
 }

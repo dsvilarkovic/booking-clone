@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap"
-    xmlns:acc="http://www.ftn.uns.ac.rs/tim1/accommodation"
-    xmlns:accsoap="http://www.ftn.uns.ac.rs/tim1/accommodationsoap"
-    xmlns:user="http://www.ftn.uns.ac.rs/tim1/user">
+    xmlns:accsoap="http://www.ftn.uns.ac.rs/tim1/accommodationsoap">
     <xs:element name="getAccommodationCategoriesRequest"/>
     <xs:element name="getAccommodationCategoriesResponse">
         <xs:complexType>

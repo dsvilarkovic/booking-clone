@@ -111,7 +111,7 @@ def sync_all_data(request):
     auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
 
     #TODO: izmeniti username i password
-    token = auth_client.service.login(username='postman', password='postman')
+    token = auth_client.service.login(username='boris', password='boris')
     acc_client.transport.session.headers.update({'Authorization': token})
     # Accommodation Types
     AccommodationType.objects.all().delete()
@@ -147,10 +147,7 @@ def sync_all_data(request):
     Location.objects.all().delete()
 
     soap_response = acc_client.service.getAccommodations()
-    for hist in [history.last_sent, history.last_received]:
-        print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
     for adict in soap_response:
-        import pdb; pdb.set_trace()
         tmp = helpers.serialize_object(adict['Accommodation'])
         aid = tmp['id']
         atype = tmp['AccommodationType']

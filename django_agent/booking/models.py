@@ -68,26 +68,17 @@ class Accommodation(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # TODO: Add backend logic here
-
     def to_dict(self):
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'id']
         ret_val = model_to_dict(self, fields=fields)
 
         ret_val['AccommodationType'] = self.accommodation_type.to_dict()
         ret_val['AccommodationCategory'] = self.category.to_dict()
         ret_val['Location'] = self.location.to_dict()
-        
-        servs = []
-        for service in self.services.all():
-            servs.append(service.to_dict())
 
-        ret_val['AdditionalService'] = servs
         ret_val['AccommodationUnit'] = []
         # TODO izmeniti email
-        ret_val['User'] = {'email' : 'postman'}
+        ret_val['User'] = {'email' : 'boris'}
 
         return ret_val
         
@@ -104,7 +95,19 @@ class AccommodationUnit(models.Model):
     cancelation_period = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.name + ' | ' + str(self.accommodation)        
+        return self.name + ' | ' + str(self.accommodation)
+    
+    def to_dict(self):
+        exclude = ['accommodation',]
+        ret_val = model_to_dict(self, exclude=exclude)
+
+        days = []
+        if self.day_set.exists():
+            for day in self.day_set:
+                days.append(day.to_dict())
+        ret_val['Day'] = days
+        
+        return ret_val
 
 
 class Day(models.Model):
@@ -125,6 +128,9 @@ class Day(models.Model):
 
     def __str__(self):
         return str(self.date)
+
+    def to_dict(self):
+        return model_to_dict(self)
 
 
 class Guest(models.Model):

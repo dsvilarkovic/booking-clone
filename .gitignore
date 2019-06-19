@@ -1,4 +1,8 @@
 /.metadata/
+accommodation-soap-service/*
+authentication-service/*
+authentication-soap-service/*
+reservation-soap-service/*
 backend/bin/src/main/java/xml/booking/model/Day.class
 backend/bin/.mvn/wrapper/maven-wrapper.jar
 backend/bin/.mvn/wrapper/maven-wrapper.properties

@@ -38,7 +38,8 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		   .antMatchers("/api/search/**").permitAll()
 		   .antMatchers("/api/user/**").permitAll()
 		   .antMatchers("/api/mock-service/**").permitAll()
-
+		   .antMatchers("/api/reservations/**").permitAll()
+		   .antMatchers("/api/accommodationService/**").permitAll()
 		   .antMatchers("/api/auth/registration").permitAll()
 		   // allow all who are accessing "auth" service
 		   .antMatchers(HttpMethod.POST, "/api" +  jwtConfig.getUri()).permitAll()  

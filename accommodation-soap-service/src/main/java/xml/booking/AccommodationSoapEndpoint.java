@@ -187,7 +187,7 @@ public class AccommodationSoapEndpoint {
 
 		//uzmi verziju smestaja iz request
 		Accommodation requestAccommodation = updateAccommodationRequest.getAccommodation();
-		
+			
 		//uzmi verziju smestaja iz repoziotrijuma
 		Accommodation repositoryAccommodation = accommodationRepository.findByIdAndDeleted(requestAccommodation.getId(), false).orElse(null);
 		

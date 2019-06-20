@@ -1,4 +1,4 @@
-package xml.booking.auth.controllers;
+	package xml.booking.auth.controllers;
 
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ import xml.booking.auth.repositories.UserRepository;
 import xml.booking.auth.security.UserDetailsServiceImpl;
 
 @RestController
-@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
 	
@@ -44,36 +44,44 @@ public class UserController {
 	private BCryptPasswordEncoder encoder;
 
 	
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<?> registration(@RequestBody User user){
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public ResponseEntity<?> registration(@RequestBody UserDTO userDTO){
 		
 		//prvo proveri da li ima ulogu
-		Role role = roleRepository.findByRole(user.getUserType().toUpperCase());
+		Role role = roleRepository.findByRole(userDTO.getUserType().toUpperCase());
 		if(role == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This role does not exist");
 		}
 		//pa proveri da li ta uloga zahteva pib broj, tj da li je to agent
-		if(user.getUserType().toUpperCase().equals(RoleType.AGENT.toString())
-				&& (user.getPib() == null || user.getPib().equals(""))) {
+		if(userDTO.getUserType().toUpperCase().equals(RoleType.AGENT.toString())
+				&& (userDTO.getPib() == null || userDTO.getPib().equals(""))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role of type Agent needs  to have PIB number");
 		}
 		
-		//ako ima ubaci je korisniku
-		user.setRoles(new HashSet<Role>(Arrays.asList(role)));
+		
 		
 		//zatim proveri da li je ulogovan
 		try {
-		userService.loadUserByUsername(user.getEmail());
+		userService.loadUserByUsername(userDTO.getUsername());
 		}
 		catch(UsernameNotFoundException exception) {
-			user.setPassword(encoder.encode(user.getPassword()));
+			User user = new User();
+			user.setFirstName(userDTO.getFirstName());
+			user.setLastName(userDTO.getLastName());
+			user.setAddress(userDTO.getAddress());
+			user.setEmail(userDTO.getUsername());			
+			user.setPassword(encoder.encode(userDTO.getPassword()));
+			user.setPib(userDTO.getPib());
+			user.setUserType(userDTO.getUserType());
+			user.setRoles(new HashSet<Role>(Arrays.asList(role)));
+			
 			userRepository.save(user);
 			
 			return ResponseEntity.status(HttpStatus.CREATED).body("Registered");
 		}
 		
 		
-		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Already exists with same username " + user.getEmail());
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Already exists with same username " + userDTO.getUsername());
 
 	}
 	
@@ -83,7 +91,7 @@ public class UserController {
 	 * @return
 	 */
 	//TODO: promena email-a moze da utice na promene u nacinu rada posto se na osnovu njega podesava token
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(Authentication authentication, @RequestBody UserDTO userDTO){
 		//probaj da nadjes updateovanog usera
 		User user = null;
@@ -93,7 +101,7 @@ public class UserController {
 			user = userRepository.findByEmail(username);
 		}
 		catch(UsernameNotFoundException exception) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with that email " + userDTO.getEmail() + " does not exist in our system");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with that email " + userDTO.getUsername() + " does not exist in our system");
 		}
 		
 		//probaj da proveris passworde korisnika
@@ -117,7 +125,7 @@ public class UserController {
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setPib(userDTO.getPib());
-		if(userDTO.getEmail().equals(user.getEmail()) == false) {
+		if(userDTO.getUsername().equals(user.getEmail()) == false) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is unique and cannot be changed");
 		}
 		user.setAddress(userDTO.getAddress());

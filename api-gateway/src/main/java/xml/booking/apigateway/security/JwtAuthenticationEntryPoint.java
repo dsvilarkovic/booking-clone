@@ -16,6 +16,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED");
         
         // How to customize the retured message?
+        System.out.println("AAAALO");
         // Link: https://stackoverflow.com/a/40791087
         String json = String.format("{\"message\": \"%s\"}", e.getMessage());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

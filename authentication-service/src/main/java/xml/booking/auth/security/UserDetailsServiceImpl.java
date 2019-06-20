@@ -46,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
 			// So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).
 			List<GrantedAuthority> grantedAuthorities =  getAuthorities(user.getRoles());//AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_" + user.getRoles());
 			System.out.println("ee2-granted");
-			return new org.springframework.security.core.userdetails.User(username, user.getPassword(), grantedAuthorities);
+				return new org.springframework.security.core.userdetails.User(username, user.getPassword(), grantedAuthorities);
 		}
 		System.out.println("ee3");
 		// If user not found. Throw this exception.

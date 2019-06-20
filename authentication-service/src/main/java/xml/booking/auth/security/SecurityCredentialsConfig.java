@@ -48,12 +48,12 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 		    .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))	
 		.authorizeRequests()
 			//allow registration to anyone
-			.antMatchers("/user").permitAll()
-			.antMatchers("/user/whoami").permitAll()
+			.antMatchers("/users/**").permitAll()
+			.antMatchers("/users/whoami").permitAll()
 		    // allow all POST requests 
-		    .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
+		    .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll();
 		    // any other requests must be authenticated
-		    .anyRequest().authenticated();
+//		    .anyRequest().authenticated();
 		
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.logout();

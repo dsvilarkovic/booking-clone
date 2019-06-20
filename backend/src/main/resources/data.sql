@@ -26,6 +26,16 @@ INSERT INTO accommodation_type ("id", "name") VALUES
 INSERT INTO accommodation_type ("id", "name") VALUES 
 (4,'Cetvrti tip');
 
+INSERT INTO public."role"
+(id, "role")
+VALUES(1, 'AGENT');
+INSERT INTO public."role"
+(id, "role")
+VALUES(2, 'REGISTERED');
+INSERT INTO public."role"
+(id, "role")
+VALUES(3, 'ADMIN');
+
 
 INSERT INTO public.users (id, address,email,first_name,last_name,"password",pib,user_type) VALUES 
 (1, NULL,'admin@admin.rs',NULL,NULL,'123',NULL,NULL);

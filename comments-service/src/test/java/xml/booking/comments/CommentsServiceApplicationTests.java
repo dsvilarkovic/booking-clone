@@ -1,4 +1,4 @@
-package xml.booking.commentsservice;
+package xml.booking.comments;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

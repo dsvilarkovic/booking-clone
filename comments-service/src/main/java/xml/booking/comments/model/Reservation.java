@@ -6,7 +6,7 @@
 //
 
 
-package xml.booking.model;
+package xml.booking.comments.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

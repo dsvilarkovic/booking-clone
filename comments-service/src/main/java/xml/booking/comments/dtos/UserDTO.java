@@ -1,4 +1,4 @@
-package xml.booking.auth.dto;
+package xml.booking.comments.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,13 +11,7 @@ public class UserDTO {
 
 	private Long id;
 	
-	private String username;
-	private String password;
-	
-	/**
-	 * Ako se updateuje password, da se proveri da li je prethodni dobar
-	 */
-	private String oldPassword;
+	private String email;
 	
     private String firstName;
     

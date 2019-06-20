@@ -1,4 +1,4 @@
-package xml.booking.model;
+package xml.booking.comments.model;
 
 public enum RoleType {
 	REGISTERED,

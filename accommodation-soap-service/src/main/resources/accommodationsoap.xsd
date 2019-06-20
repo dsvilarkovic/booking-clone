@@ -206,7 +206,7 @@
     <xs:element name="Day">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:long" minOccurs="0"/>
                 <xs:element name="date" type="xs:long"/>
                 <xs:element name="price">
                     <xs:simpleType>

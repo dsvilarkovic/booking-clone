@@ -5,7 +5,7 @@ from datetime import date, timedelta, datetime
 from zeep import Client, Settings, helpers
 from zeep.plugins import HistoryPlugin
 from lxml import etree
-#import pdb; pdb.set_trace()
+import pdb
 
 
 def view_index(request):
@@ -145,8 +145,11 @@ def sync_all_data(request):
     # Accommodations
     Accommodation.objects.all().delete()
     Location.objects.all().delete()
-
-    soap_response = acc_client.service.getAccommodations()
+    try:
+        soap_response = acc_client.service.getAccommodations()
+    except:
+        for hist in [history.last_sent, history.last_received]:
+            print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
     for adict in soap_response:
         tmp = helpers.serialize_object(adict['Accommodation'])
         aid = tmp['id']
@@ -175,7 +178,7 @@ def sync_all_data(request):
         new_acom.location = new_location
         new_acom.name = name
         new_acom.description = desc
-
+        pdb.set_trace()
         new_acom.save()
 
         #services

@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+from django.utils.safestring import mark_safe
 import time
 
 
@@ -179,3 +180,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class AccommodationImage(models.Model):
+    accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='accommodation_images')

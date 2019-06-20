@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.forms.models import model_to_dict
 from datetime import date, timedelta, datetime
+from django.utils.safestring import mark_safe
 from lxml import etree
 from zeep import Client, Settings, helpers
 from zeep.plugins import HistoryPlugin
@@ -18,7 +19,26 @@ from .models import Profile
 from .models import Guest
 from .models import Reservation
 from .models import Message
-import pdb;
+from .models import AccommodationImage
+import pdb
+
+import base64
+from django.core.files.base import ContentFile
+
+
+def decode_base64(data, name=None):
+    _format, _img_str = data.split(';base64,')
+    _name, ext = _format.split('/')
+    if not name:
+        name = _name.split(":")[-1]
+    return ContentFile(base64.b64decode(_img_str), name='{}.{}'.format(name, ext))
+
+
+def encode_base64(data):
+    format1, imgstr = data.split(';base64,')
+    ext = format1.split('/')[-1]
+    data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+    return data
 
 
 class ProfileInline(admin.StackedInline):
@@ -30,8 +50,22 @@ class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline, )
 
 
+class ImageInline(admin.StackedInline):
+    model = AccommodationImage
+    readonly_fields = ['show_image', ]
+
+    def show_image(self, obj):
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url=obj.image.url,
+            width=obj.image.width,
+            height=obj.image.height,
+        )
+        )
+
+
 class AccommodationAdmin(admin.ModelAdmin):
     list_display = ('name', 'accommodation_type', 'category')
+    inlines = (ImageInline,)
 
     def save_model(self, request, obj, form, change):
         history = HistoryPlugin()
@@ -42,6 +76,7 @@ class AccommodationAdmin(admin.ModelAdmin):
 
         obj.user = request.user
         acom = obj
+        pdb.set_trace()
         if acom.pk is None:
             # create
             acom.save()
@@ -110,8 +145,6 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
                         settings=client_settings, plugins=[history])
 
         unit = obj
-        import pdb
-        pdb.set_trace()
         if unit.pk is None:
             # create
             unit.save()
@@ -120,6 +153,7 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
             transfer = {'AccommodationUnit': transfer,
                         'accommodation_id': accommodation_id}
             response = client.service.createAccommodationUnit(**transfer)
+            AccommodationUnit.objects.filter(id=unit.id).delete()
             unit.id = response
         else:
             # update
@@ -182,3 +216,5 @@ admin.site.register(AccommodationCategory)
 
 admin.site.register(Reservation)
 admin.site.register(Message)
+
+admin.site.register(AccommodationImage)

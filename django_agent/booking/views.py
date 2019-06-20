@@ -58,8 +58,26 @@ def edit_prices(request):
             iday.price = request.POST.get('price')
             iday.available = True if request.POST.get('available') else False
             iday.save()
-            # TODO: Add backend logic here
-        return render(request, 'booking/view_prices.html')
+        #backend comms    
+        history = HistoryPlugin()
+        client_settings = Settings(strict=False, xml_huge_tree=True)
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
+
+        transfer = unit.to_dict()
+        transfer = {'AccommodationUnit': transfer}
+        response = client.service.updateAccommodationUnit(**transfer)
+
+        unit.day_set.all().delete()
+        for elem in response['_value_1']:
+            day_dict = helpers.serialize_object(elem['Day'])
+            day = Day()
+            day.unit = unit
+            day.date = date.fromtimestamp(day_dict['date'])
+            day.price = day_dict['price']
+            day.available = day_dict['available']
+            day.save()
+
+        return redirect('booking:view_prices')
 
 
 def create_guest_list(reslist):
@@ -107,8 +125,10 @@ def messaging(request, reservation_id):
 def sync_all_data(request):
     history = HistoryPlugin()
     client_settings = Settings(strict=False, xml_huge_tree=True)
+    pdb.set_trace()
     acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
     auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
+    res_client = Client(settings.WSDL_ADDRESS_RESERVATION, settings=client_settings)
 
     #TODO: izmeniti username i password
     token = auth_client.service.login(username='boris', password='boris')
@@ -145,6 +165,7 @@ def sync_all_data(request):
     # Accommodations
     Accommodation.objects.all().delete()
     Location.objects.all().delete()
+    pdb.set_trace()
     try:
         soap_response = acc_client.service.getAccommodations()
     except:
@@ -178,7 +199,6 @@ def sync_all_data(request):
         new_acom.location = new_location
         new_acom.name = name
         new_acom.description = desc
-        pdb.set_trace()
         new_acom.save()
 
         #services
@@ -220,7 +240,9 @@ def sync_all_data(request):
 
                 new_day.save()
 
+    #Reservations
+    pdb.set_trace()
+    soap_response = res_client.service.getReservationList()
 
-        
-        
     return render(request, 'booking/view_index.html')
+

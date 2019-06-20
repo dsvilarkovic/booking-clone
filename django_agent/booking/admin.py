@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.forms.models import model_to_dict
+from datetime import date, timedelta, datetime
 from lxml import etree
 from zeep import Client, Settings, helpers
 from zeep.plugins import HistoryPlugin
@@ -17,7 +18,8 @@ from .models import Profile
 from .models import Guest
 from .models import Reservation
 from .models import Message
-#import pdb; pdb.set_trace()
+import pdb;
+
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -33,13 +35,15 @@ class AccommodationAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         history = HistoryPlugin()
-        client_settings = Settings(strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
-        
+        client_settings = Settings(
+            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                        settings=client_settings, plugins=[history])
+
         obj.user = request.user
         acom = obj
         if acom.pk is None:
-            #create
+            # create
             acom.save()
             transfer = acom.to_dict()
             transfer['id'] = ''
@@ -47,7 +51,7 @@ class AccommodationAdmin(admin.ModelAdmin):
             loc = acom.location
             Location.objects.filter(id=loc.id).delete()
 
-            #AdditionalServices
+            # AdditionalServices
             servs = []
             for service in form.cleaned_data['services'].all():
                 servs.append(service.to_dict())
@@ -55,16 +59,15 @@ class AccommodationAdmin(admin.ModelAdmin):
 
             transfer = {'Accommodation': transfer}
             response = client.service.createAccommodation(**transfer)
-            
+
             loc.id = response['location_id']
             acom.id = response['accommodation_id']
             acom.location_id = response['location_id']
             loc.save()
         else:
-            import pdb; pdb.set_trace()
-            #update
+            # update
             transfer = acom.to_dict()
-            #AdditionalServices
+            # AdditionalServices
             servs = []
             for service in form.cleaned_data['services'].all():
                 servs.append(service.to_dict())
@@ -74,22 +77,26 @@ class AccommodationAdmin(admin.ModelAdmin):
                 response = client.service.updateAccommodation(**transfer)
             except:
                 for hist in [history.last_sent, history.last_received]:
-                    print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
+                    print(etree.tostring(
+                        hist["envelope"], encoding="unicode", pretty_print=True))
 
         super().save_model(request, obj, form, change)
-    
+
     def delete_model(self, request, obj):
         history = HistoryPlugin()
-        client_settings = Settings(strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
+        client_settings = Settings(
+            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                        settings=client_settings, plugins=[history])
         transfer = dict()
         transfer['accommodation_id'] = obj.id
         try:
             response = client.service.deleteAccommodation(**transfer)
         except:
             for hist in [history.last_sent, history.last_received]:
-                print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
-        super().delete_model(request, obj) 
+                print(etree.tostring(hist["envelope"],
+                                     encoding="unicode", pretty_print=True))
+        super().delete_model(request, obj)
 
 
 class AccommodationUnitAdmin(admin.ModelAdmin):
@@ -97,33 +104,62 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         history = HistoryPlugin()
-        client_settings = Settings(strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
+        client_settings = Settings(
+            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                        settings=client_settings, plugins=[history])
 
         unit = obj
-
+        import pdb
+        pdb.set_trace()
         if unit.pk is None:
-            #create
+            # create
             unit.save()
             accommodation_id = unit.accommodation.id
             transfer = unit.to_dict()
-            transfer = {'AccommdationUnit': transfer, 'accommodation_id': accommodation_id}
+            transfer = {'AccommodationUnit': transfer,
+                        'accommodation_id': accommodation_id}
             response = client.service.createAccommodationUnit(**transfer)
+            unit.id = response
         else:
-            #update
+            # update
             transfer = unit.to_dict()
-            transfer = {'AccommdationUnit': transfer}
+            transfer = {'AccommodationUnit': transfer}
             response = client.service.updateAccommodationUnit(**transfer)
-            import pdb; pdb.set_trace()
 
-
-
+            if unit.day_set.exists():
+                unit.day_set.all().delete()
+                for elem in response['_value_1']:
+                    day_dict = helpers.serialize_object(elem['Day'])
+                    day = Day()
+                    day.unit = unit
+                    day.date = date.fromtimestamp(day_dict['date'])
+                    day.price = day_dict['price']
+                    day.available = day_dict['available']
+                    day.save()
 
         super().save_model(request, obj, form, change)
+
+    def delete_model(self, request, obj):
+        history = HistoryPlugin()
+        client_settings = Settings(
+            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                        settings=client_settings, plugins=[history])
+        transfer = dict()
+        transfer['accommodation_unit_id'] = obj.id
+        try:
+            response = client.service.deleteAccommodationUnit(**transfer)
+        except:
+            for hist in [history.last_sent, history.last_received]:
+                print(etree.tostring(hist["envelope"],
+                                     encoding="unicode", pretty_print=True))
+        super().delete_model(request, obj)
 
 
 class GuestAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email')
+
 
 class DayAdmin(admin.ModelAdmin):
     list_display = ('unit', 'date', 'price', 'available')

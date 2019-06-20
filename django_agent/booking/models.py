@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+import time
 
 
 class AccommodationType(models.Model):
@@ -103,7 +104,7 @@ class AccommodationUnit(models.Model):
 
         days = []
         if self.day_set.exists():
-            for day in self.day_set:
+            for day in self.day_set.all():
                 days.append(day.to_dict())
         ret_val['Day'] = days
         
@@ -130,7 +131,11 @@ class Day(models.Model):
         return str(self.date)
 
     def to_dict(self):
-        return model_to_dict(self)
+        exclude = ['unit', 'id', 'date']
+        ret_val = model_to_dict(self, exclude=exclude)
+        ret_val['date'] = int(time.mktime(self.date.timetuple()))
+        return ret_val
+
 
 
 class Guest(models.Model):

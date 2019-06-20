@@ -46,22 +46,19 @@ public class CommentsController {
 	private AccommodationRepository accommodationRepository;
 	
 	//objavi/ne objavi komenta
-	@RequestMapping(value = "/approve/{id}/{approve}", method = RequestMethod.POST)
-	public ResponseEntity<?> approveComment(@PathVariable("id") Long id, @PathVariable("approve") Boolean approve){
+	@RequestMapping(value = "/approve/{id}/{approve}", method = RequestMethod.PUT, produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<?> approveComment(@PathVariable("id") Long id, @PathVariable("approve") String approve){
 		
 		Comment comment = commentRepository.findById(id).orElse(null);
-		if(comment.getCommentState().toUpperCase().equals(CommentState.NOT_REVIEWED.toString())) {
-			if(approve) {
-				comment.setCommentState(CommentState.PUBLISHED.toString());
-			}
-			else {
-				comment.setCommentState(CommentState.UNPUBLISHED.toString());
-			}
-			
-			commentRepository.save(comment);
-			return ResponseEntity.ok("Comment has been " + (approve? "" : "un") + "published");
+		if(approve.equals("true")) {
+			comment.setCommentState(CommentState.PUBLISHED.toString());
 		}
-		return ResponseEntity.ok("Comment has been " + (approve? "un" : "") + "published");
+		else {
+			comment.setCommentState(CommentState.UNPUBLISHED.toString());
+		}
+		
+		commentRepository.save(comment);
+		return ResponseEntity.ok("Comment has been " + (approve.equals("true")? "" : "un") + "published");
 	}
 	
 	/**
@@ -119,7 +116,7 @@ public class CommentsController {
 	 * Vraca sve komentare u bazi, za admin review
 	 */
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<?> getAllComments(Pageable pageable,  @RequestHeader("Authorization") String authorization){
+	public ResponseEntity<?> getAllComments(Pageable pageable){
 		//User user = getLoggedUser(authorization);
 		
 		

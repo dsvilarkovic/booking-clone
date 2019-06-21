@@ -82,8 +82,9 @@ public class ReservationSoapEndpoint {
 		
 		ResponseEntity<User> response = restTemplate.exchange(AUTH_URL + "/whoami", HttpMethod.GET, entity, User.class);
 		User user = response.getBody();
+
 		
-		List<Reservation> reservation = reservationRepository.findByUserIdAndDeleted(user.getId(), false);
+		List<Reservation> reservation = reservationRepository.findReservations(user.getId(), false);
 		
 	
 		getReservationListResponse.setReservation(reservation);

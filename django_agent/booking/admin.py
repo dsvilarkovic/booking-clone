@@ -26,21 +26,6 @@ import base64
 from django.core.files.base import ContentFile
 
 
-def decode_base64(data, name=None):
-    _format, _img_str = data.split(';base64,')
-    _name, ext = _format.split('/')
-    if not name:
-        name = _name.split(":")[-1]
-    return ContentFile(base64.b64decode(_img_str), name='{}.{}'.format(name, ext))
-
-
-def encode_base64(data):
-    format1, imgstr = data.split(';base64,')
-    ext = format1.split('/')[-1]
-    data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-    return data
-
-
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
@@ -76,7 +61,6 @@ class AccommodationAdmin(admin.ModelAdmin):
 
         obj.user = request.user
         acom = obj
-        pdb.set_trace()
         if acom.pk is None:
             # create
             acom.save()
@@ -133,6 +117,28 @@ class AccommodationAdmin(admin.ModelAdmin):
                                      encoding="unicode", pretty_print=True))
         super().delete_model(request, obj)
 
+    def save_formset(self, request, form, formset, change):
+        if formset.model != AccommodationImage:
+            return super().save_formset(request, form, formset, change)
+        else:
+            instances = formset.save(commit=False)
+            acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION)
+            for obj in formset.deleted_objects:
+                transfer = dict()
+                transfer['image_id'] = obj.id
+                acc_client.service.deleteImage(**transfer)
+                obj.delete()
+            for instance in instances:
+                transfer = dict()
+                transfer['Image'] = dict()
+                transfer['Image']['id'] = 1000
+                transfer['Image']['value'] = base64.b64encode(instance.image.read())
+                transfer['accommodation_id'] = instance.accommodation.id
+
+                response = acc_client.service.createImage(**transfer)
+                instance.id = response
+                instance.save()
+
 
 class AccommodationUnitAdmin(admin.ModelAdmin):
     list_display = ('name', 'accommodation', 'capacity', 'default_price')
@@ -167,7 +173,7 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
                     day_dict = helpers.serialize_object(elem['Day'])
                     day = Day()
                     day.unit = unit
-                    day.date = date.fromtimestamp(day_dict['date'])
+                    day.date = date.fromtimestamp(day_dict['date'] / 1000)
                     day.price = day_dict['price']
                     day.available = day_dict['available']
                     day.save()

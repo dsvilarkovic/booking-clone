@@ -3,7 +3,12 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.utils.safestring import mark_safe
+from django.conf import settings
 import time
+import base64
+from zeep import Client, Settings, helpers
+from zeep.plugins import HistoryPlugin
+import pdb
 
 
 class AccommodationType(models.Model):
@@ -11,7 +16,7 @@ class AccommodationType(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def to_dict(self):
         return model_to_dict(self)
 
@@ -21,7 +26,7 @@ class AccommodationCategory(models.Model):
 
     def __str__(self):
         return str(self.name) + ' star'
-    
+
     def to_dict(self):
         return model_to_dict(self)
 
@@ -80,10 +85,9 @@ class Accommodation(models.Model):
 
         ret_val['AccommodationUnit'] = []
         # TODO izmeniti email
-        ret_val['User'] = {'email' : 'boris'}
+        ret_val['User'] = {'email': 'boris'}
 
         return ret_val
-        
 
 
 class AccommodationUnit(models.Model):
@@ -98,9 +102,9 @@ class AccommodationUnit(models.Model):
 
     def __str__(self):
         return self.name + ' | ' + str(self.accommodation)
-    
+
     def to_dict(self):
-        exclude = ['accommodation',]
+        exclude = ['accommodation', ]
         ret_val = model_to_dict(self, exclude=exclude)
 
         days = []
@@ -108,7 +112,7 @@ class AccommodationUnit(models.Model):
             for day in self.day_set.all():
                 days.append(day.to_dict())
         ret_val['Day'] = days
-        
+
         return ret_val
 
 
@@ -134,9 +138,8 @@ class Day(models.Model):
     def to_dict(self):
         exclude = ['unit', 'id', 'date']
         ret_val = model_to_dict(self, exclude=exclude)
-        ret_val['date'] = int(time.mktime(self.date.timetuple()))
+        ret_val['date'] = int(time.mktime(self.date.timetuple())) * 1000
         return ret_val
-
 
 
 class Guest(models.Model):
@@ -185,3 +188,17 @@ class Profile(models.Model):
 class AccommodationImage(models.Model):
     accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='accommodation_images')
+
+''' def save(self, *args, **kwargs):
+    transfer = dict()
+    transfer['Image'] = dict()
+    transfer['Image']['id'] = 1000
+    transfer['Image']['value'] = base64.b64encode(self.image.read())
+    transfer['accommodation_id'] = self.accommodation.id
+    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION)
+
+    response = acc_client.service.createImage(**transfer)
+    
+    self.id = response
+
+    super().save(*args, **kwargs)'''

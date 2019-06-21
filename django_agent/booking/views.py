@@ -72,7 +72,7 @@ def edit_prices(request):
             day_dict = helpers.serialize_object(elem['Day'])
             day = Day()
             day.unit = unit
-            day.date = date.fromtimestamp(day_dict['date'])
+            day.date = date.fromtimestamp(day_dict['date'] / 1000)
             day.price = day_dict['price']
             day.available = day_dict['available']
             day.save()
@@ -125,14 +125,14 @@ def messaging(request, reservation_id):
 def sync_all_data(request):
     history = HistoryPlugin()
     client_settings = Settings(strict=False, xml_huge_tree=True)
-    pdb.set_trace()
     acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
     auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
-    res_client = Client(settings.WSDL_ADDRESS_RESERVATION, settings=client_settings)
+    res_client = Client(settings.WSDL_ADDRESS_RESERVATION, settings=client_settings, plugins=[history])
 
     #TODO: izmeniti username i password
     token = auth_client.service.login(username='boris', password='boris')
     acc_client.transport.session.headers.update({'Authorization': token})
+    res_client.transport.session.headers.update({'Authorization': token})
     # Accommodation Types
     AccommodationType.objects.all().delete()
 
@@ -165,7 +165,6 @@ def sync_all_data(request):
     # Accommodations
     Accommodation.objects.all().delete()
     Location.objects.all().delete()
-    pdb.set_trace()
     try:
         soap_response = acc_client.service.getAccommodations()
     except:
@@ -233,16 +232,56 @@ def sync_all_data(request):
 
                 new_day = Day()
                 new_day.id = did
-                new_day.date = date.fromtimestamp(day_date)
+                new_day.date = date.fromtimestamp(day_date / 1000)
                 new_day.price = price
                 new_day.available = available
                 new_day.unit = new_unit
 
                 new_day.save()
 
-    #Reservations
-    pdb.set_trace()
+        pdb.set_trace()
+        # Images
+        try:
+            soap_response = acc_client.service.getAccommodationImages(aid)
+        except:
+            for hist in [history.last_sent, history.last_received]:
+                print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
+            continue
+
+    # Reservations
     soap_response = res_client.service.getReservationList()
+    for rdict in soap_response:
+        rdict = rdict['Reservation']
+        rid = rdict['id']
+        beginning_date = date.fromtimestamp(rdict['beginning_date'] / 1000)
+        end_date = date.fromtimestamp(rdict['end_date'] / 1000)
+        final_price = rdict['finalPrice']
+        checked_in = rdict['checked_in']
+
+        # Guest
+        guest_dict = rdict['User']
+        new_guest = Guest()
+        new_guest.id = guest_dict['id']
+        new_guest.first_name = guest_dict['first_name']
+        new_guest.last_name = guest_dict['last_name']
+        new_guest.email = guest_dict['email']
+        new_guest.save()
+
+        aid = rdict['AccommodationUnit']['id']
+        aunit = AccommodationUnit.objects.filter(id=aid).get()
+
+        new_res = Reservation()
+        new_res.id = rid
+        new_res.beginning = beginning_date
+        new_res.end = end_date
+        new_res.final_price = final_price
+        new_res.checked_in = checked_in
+        new_res.unit = aunit
+        new_res.guest = new_guest
+        new_res.save()
+
+
+
 
     return render(request, 'booking/view_index.html')
 

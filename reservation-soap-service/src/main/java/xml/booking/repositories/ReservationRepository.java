@@ -24,6 +24,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
 			"from  reservation r, accommodation a, accommodation_accommodation_unit aau, accommodation_unit au " + 
 			"where a.id = aau.accommodation_id and au.id = aau.accommodation_unit_id" + 
 			"	and a.user_id = ?1 and r.accommodation_unit_id = au.id" + 
-			"	and r.deleted = ?2", nativeQuery = true)	
+			"	and r.deleted = ?2 and au.deleted = false and a.deleted = false", nativeQuery = true)	
 	List<Reservation> findReservations(Long id, boolean b);
 }

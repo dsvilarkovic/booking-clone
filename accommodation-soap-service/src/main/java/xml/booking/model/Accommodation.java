@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
 
@@ -92,6 +93,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Accommodation {
 
 	@Id

@@ -94,7 +94,10 @@ public class AccommodationSoapEndpoint {
 		
 		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationRequest.getAccommodationId(), false).orElse(null);
 		
-		accommodation.setImage(null);
+		accommodation = new Accommodation(accommodation.getId(), accommodation.getName(), accommodation.getDescription(), 
+										  accommodation.getAccommodationCategory(), accommodation.getAccommodationType(), 
+										  accommodation.getAdditionalService(), null, accommodation.getLocation(), 
+										  accommodation.getUser(), accommodation.getAccommodationUnit(), false);
 		accommodation.setUser(deletePassword(accommodation.getUser()));
 		
 		getAccommodationResponse.setAccommodation(accommodation);
@@ -127,7 +130,10 @@ public class AccommodationSoapEndpoint {
 		
 		List<Accommodation> accommodations = accommodationRepository.findByUserEmailAndDeleted(user.getEmail(),false);
 		for (Accommodation accommodation : accommodations) {
-			accommodation.setImage(null);
+			accommodation = new Accommodation(accommodation.getId(), accommodation.getName(), accommodation.getDescription(), 
+					  accommodation.getAccommodationCategory(), accommodation.getAccommodationType(), 
+					  accommodation.getAdditionalService(), null, accommodation.getLocation(), 
+					  accommodation.getUser(), accommodation.getAccommodationUnit(), false);
 			accommodation.setUser(deletePassword(accommodation.getUser()));
 		}
 		getAccommodationsResponse.setAccommodation(accommodations);
@@ -218,7 +224,8 @@ public class AccommodationSoapEndpoint {
 			@RequestPayload GetAccommodationImagesRequest getAccommodationImagesRequest) {
 		GetAccommodationImagesResponse getAccommodationImagesResponse = new GetAccommodationImagesResponse();
 		
-		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationImagesRequest.getAccommodationId(), false).orElse(null);
+		Long id = getAccommodationImagesRequest.getAccommodationId();
+		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(id, false).orElse(null);
 		List<Image> images =  accommodation.getImage();
 		
 		getAccommodationImagesResponse.setImage(images);

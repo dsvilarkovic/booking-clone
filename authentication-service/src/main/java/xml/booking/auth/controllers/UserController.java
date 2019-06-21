@@ -85,6 +85,8 @@ public class UserController {
 
 	}
 	
+	
+	
 	/**
 	 * Update
 	 * @param userDTO
@@ -144,7 +146,7 @@ public class UserController {
 		String username = (String) authentication.getPrincipal(); 
 		
 		User user = userRepository.findByEmail(username);
-		UserDTO userDTO = new UserDTO(user.getId(), user.getEmail(), "", "",
+		UserDTO userDTO = new UserDTO(user.getId(), user.getEmail(), user.getEmail(), "", "",
 										user.getFirstName(), 
 										user.getLastName(), 
 										user.getUserType(), 

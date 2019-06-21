@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap" 
+    targetNamespace="http://www.ftn.uns.ac.rs/tim1/reservationsoap"
     xmlns:rs="http://www.ftn.uns.ac.rs/tim1/reservationsoap">
     <xs:element name="User">
         <xs:complexType>
@@ -66,7 +66,7 @@
     <xs:element name="Day">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:long" minOccurs="0"/>
                 <xs:element name="date" type="xs:long"/>
                 <xs:element name="price">
                     <xs:simpleType>
@@ -126,7 +126,7 @@
     <xs:element name="Image">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:long" minOccurs="1"/>
                 <xs:element name="value" type="xs:base64Binary"/>
             </xs:sequence>
         </xs:complexType>
@@ -134,7 +134,7 @@
     <xs:element name="Location">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:long" minOccurs="1"/>
                 <xs:element name="address">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">

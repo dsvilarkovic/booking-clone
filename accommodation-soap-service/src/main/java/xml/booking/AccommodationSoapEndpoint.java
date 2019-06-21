@@ -50,7 +50,10 @@ import xml.booking.repositories.UserRepository;
 @Endpoint
 @Transactional
 public class AccommodationSoapEndpoint {
-	private static final String AUTH_URL = "http://localhost:9994/user";
+	//TODO:izmeni link
+	private static final String AUTH_URL = "http://localhost:9994/users";
+//	private static final String AUTH_URL = "http://localhost:8762/api/users"; // service-registry + api_gateway
+
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/accommodationsoap";
 	
 	@Autowired
@@ -90,6 +93,7 @@ public class AccommodationSoapEndpoint {
 		GetAccommodationResponse getAccommodationResponse = new GetAccommodationResponse();
 		
 		Accommodation accommodation = accommodationRepository.findByIdAndDeleted(getAccommodationRequest.getAccommodationId(), false).orElse(null);
+		
 		accommodation.setImage(null);
 		accommodation.setUser(deletePassword(accommodation.getUser()));
 		

@@ -6,8 +6,6 @@ from django.utils.safestring import mark_safe
 from django.conf import settings
 import time
 import base64
-from zeep import Client, Settings, helpers
-from zeep.plugins import HistoryPlugin
 import pdb
 
 
@@ -188,17 +186,3 @@ class Profile(models.Model):
 class AccommodationImage(models.Model):
     accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='accommodation_images')
-
-''' def save(self, *args, **kwargs):
-    transfer = dict()
-    transfer['Image'] = dict()
-    transfer['Image']['id'] = 1000
-    transfer['Image']['value'] = base64.b64encode(self.image.read())
-    transfer['accommodation_id'] = self.accommodation.id
-    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION)
-
-    response = acc_client.service.createImage(**transfer)
-    
-    self.id = response
-
-    super().save(*args, **kwargs)'''

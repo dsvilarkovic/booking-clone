@@ -126,6 +126,7 @@ class AccommodationAdmin(admin.ModelAdmin):
             for obj in formset.deleted_objects:
                 transfer = dict()
                 transfer['image_id'] = obj.id
+                pdb.set_trace()
                 acc_client.service.deleteImage(**transfer)
                 obj.delete()
             for instance in instances:

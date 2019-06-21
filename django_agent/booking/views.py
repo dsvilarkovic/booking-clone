@@ -280,8 +280,5 @@ def sync_all_data(request):
         new_res.guest = new_guest
         new_res.save()
 
-
-
-
     return render(request, 'booking/view_index.html')
 

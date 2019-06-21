@@ -122,7 +122,8 @@ public class Accommodation {
     protected List<AdditionalService> additionalService;
     
     @XmlElement(name = "Image",namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     protected List<Image> image;
     
     @XmlElement(name = "Location", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")

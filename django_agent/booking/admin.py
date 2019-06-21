@@ -40,11 +40,8 @@ class ImageInline(admin.StackedInline):
     readonly_fields = ['show_image', ]
 
     def show_image(self, obj):
-        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
-            url=obj.image.url,
-            width=obj.image.width,
-            height=obj.image.height,
-        )
+        return mark_safe('<img src="{url}" width=200 height=150 />'.format(
+            url=obj.image.url)
         )
 
 
@@ -126,14 +123,14 @@ class AccommodationAdmin(admin.ModelAdmin):
             for obj in formset.deleted_objects:
                 transfer = dict()
                 transfer['image_id'] = obj.id
-                pdb.set_trace()
                 acc_client.service.deleteImage(**transfer)
                 obj.delete()
             for instance in instances:
                 transfer = dict()
                 transfer['Image'] = dict()
                 transfer['Image']['id'] = 1000
-                transfer['Image']['value'] = base64.b64encode(instance.image.read())
+                transfer['Image']['value'] = base64.b64encode(
+                    instance.image.read())
                 transfer['accommodation_id'] = instance.accommodation.id
 
                 response = acc_client.service.createImage(**transfer)

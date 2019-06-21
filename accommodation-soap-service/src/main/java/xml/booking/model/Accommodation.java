@@ -33,6 +33,7 @@ import org.hibernate.annotations.FetchMode;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -94,6 +95,7 @@ import lombok.EqualsAndHashCode;
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class Accommodation {
 
 	@Id

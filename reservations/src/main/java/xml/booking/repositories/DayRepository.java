@@ -1,8 +1,12 @@
 package xml.booking.repositories;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
+
 import xml.booking.model.Day;
 
 /**
@@ -11,4 +15,5 @@ import xml.booking.model.Day;
 @Repository
 public interface DayRepository extends JpaRepository<Day, Long>, JpaSpecificationExecutor<Day> {
 
+	
 }

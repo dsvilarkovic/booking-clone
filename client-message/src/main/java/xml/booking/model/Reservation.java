@@ -20,7 +20,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -106,22 +105,11 @@ public class Reservation {
     @Column(name = "checkedIn")
     protected boolean checkedIn;
     
-    @XmlElement(name = "Rating")
-    @ManyToOne
-    protected Rating rating;
     
     @XmlElement(name = "Message")
     @OneToMany
     protected List<Message> message;
     
-    
-    @XmlElement(name = "Comment")
-    @ManyToOne
-    protected Comment comment;
-    
-    @XmlElement(name = "AccommodationUnit", namespace = "http://www.ftn.uns.ac.rs/tim1/accommodationUnit", required = true)
-    @ManyToOne
-    protected AccommodationUnit accommodationUnit;
     
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
     @ManyToOne
@@ -221,29 +209,6 @@ public class Reservation {
         this.checkedIn = value;
     }
 
-    /**
-     * Gets the value of the rating property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Rating }
-     *     
-     */
-    public Rating getRating() {
-        return rating;
-    }
-
-    /**
-     * Sets the value of the rating property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Rating }
-     *     
-     */
-    public void setRating(Rating value) {
-        this.rating = value;
-    }
 
     /**
      * Gets the value of the message property.
@@ -274,38 +239,6 @@ public class Reservation {
         return this.message;
     }
 
-    /**
-     * Gets the value of the comment property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Comment }
-     *     
-     */
-    public Comment getComment() {
-        return comment;
-    }
-
-    /**
-     * Sets the value of the comment property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Comment }
-     *     
-     */
-    public void setComment(Comment value) {
-        this.comment = value;
-    }
-
-    
-    public AccommodationUnit getAccommodationUnit() {
-		return accommodationUnit;
-	}
-
-	public void setAccommodationUnit(AccommodationUnit accommodationUnit) {
-		this.accommodationUnit = accommodationUnit;
-	}
 
 	/**
      * Gets the value of the user property.

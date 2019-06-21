@@ -13,11 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -55,10 +60,12 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "AccommodationType")
 @Entity
+@SequenceGenerator(name="seqAccType", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class AccommodationType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAccType")
     protected Long id;
 	
     @XmlElement(required = true)
@@ -66,13 +73,14 @@ public class AccommodationType {
     protected String name;
     
     @Column(name = "deleted")
+    @ColumnDefault(value = "false")
 	protected boolean deleted;
 
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -80,7 +88,7 @@ public class AccommodationType {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 

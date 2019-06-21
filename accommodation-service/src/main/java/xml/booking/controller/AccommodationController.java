@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xml.booking.dto.AccommodationDTO;
 import xml.booking.dto.AccommodationUnitDTO;
 import xml.booking.managers.AccommodationManager;
+import xml.booking.model.Accommodation;
 import xml.booking.model.AdditionalService;
 import xml.booking.model.Image;
 
@@ -40,8 +41,8 @@ public class AccommodationController {
 
 	@GetMapping("/{accommodationId}")
 	public ResponseEntity<?> getAccommodationById(@PathVariable Long accommodationId) {
-		AccommodationDTO accommodationDTO = accommodationManager.findById(accommodationId);
-		return (accommodationDTO == null) ? ResponseEntity.status(404).build() : ResponseEntity.ok(accommodationDTO);
+		Accommodation accommodation = accommodationManager.findById(accommodationId);
+		return (accommodation == null) ? ResponseEntity.status(404).build() : ResponseEntity.ok(new AccommodationDTO(accommodation));
 	}
 	
 	@GetMapping("/images/{accommodationId}")

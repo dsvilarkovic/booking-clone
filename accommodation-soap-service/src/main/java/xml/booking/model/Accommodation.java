@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
 
@@ -92,6 +93,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @SequenceGenerator(name="seqLocation", initialValue=100, allocationSize=50)
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Accommodation {
 
 	@Id
@@ -122,7 +124,8 @@ public class Accommodation {
     protected List<AdditionalService> additionalService;
     
     @XmlElement(name = "Image",namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     protected List<Image> image;
     
     @XmlElement(name = "Location", required = true, namespace="http://www.ftn.uns.ac.rs/tim1/accommodationsoap")

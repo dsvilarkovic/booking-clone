@@ -14,11 +14,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -53,14 +58,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "id",
     "value",
-    "user"
+    "user",
+    "commentState"
 })
 @XmlRootElement(name = "Comment")
 @Entity
+@SequenceGenerator(name="seqComment", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Comment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqComment")
     protected Long id;
 	
     @XmlElement(required = true)
@@ -70,12 +78,20 @@ public class Comment {
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
     @ManyToOne
     protected User user;
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
 
+    @Column
+    @XmlElement(required = true)
+    @ColumnDefault(value = "NOT_REVIEWED")
+    protected String commentState;
     /**
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -83,7 +99,7 @@ public class Comment {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 
@@ -134,5 +150,21 @@ public class Comment {
     public void setUser(User value) {
         this.user = value;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public String getCommentState() {
+		return commentState;
+	}
+
+	public void setCommentState(String commentState) {
+		this.commentState = commentState;
+	}
 
 }

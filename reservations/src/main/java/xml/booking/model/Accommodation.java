@@ -19,12 +19,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -83,11 +87,13 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "Accommodation")
 @Entity
+@SequenceGenerator(name="seqAcc", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Accommodation {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqAcc")
+    protected Long id;
 	
     @XmlElement(required = true)
     @Column
@@ -96,10 +102,6 @@ public class Accommodation {
     @XmlElement(required = true)
     @Column
     protected String description;
-    
-    @Column(name = "deleted")
-	protected boolean deleted;
-    
     
     @XmlElement(name = "AccommodationCategory", required = true)
     @ManyToOne
@@ -122,7 +124,7 @@ public class Accommodation {
     @OneToOne
     protected Location location;
     
-    @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user", required = true)
+    @XmlElement(name = "User", required = true)
     @ManyToOne
     protected User user;
     
@@ -130,6 +132,11 @@ public class Accommodation {
     @OneToMany
     protected List<AccommodationUnit> accommodationUnit;
 
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
+    
     /**
      * Gets the value of the name property.
      * 
@@ -182,7 +189,7 @@ public class Accommodation {
      * Gets the value of the id property.
      * 
      */
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -190,7 +197,7 @@ public class Accommodation {
      * Sets the value of the id property.
      * 
      */
-    public void setId(long value) {
+    public void setId(Long value) {
         this.id = value;
     }
 

@@ -1,8 +1,14 @@
 package xml.booking.repositories;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
 import xml.booking.model.Reservation;
 
 /**
@@ -12,4 +18,12 @@ import xml.booking.model.Reservation;
 public interface ReservationRepository extends JpaRepository<Reservation, Long>, JpaSpecificationExecutor<Reservation> {
 	
 	Reservation findByIdAndDeleted(Long id,boolean deleted);
+	List<Reservation> findByDeleted(boolean deleted);
+	Page<Reservation> findByDeleted(Pageable page, boolean deleted);
+	
+	@Query("SELECT r FROM Reservation as r inner join r.accommodationUnit as accUnit WHERE accUnit.id = ?1 and accUnit.deleted = false and r.deleted = false")
+	List<Reservation> findAllReservationAccommodationUnit(Long id);
+	
+	@Query("SELECT r FROM Reservation as r inner join r.user as user WHERE user.id = ?1 and user.deleted = false and r.deleted = false")
+	List<Reservation> findAllUserReservation(Long id);
 }

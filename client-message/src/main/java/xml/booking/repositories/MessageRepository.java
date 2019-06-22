@@ -1,8 +1,14 @@
 package xml.booking.repositories;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
 import xml.booking.model.Message;
 
 /**
@@ -10,5 +16,10 @@ import xml.booking.model.Message;
 */
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long>, JpaSpecificationExecutor<Message> {
-
+	Page<Message> findByUserId(Pageable page, Long id);
+	
+	@Query("select mess from Reservation as res inner join res.message as mess where res.id = ?1")
+	List<Message> findReservationMessages(Long reservationId);
+	
 }
+

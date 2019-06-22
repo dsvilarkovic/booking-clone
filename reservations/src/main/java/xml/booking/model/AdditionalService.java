@@ -13,11 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -55,10 +60,12 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "AdditionalService")
 @Entity
+@SequenceGenerator(name="seqAddService", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class AdditionalService {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator= "seqAddService")
     protected Long id;
 	
     @XmlElement(required = true)
@@ -66,6 +73,7 @@ public class AdditionalService {
     protected String name;
     
     @Column(name = "deleted")
+    @ColumnDefault(value = "false")
 	protected boolean deleted;
 
     /**

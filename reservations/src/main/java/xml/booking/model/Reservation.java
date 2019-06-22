@@ -19,12 +19,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -52,7 +57,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Rating" minOccurs="0"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Message" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/reservation}Comment" minOccurs="0"/>
- *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}Accommodation"/>
+ *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/accommodation}AccommodationUnit"/>
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/tim1/user}User" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -72,25 +77,25 @@ import javax.xml.bind.annotation.XmlType;
     "rating",
     "message",
     "comment",
-    "accommodation",
+    "accommodationUnit",
     "user"
 })
 @XmlRootElement(name = "Reservation")
 @Entity
+@SequenceGenerator(name="seqReserv", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Reservation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqReserv")
     protected Long id;
 	
     @XmlElement(name = "beginning_date", required = true)
     @Column(name = "beginningDate")
-    @Transient
     protected Long beginningDate;
     
     @XmlElement(name = "end_date", required = true)
     @Column(name = "endDate")
-    @Transient
     protected Long endDate;
     
     @XmlElement(required = true)
@@ -114,15 +119,16 @@ public class Reservation {
     @ManyToOne
     protected Comment comment;
     
-    @XmlElement(name = "Accommodation", namespace = "http://www.ftn.uns.ac.rs/tim1/accommodation", required = true)
+    @XmlElement(name = "AccommodationUnit", namespace = "http://www.ftn.uns.ac.rs/tim1/accommodationUnit", required = true)
     @ManyToOne
-    protected Accommodation accommodation;
+    protected AccommodationUnit accommodationUnit;
     
     @XmlElement(name = "User", namespace = "http://www.ftn.uns.ac.rs/tim1/user")
     @ManyToOne
     protected User user;
     
     @Column(name = "deleted")
+    @ColumnDefault(value = "false")
 	protected boolean deleted;
 
     /**
@@ -292,31 +298,16 @@ public class Reservation {
         this.comment = value;
     }
 
-    /**
-     * Gets the value of the accommodation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Accommodation }
-     *     
-     */
-    public Accommodation getAccommodation() {
-        return accommodation;
-    }
+    
+    public AccommodationUnit getAccommodationUnit() {
+		return accommodationUnit;
+	}
 
-    /**
-     * Sets the value of the accommodation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Accommodation }
-     *     
-     */
-    public void setAccommodation(Accommodation value) {
-        this.accommodation = value;
-    }
+	public void setAccommodationUnit(AccommodationUnit accommodationUnit) {
+		this.accommodationUnit = accommodationUnit;
+	}
 
-    /**
+	/**
      * Gets the value of the user property.
      * 
      * @return

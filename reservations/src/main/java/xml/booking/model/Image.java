@@ -13,11 +13,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -47,17 +52,25 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "Image")
 @Entity
+@SequenceGenerator(name="seqImage", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class Image {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqImage")
     protected Long id;
 	
     @XmlElement(required = true)
     @Column(name = "value")
     protected byte[] value;
+    
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
 
-    /**
+
+
+	/**
      * Gets the value of the id property.
      * 
      */
@@ -95,4 +108,11 @@ public class Image {
         this.value = value;
     }
 
+    public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 }

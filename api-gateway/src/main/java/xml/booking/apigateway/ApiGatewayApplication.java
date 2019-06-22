@@ -1,5 +1,7 @@
 package xml.booking.apigateway;
 
+import java.util.Collections;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -18,4 +20,8 @@ public class ApiGatewayApplication {
 		SpringApplication.run(ApiGatewayApplication.class, args);
 		System.out.println("Ajde Gateway");
 	}
+	
+	
+	
+
 }

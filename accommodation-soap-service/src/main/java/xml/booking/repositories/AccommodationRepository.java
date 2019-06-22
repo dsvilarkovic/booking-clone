@@ -16,7 +16,7 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
 	Accommodation getOne(Long id);
 
-	Optional<Accommodation> findByIdAndDeleted(long accommodationId, boolean b);
+	Optional<Accommodation> findByIdAndDeleted(Long accommodationId, boolean b);
 
 	List<Accommodation> findByDeletedEquals(boolean b);
 

@@ -151,7 +151,7 @@
     <xs:element name="Image">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
+                <xs:element name="id" type="xs:long" minOccurs="0"/>
                 <xs:element name="value" type="xs:base64Binary"/>
             </xs:sequence>
         </xs:complexType>

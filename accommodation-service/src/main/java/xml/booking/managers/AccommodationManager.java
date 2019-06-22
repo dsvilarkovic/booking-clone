@@ -46,9 +46,9 @@ public class AccommodationManager {
 		});
 	}
 	
-	public AccommodationDTO findById(Long id) {
+	public Accommodation findById(Long id) {
 		Accommodation accommodation = this.accommodationRepository.findByIdAndDeleted(id, false);
-		return (accommodation != null)? new AccommodationDTO(accommodation): null;
+		return accommodation;
 	}
 	
 	public List<Image> getAccommodationImageList(Long id) {

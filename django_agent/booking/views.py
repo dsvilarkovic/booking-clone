@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
-from .models import AccommodationUnit, Day, Guest, Message, Reservation, AccommodationType, AccommodationCategory, Accommodation, Location, AdditionalService
+from .models import AccommodationUnit, Day, Guest, Message, Reservation, AccommodationType, AccommodationCategory, Accommodation, Location, AdditionalService, AccommodationImage
 from datetime import date, timedelta, datetime
 from zeep import Client, Settings, helpers
 from zeep.plugins import HistoryPlugin
 from lxml import etree
 import pdb
-
+import base64
+from django.core.files.base import ContentFile
 
 def view_index(request):
     return render(request, 'booking/view_index.html')
@@ -239,7 +240,6 @@ def sync_all_data(request):
 
                 new_day.save()
 
-        pdb.set_trace()
         # Images
         try:
             soap_response = acc_client.service.getAccommodationImages(aid)
@@ -247,6 +247,16 @@ def sync_all_data(request):
             for hist in [history.last_sent, history.last_received]:
                 print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
             continue
+        for image_dict in soap_response:
+            image_dict = image_dict['Image']
+
+            new_image = AccommodationImage()
+            new_image.id = image_dict['id']
+            image_name = 'acom_#' + str(new_acom.id) + '_' + str(new_image.id) + '.jgp'
+            new_image.image = ContentFile(base64.b64decode(image_dict['value']), name=image_name)
+            new_image.accommodation = new_acom
+            new_image.save()
+
 
     # Reservations
     soap_response = res_client.service.getReservationList()
@@ -281,4 +291,3 @@ def sync_all_data(request):
         new_res.save()
 
     return render(request, 'booking/view_index.html')
-

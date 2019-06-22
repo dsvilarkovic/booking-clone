@@ -1,5 +1,7 @@
 package xml.booking.managers;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -42,9 +44,9 @@ public class AccommodationUnitManager {
 		});
 	}
 	
-	public AccommodationUnitDTO findById(Long id) {
+	public AccommodationUnit findById(Long id) {
 		AccommodationUnit accommodationUnit = this.accommodationUnitRepository.findByIdAndDeleted(id, false);
-		return (accommodationUnit == null)? null : new AccommodationUnitDTO(accommodationUnit);
+		return accommodationUnit;
 	}
 	
 	public List<Day> findAllDays(Long id) {
@@ -61,5 +63,45 @@ public class AccommodationUnitManager {
 		List<Day> days = this.accommodationUnitRepository.findDaysBetween(id, from, to);
 		return (days == null)? new ArrayList<Day>() : days;
 	}
+	
+	public boolean isAccommodationUnitFreeForReservation(AccommodationUnit unit, Long from, Long to) {
+		AccommodationUnit found = this.accommodationUnitRepository.checkIsFreeForReservation(unit.getId(), from, to);
+		return (found == null) ? false : true;
+	}
+	
+	public BigDecimal findPrice(AccommodationUnit unit, Long from , Long to) {
+		List<Day> days = this.findDaysBetween(unit.getId(), from, to);
+		System.out.println("Days");
+		BigDecimal price = new BigDecimal(0);
+		for(Day day : days) {
+			price.add(day.getPrice());
+		}
+		long numberOfDays = numberOfDays(new Date(from), new Date(to));
+		System.out.println(numberOfDays);
+		price.add(new BigDecimal((numberOfDays - days.size()) * unit.getDefaultPrice()));
+		System.out.println(price);
+		return price;
+	}
+	
+	/**
+	 * Metoda za izracuvanje dana proteklih izmedju dva datuma
+	 * 
+	 * @param date1 datum 1
+	 * @param date2 datum 2
+	 * @return broj dana
+	 */
+	private long numberOfDays(Date date1, Date date2) {
 
+		java.util.Date localDate1 = new java.util.Date(date1.getTime());
+		java.util.Date localDate2 = new java.util.Date(date2.getTime());
+		Long number;
+		if (localDate1.after(localDate2)) {
+			number = localDate1.getTime() - localDate2.getTime();
+		} else {
+			number = localDate2.getTime() - localDate1.getTime();
+		}
+
+
+		return number / 86400000;
+	}
 }

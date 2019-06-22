@@ -15,27 +15,14 @@ export class CommentsComponent implements OnInit {
               private modalService: NgbModal,
               datePipe: DatePipe) {}
 
-  // commentsList: any;
-  // za sada primer
   commentsList: Comment[] = [
-    {
-      id: 0, value: 'Neki komentar.', username: 'majak96', administrator: null, date: new Date('2019-04-29 11:13:00')
-    },
-    {
-      id: 1, value: 'Opet neki komentar.', username: 'vesnamilic', administrator: 'admin', date: new Date('2019-04-29 10:43:00')
-    },
-    {
-      id: 2, value: 'Neki treci komentar.', username: 'dsvilarkovic', administrator: null, date: new Date('2019-04-28 15:23:00')
-    },
-    {
-      id: 3, value: 'Komentaaaaaaaaaaaaaaar.', username: 'borisjovanovic', administrator: 'admin', date: new Date('2019-04-27 13:13:00')
-    },
   ];
 
   currentComment: Comment;
-  collectionSize = 3;
+  // collectionSize = 7;
+  collectionSize = 0;
   page = 1;
-  pageSize = 7;
+  pageSize = 10;
 
   ngOnInit() {
      this.getComments();
@@ -43,41 +30,52 @@ export class CommentsComponent implements OnInit {
 
     // get all comments
     getComments() {
-      /* this.commentsService.getComments().subscribe(
+      this.commentsList = null;
+      this.commentsService.getComments(this.page, this.pageSize).subscribe(
         data => {
-          this.commentsList = data;
+          console.log(data);
+          this.commentsList = data['content'];
+          this.collectionSize = data['totalElements'];
         },
         error => {
           console.log('There was an error.');
         }
-      ); */
+      );
     }
 
     // approve/reject comment
     editComment(comment: Comment) {
-      comment.administrator = (comment.administrator == null ? 'admin' : null);
-
-      /* this.commentsService.approveComment(comment).subscribe(
-        data => {
-          // do nothing for now
-        },
-        error => {
-          if (comment.administrator != null ) {
-            alert('There was an error.');
-            comment.administrator = null;
-          } else {
-            alert('There was an error.');
-            comment.administrator = 'admin';
-          }
-        }
-      ); */
+      console.log('Alo');
+      switch (comment.commentState) {
+        case('NOT_REVIEWED'):
+          this.commentsService.approveComment(comment, true)
+          .subscribe(() => {
+            comment.commentState = 'PUBLISHED';
+          });
+          break;
+        case('PUBLISHED'):
+          this.commentsService.approveComment(comment, false)
+          .subscribe(() => {
+            comment.commentState = 'UNPUBLISHED';
+          });
+          break;
+        case('UNPUBLISHED'):
+          this.commentsService.approveComment(comment, true)
+          .subscribe(() => {
+            comment.commentState = 'PUBLISHED';
+          });
+          break;
+      }
+      // this.getComments();
     }
 
     // open modal dialog with the chosen comment
     open(content, comment: Comment) {
       this.currentComment = comment;
-
       this.modalService.open(content);
     }
 
+    onPageChange(pageNo) {
+      this.getComments();
+    }
 }

@@ -8,7 +8,7 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">Id</th>
             <th scope="col">User</th>
             <th scope="col">Date</th>
             <th scope="col">&nbsp;</th>
@@ -17,13 +17,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let comment of commentsList; index as i">
-            <td>{{i}}</td>
-            <td>{{comment.username}}</td>
+            <td>{{comment.id}}</td>
+            <td>{{comment.user.email}}</td>
             <td>{{comment.date | date: 'short'}}</td>
             <td><button type="button" (click)="open(content, comment)" class="btn btn-outline-info btn-sm">Show</button></td>
             <td>
-              <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-danger': comment.administrator != null, 'btn-outline-success': comment.administrator == null}" (click)="editComment(comment)">
-                {{comment.administrator == null ? 'Approve' : 'Reject'}}
+              <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': comment.commentState === 'NOT_REVIEWED', 'btn-outline-danger': comment.commentState === 'UNPUBLISHED', 'btn-outline-success': comment.commentState === 'PUBLISHED'}" (click)="editComment(comment)">
+
+                <div *ngIf="comment.commentState === 'NOT_REVIEWED'">Not Reviewed</div>
+                <div *ngIf="comment.commentState === 'UNPUBLISHED'">Unpublished</div>
+                <div *ngIf="comment.commentState === 'PUBLISHED'">Published</div>
+
               </button>
             </td>
           </tr>
@@ -35,7 +39,7 @@
       [(pageSize)]="pageSize"
       [boundaryLinks]="true"
       style="float:right"
-      (pageChange)="onPageChange(pageNo)">
+      (pageChange)="onPageChange(page)">
       </ngb-pagination>
     </div>
   </div>
@@ -51,14 +55,23 @@
     </div>
     <div class="modal-body">
       <p>
-        User: {{currentComment.username}}<br/>
+        User: {{currentComment.user.email}}<br/>
         Date: {{currentComment.date | date: 'short'}}<br/>
         Content: "{{currentComment.value}}"
       </p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-info" (click)="modal.close(); editComment(currentComment)">
-        {{currentComment.administrator == null ? 'Approve' : 'Reject'}}
+      <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': currentComment.commentState === 'NOT_REVIEWED', 'btn-outline-danger': currentComment.commentState === 'UNPUBLISHED', 'btn-outline-success': currentComment.commentState == 'PUBLISHED'}" (click)="editComment(currentComment)">
+
+        <div *ngIf="currentComment.commentState === 'NOT_REVIEWED'">Not Reviewed</div>
+        <div *ngIf="currentComment.commentState === 'UNPUBLISHED'">Unpublished</div>
+        <div *ngIf="currentComment.commentState === 'PUBLISHED'">Published</div>
+
       </button>
+
+      <button type="button" class="btn btn-info" (click)="modal.close()">
+        Close
+      </button>
+
   </div>
 </ng-template>

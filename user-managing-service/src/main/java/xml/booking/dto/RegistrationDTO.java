@@ -2,7 +2,7 @@ package xml.booking.dto;
 
 import xml.booking.model.User;
 
-public class UserDTO {
+public class RegistrationDTO {
 	
 	private Long id;
 	private String firstName;
@@ -13,34 +13,28 @@ public class UserDTO {
 	private String address;
 	private Boolean activated;
 	private String password;
-
-	public UserDTO() {
+	private String oldPassword;
+	private Boolean deleted;
+	private String username;
+	
+	public RegistrationDTO() {
 		// TODO Auto-generated constructor stub
 	}
-		
-	public UserDTO(Long id, String firstName, String lastName, String email, String userType, Integer pib,
-			String address, Boolean activated) {
+			
+	public RegistrationDTO(UserDTO dto, String userType, String password, Integer pib) {
 		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
+		this.id = dto.getId();
+		this.firstName = dto.getFirstName();
+		this.lastName = dto.getLastName();
+		this.email = dto.getEmail();
 		this.userType = userType;
 		this.pib = pib;
-		this.address = address;
-		this.activated = activated;
-	}
-	
-	public UserDTO(User user) {
-		super();
-		this.id = user.getId();
-		this.firstName = user.getFirstName();
-		this.lastName = user.getLastName();
-		this.email = user.getEmail();
-		this.userType = user.getUserType();
-		this.pib = user.getPib();
-		this.address = user.getAddress();
-		this.activated = user.isActivated();
+		this.address = dto.getAddress();
+		this.activated = true;
+		this.deleted = false;
+		this.oldPassword = null;
+		this.password = password;
+		this.username = dto.getEmail();
 	}
 
 	public Long getId() {
@@ -107,12 +101,36 @@ public class UserDTO {
 		this.activated = activated;
 	}
 
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public Boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

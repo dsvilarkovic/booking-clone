@@ -3,9 +3,8 @@ export interface User {
     firstName: string;
     lastName: string;
     email: string;
-    password: string;
     userType: string;
-    PIB: number;
+    pib: number;
     address: string;
-    active: boolean;
+    activated: boolean;
 }

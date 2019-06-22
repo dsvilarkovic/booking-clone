@@ -7,7 +7,7 @@ public class AccommodationUnitDTO {
 	private Long id;
 	private String name;
 	private Integer capacity;
-	private Double defaultPrice;
+	private Double calculatedPrice;
 	private Integer cancelationPeriod;
 	private String accommodation;
 	private String accommodationType;
@@ -50,22 +50,27 @@ public class AccommodationUnitDTO {
 		
 	}
 		
-	public AccommodationUnitDTO(Long id, String name, Integer capacity, Double defaultPrice,
+	public AccommodationUnitDTO(Long id, String name, Integer capacity, Double calculatedPrice,
 			Integer cancelationPeriod) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.capacity = capacity;
-		this.defaultPrice = defaultPrice;
+		this.calculatedPrice = calculatedPrice;
 		this.cancelationPeriod = cancelationPeriod;
 	}
 
-	public AccommodationUnitDTO(AccommodationUnit accommodationUnit) {
+	public AccommodationUnitDTO(AccommodationUnit accommodationUnit, Double calculatedPrice, String accommodation, String accommodationCategory,
+			                    String accommodationType, String description) {
 		this.id = accommodationUnit.getId();
 		this.name = accommodationUnit.getName();
 		this.capacity = accommodationUnit.getCapacity();
-		this.defaultPrice = accommodationUnit.getDefaultPrice();
 		this.cancelationPeriod = accommodationUnit.getCancelationPeriod();
+		this.calculatedPrice = calculatedPrice;
+		this.accommodation = accommodation;
+		this.accommodationCategory = accommodationCategory;
+		this.accommodationType = accommodationType;
+		this.description = description;
 	}
 
 	public Long getId() {
@@ -86,11 +91,11 @@ public class AccommodationUnitDTO {
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
-	public Double getDefaultPrice() {
-		return defaultPrice;
+	public Double getCalculatedPrice() {
+		return calculatedPrice;
 	}
-	public void setDefaultPrice(Double defaultPrice) {
-		this.defaultPrice = defaultPrice;
+	public void setCalculatedPrice(Double calculatedPrice) {
+		this.calculatedPrice = calculatedPrice;
 	}
 	public Integer getCancelationPeriod() {
 		return cancelationPeriod;
@@ -99,6 +104,4 @@ public class AccommodationUnitDTO {
 		this.cancelationPeriod = cancelationPeriod;
 	}
 	
-	
-
 }

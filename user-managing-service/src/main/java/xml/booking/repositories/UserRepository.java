@@ -14,6 +14,10 @@ import xml.booking.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 	
-	Page<User> findByUserType(String userType, Pageable pageable);
+	Page<User> findByUserTypeAndDeleted(String userType, Boolean deleted, Pageable pageable);
+	
+	User findByIdAndDeleted(Long id, Boolean deleted);
+	
+	User findByEmailAndDeleted(String email, Boolean deleted);
 
 }

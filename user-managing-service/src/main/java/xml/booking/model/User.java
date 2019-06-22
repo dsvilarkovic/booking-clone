@@ -15,19 +15,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.hibernate.annotations.ColumnDefault;
+
+import lombok.EqualsAndHashCode;
+import xml.booking.dto.UserDTO;
+
 
 /**
  * <p>Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>The following
+ *  schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -109,10 +115,12 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlRootElement(name = "User")
 @Entity(name = "users")
+@SequenceGenerator(name="seqUser", initialValue=100, allocationSize=50)
+@EqualsAndHashCode
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqUser")
     protected Long id;
 	
     @XmlElement(name = "first_name", required = true)
@@ -142,9 +150,31 @@ public class User {
     protected String address;
     
     
-    @OneToMany
+    @ManyToMany
     private Set<Role> roles;
 
+    @Column(name = "deleted")
+    @ColumnDefault(value = "false")
+	protected boolean deleted;
+    
+    @Column(name = "activated")
+    @ColumnDefault(value = "true")
+	protected boolean activated;
+    
+    public User() {
+    	
+    }
+    
+    public User(UserDTO dto) {
+    	this.id = dto.getId();
+    	this.firstName = dto.getFirstName();
+    	this.lastName = dto.getLastName();
+    	this.email = dto.getEmail();
+    	this.address = dto.getAddress();
+    	this.deleted = false;
+    	this.activated = true;
+    }
+    
     /**
      * Gets the value of the id property.
      * 
@@ -335,6 +365,22 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
 	}
 
 

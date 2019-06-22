@@ -7,20 +7,20 @@ import java.util.List;
 public class SearchDTO {
 	
 	private String location;
-	private Date beginningDate;
-	private Date endDate;
+	private Long beginningDate;
+	private Long endDate;
 	private Integer numberOfPersons;
-	private Long accommodationType;
-	private Long accommodationCategory;
-	private List<Long> additionalServices;
+	private CodeBookDTO accommodationType;
+	private CodeBookDTO accommodationCategory;
+	private List<CodeBookDTO> additionalServices;
 	private Double distance;
 	
 	public SearchDTO() {
-		this.additionalServices = new ArrayList<Long>();
+		this.additionalServices = new ArrayList<CodeBookDTO>();
 	}
 	
-	public SearchDTO(String location, Date beginningDate, Date endDate, Integer numberOfPersons, Long accommodationType,
-			Long accommodationCategory, List<Long> additionalServices, Double distance) {
+	public SearchDTO(String location, Long beginningDate, Long endDate, Integer numberOfPersons, CodeBookDTO accommodationType,
+			CodeBookDTO accommodationCategory, List<CodeBookDTO> additionalServices, Double distance) {
 		super();
 		this.location = location;
 		this.beginningDate = beginningDate;
@@ -40,19 +40,19 @@ public class SearchDTO {
 		this.location = location;
 	}
 
-	public Date getBeginningDate() {
+	public Long getBeginningDate() {
 		return beginningDate;
 	}
 
-	public void setBeginningDate(Date beginningDate) {
+	public void setBeginningDate(Long beginningDate) {
 		this.beginningDate = beginningDate;
 	}
 
-	public Date getEndDate() {
+	public Long getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
 	}
 
@@ -64,27 +64,27 @@ public class SearchDTO {
 		this.numberOfPersons = numberOfPersons;
 	}
 
-	public Long getAccommodationType() {
+	public CodeBookDTO getAccommodationType() {
 		return accommodationType;
 	}
 
-	public void setAccommodationType(Long accommodationType) {
+	public void setAccommodationType(CodeBookDTO accommodationType) {
 		this.accommodationType = accommodationType;
 	}
 
-	public Long getAccommodationCategory() {
+	public CodeBookDTO getAccommodationCategory() {
 		return accommodationCategory;
 	}
 
-	public void setAccommodationCategory(Long accommodationCategory) {
+	public void setAccommodationCategory(CodeBookDTO accommodationCategory) {
 		this.accommodationCategory = accommodationCategory;
 	}
 
-	public List<Long> getAdditionalServices() {
+	public List<CodeBookDTO> getAdditionalServices() {
 		return additionalServices;
 	}
 
-	public void setAdditionalServices(List<Long> additionalServices) {
+	public void setAdditionalServices(List<CodeBookDTO> additionalServices) {
 		this.additionalServices = additionalServices;
 	}
 

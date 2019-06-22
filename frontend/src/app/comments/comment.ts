@@ -1,7 +1,9 @@
+import { User } from '../user/user';
+
 export interface Comment {
   id: number;
   value: string;
-  username: string;
-  administrator: string;
-  date: Date;
+  user: User;
+  commentState: string;
+  date: number;
 }

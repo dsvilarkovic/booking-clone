@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.hibernate.annotations.ColumnDefault;
 
 import lombok.EqualsAndHashCode;
+import xml.booking.dto.CodeBookDTO;
 
 
 /**
@@ -65,6 +66,16 @@ public class AccommodationCategory {
 	@Column(name = "deleted")
     @ColumnDefault(value = "false")
 	protected boolean deleted;
+	
+	public AccommodationCategory(){
+		
+	}
+	
+	public AccommodationCategory(CodeBookDTO codebook){
+		this.id = codebook.getId();
+		this.name = codebook.getName();
+		this.deleted = false;
+	}
 
     /**
      * Gets the value of the id property.

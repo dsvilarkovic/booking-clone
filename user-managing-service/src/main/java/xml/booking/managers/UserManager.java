@@ -20,11 +20,26 @@ public class UserManager {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public Page<UserDTO> findAllUsersByType(String userType, Pageable page){
+	public Page<UserDTO> findAllUsersByTypeAndDeleted(String userType, Pageable page){
 		
-		Page<User> users = userRepository.findByUserType(userType, page);
+		Page<User> users = userRepository.findByUserTypeAndDeleted(userType, false, page);
 		
 		return mapToDTO(users);
+	}
+	
+	public User findUserByIdAndDeleted(Long id) {
+		
+		return userRepository.findByIdAndDeleted(id, false);		
+	}
+	
+	public User findUserByEmailAndDeleted(String email) {
+		
+		return userRepository.findByEmailAndDeleted(email, false);
+	}
+	
+	public User updateUser(User user) {
+		
+		return userRepository.save(user);
 	}
 	
 	private Page<UserDTO> mapToDTO(Page<User> users){
@@ -33,7 +48,8 @@ public class UserManager {
 		    @Override
 		    public UserDTO apply(User user) {		    	
 		    	UserDTO userDTO = new UserDTO(user);
-		   		return userDTO;
+
+		    	return userDTO;
 		    }
 		});
 		

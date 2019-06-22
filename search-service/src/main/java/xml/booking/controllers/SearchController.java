@@ -42,16 +42,17 @@ public class SearchController {
 	
 
 	@GetMapping("/")
-	public  ResponseEntity<?> normalSearch(@RequestParam String location, @RequestParam @DateTimeFormat(pattern = "yyy-MM-dd") Date beginningDate, @RequestParam @DateTimeFormat(pattern = "yyy-MM-dd")  Date endDate, @RequestParam Integer numberOfPersons, @RequestParam(defaultValue = "0") int page)
+	public  ResponseEntity<?> regularSearch(@RequestParam String location, @RequestParam Long beginningDate, @RequestParam Long endDate, @RequestParam Integer numberOfPersons, @RequestParam(defaultValue = "0") int page)
 	{
-		System.out.println("NORMAL SEARCH");
+		System.out.println("REGULAR SEARCH");
 		
+		//ukoliko nema neki od obaveznih parametara
 		if(location.isEmpty() || location == null || beginningDate == null || endDate == null || numberOfPersons == null) {
 			
 			return ResponseEntity.badRequest().build();
 		}
 		
-		Page<AccommodationUnitDTO> accList = accommodationUnitManager.normalSearch(location, beginningDate, endDate, numberOfPersons, PageRequest.of(page, 10));
+		Page<AccommodationUnitDTO> accList = accommodationUnitManager.regularSearch(location, beginningDate, endDate, numberOfPersons, PageRequest.of(page, 10));
 		
 		return ResponseEntity.ok(accList);
 		
@@ -60,24 +61,18 @@ public class SearchController {
 	@PostMapping("/")
 	public  ResponseEntity<?> advancedSearch(@RequestBody SearchDTO searchObject, @RequestParam(defaultValue = "0") int page)
 	{
-		/*
-		//proba rest template
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-	    HttpEntity <String> entity = new HttpEntity<String>(headers);	
-	    
-	    String codebookUrl = "http://localhost:8762/api/maintenanceOfCodeBook"; 
+		System.out.println("ADVANCED SEARCH");
 		
-	    AccommodationType type = restTemplate.getForObject(codebookUrl+"/accommodationType/"+searchObject.getAccommodationType(), 
-	    		AccommodationType.class);
-
-	    AccommodationCategory category = restTemplate.getForObject(codebookUrl+"/accommodationCategory/"+searchObject.getAccommodationCategory(), 
-	    		AccommodationCategory.class);
-	    */
+		//ukoliko nema neki od obaveznih parametara
+		if(searchObject.getLocation().isEmpty() || searchObject.getLocation() == null 
+				|| searchObject.getBeginningDate() == null || searchObject.getEndDate() == null || searchObject.getNumberOfPersons() == null) {
+			
+			return ResponseEntity.badRequest().build();
+		}
 		
 		Page<AccommodationUnitDTO> accList = accommodationUnitManager.advancedSearch(searchObject, PageRequest.of(page, 10));
 		
 		
-		return ResponseEntity.ok(null);
+		return ResponseEntity.ok(accList);
 	}
 }

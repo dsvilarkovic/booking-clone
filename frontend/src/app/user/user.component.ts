@@ -13,54 +13,14 @@ export class UserComponent implements OnInit {
 
   activeTab: string;
 
-  // za sada liste ovako kao primer
-  regUsersList: User[] = [
-    {
-      id: 0, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'regUser', password: 'sifra'
-    },
-    {
-      id: 1, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: null,
-      active: false, email: 'neki@gmail.com', userType: 'regUser', password: 'sifra'
-    },
-    {
-      id: 2, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'regUser', password: 'sifra'
-    },
-  ];
-  adminsList: User[] = [
-    {
-      id: 0, firstName: 'Nesto', lastName: 'Nesto', address: null, PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'admin', password: 'sifra'
-    },
-    {
-      id: 1, firstName: 'Nesto', lastName: 'Nesto', address: null, PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'admin', password: 'sifra'
-    },
-    {
-      id: 2, firstName: 'Nesto', lastName: 'Nesto', address: null, PIB: null,
-      active: true, email: 'neki@gmail.com', userType: 'admin', password: 'sifra'
-    },
-  ];
-  agentsList: User[] = [
-    {
-      id: 0, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: 987654321,
-      active: true, email: 'neki@gmail.com', userType: 'agent', password: 'sifra'
-    },
-    {
-      id: 1, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: 123456789,
-      active: true, email: 'neki@gmail.com', userType: 'agent', password: 'sifra'
-    },
-    {
-      id: 2, firstName: 'Nesto', lastName: 'Nesto', address: 'Neka', PIB: 123456789,
-      active: true, email: 'neki@gmail.com', userType: 'agent', password: 'sifra'
-    },
-  ];
+  regUsersList: User[] = [];
+  adminsList: User[] = [];
+  agentsList: User[] = [];
 
 
-  collectionSize = 3;
+  collectionSize = 0;
   page = 1;
-  pageSize = 7;
+  pageSize = 10;
 
   userForm: FormGroup;
 
@@ -68,83 +28,54 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.activeTab = 'reg-users-tab';
-    /*
-    this.userService.getUsersByType('regUsers').subscribe(
-      data => {
-        this.regUsersList = data;
-      },
-      error => {
-        alert('Error');
-      }
-    );
-    */
+    this.getUsersByType('registered', this.page - 1);
   }
 
   tabChange($event: NgbTabChangeEvent) {
     this.activeTab = $event.nextId;
 
     if (this.activeTab === 'admins-tab') {
-      /*
-      this.userService.getUsersByType('admins').subscribe(
-        data => {
-          this.agentsList = data;
-        },
-        error => {
-          alert('Error');
-        }
-      );
-      */
+      this.getUsersByType('admin', this.page - 1);
       this.userForm = new FormGroup(
         {
           firstName: new FormControl('', Validators.required),
           lastName: new FormControl('', Validators.required),
-          password: new FormControl('', Validators.required),
           email: new FormControl('', [Validators.required, Validators.email])
         }
       );
     } else if (this.activeTab === 'agents-tab') {
-      /*
-      this.userService.getUsersByType('agents').subscribe(
-        data => {
-          this.adminsList = data;
-        },
-        error => {
-          alert('Error');
-        }
-      );
-      */
+      this.getUsersByType('agent', this.page - 1);
       this.userForm = new FormGroup(
         {
           firstName: new FormControl('', Validators.required),
           lastName: new FormControl('', Validators.required),
           address: new FormControl('', Validators.required),
-          password: new FormControl('', Validators.required),
           email: new FormControl('', [Validators.required, Validators.email]),
           pib: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)])
         }
       );
     } else {
-      /*
-      this.userService.getUsersByType('regUsers').subscribe(
-        data => {
-          this.regUsersList = data;
-        },
-        error => {
-          alert('Error');
-        }
-      );
-      */
+      this.getUsersByType('registered', this.page - 1);
+
     }
   }
 
   onPageChange(pageNo) {
     this.page = pageNo + 1;
+
+    if (this.activeTab === 'agents-tab') {
+      this.getUsersByType('agent', this.page - 1);
+    } else if(this.activeTab === 'admins-tab') {
+      this.getUsersByType('admin', this.page - 1);
+    } else {
+      this.getUsersByType('registered', this.page - 1);
+    }
   }
 
   userActivation(user: User) {
-    user.active = !user.active;
     this.userService.changeUserActivation(user).subscribe(
       data => {
+        user.activated = !user.activated;
       },
       error => {
         alert('Error while changing the user\'s information');
@@ -155,6 +86,7 @@ export class UserComponent implements OnInit {
   deleteUser(user) {
     this.userService.removeUser(user.id).subscribe(
       data => {
+        this.getUsersByType('registered', this.page - 1);
       },
       error => {
         alert('Error while deleting the user');
@@ -165,19 +97,21 @@ export class UserComponent implements OnInit {
   createUser() {
     if (this.activeTab === 'agents-tab') {
       const agent: User = {
-        id: -1,
+        id: null,
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         address: this.userForm.value.address,
-        password: this.userForm.value.password,
-        PIB: this.userForm.value.pib,
+        pib: this.userForm.value.pib,
         email: this.userForm.value.email,
-        userType: 'AGENT',
-        active: true
+        userType: 'agent',
+        activated: true
 
       };
-      this.userService.createUser(agent).subscribe(
+      this.userService.createUser(agent, 'agent').subscribe(
         data => {
+          this.modalService.dismissAll();
+          this.userForm.reset();
+          this.getUsersByType('agent', this.page);
         },
         error => {
           alert('Error while creating the agent');
@@ -185,19 +119,21 @@ export class UserComponent implements OnInit {
       );
     } else if (this.activeTab === 'admins-tab') {
       const admin: User = {
-        id: -1,
+        id: null,
         firstName: this.userForm.value.firstName,
         lastName: this.userForm.value.lastName,
         address: '',
-        password: this.userForm.value.password,
-        PIB: null,
+        pib : null,
         email: this.userForm.value.email,
-        userType: 'ADMIN',
-        active: true
+        userType: 'admin',
+        activated: true
 
       };
-      this.userService.createUser(admin).subscribe(
+      this.userService.createUser(admin, 'admin').subscribe(
         data => {
+          this.modalService.dismissAll();
+          this.userForm.reset();
+          this.getUsersByType('admin', this.page);
         },
         error => {
           alert('Error while creating the administrator');
@@ -208,6 +144,26 @@ export class UserComponent implements OnInit {
 
   openModal(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-add-users' });
+  }
+
+  getUsersByType(type: string, page: number){
+    this.userService.getUsersByType(type, page).subscribe(
+      data => {
+        if (type === 'registered') {
+          this.regUsersList = data['content'];
+        } else if (type === 'admin') {
+          this.adminsList = data['content'];
+        } else {
+          this.agentsList = data['content'];
+        }
+
+        this.collectionSize = data['totalElements'];
+        this.pageSize = data['pageable']['pageSize'];
+      },
+      error => {
+        console.log('Error');
+      }
+    );
   }
 
 }

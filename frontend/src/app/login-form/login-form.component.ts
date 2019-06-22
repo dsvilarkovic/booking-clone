@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // import { userInfo } from 'os';
 import { LoginUser} from './login-user';
 import { LoginService } from './login.service';
@@ -17,7 +17,14 @@ export class LoginFormComponent implements OnInit {
   token: Token = new Token();
   loginForm: FormGroup;
 
-  constructor(public modal: NgbActiveModal, private loginService: LoginService, private tokenStorageService: TokenStorageService) { }
+
+  constructor(public ngbModal: NgbModal,
+              private ngbActiveModal: NgbActiveModal,
+              private loginService: LoginService,
+              private tokenStorageService: TokenStorageService) {
+
+                console.log('Boreeee');
+              }
 
   ngOnInit() {
     this.loginForm = new FormGroup(
@@ -36,7 +43,7 @@ export class LoginFormComponent implements OnInit {
         jwtToken = jwtToken.replace('Bearer ', '');
         console.log(jwtToken);
         this.tokenStorageService.saveToken(jwtToken);
-        this.modal.close(this.loginForm.value);
+        this.ngbActiveModal.close(this.loginForm.value);
 
         this.loginService.whoami().subscribe(data => {
             this.tokenStorageService.saveUser(data);

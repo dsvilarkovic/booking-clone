@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'user/:id',
     component: UserProfileComponent
   },
-  //TODO: obrisati ovaj primer, samo za testiranje sluzi
+  // TODO: obrisati ovaj primer, samo za testiranje sluzi
   {
     path: 'reservation-checkout',
     component: ReservationCheckoutComponent

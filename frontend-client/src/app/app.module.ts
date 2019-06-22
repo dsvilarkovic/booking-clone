@@ -14,12 +14,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AccommodationProfileComponent } from './accommodation-profile/accommodation-profile.component';
 import { AgmCoreModule } from '@agm/core';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ReservationCheckoutComponent } from './reservation-checkout/reservation-checkout.component';
-
+import { AuthInterceptor } from './auth-interceptor';
 @NgModule({
    declarations: [
       AppComponent,
@@ -52,7 +52,7 @@ import { ReservationCheckoutComponent } from './reservation-checkout/reservation
       NavigationBarComponent,
       FooterComponent
    ],
-   providers: [ DatePipe ],
+   providers: [ DatePipe, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true, } ],
    bootstrap: [
       AppComponent
    ],

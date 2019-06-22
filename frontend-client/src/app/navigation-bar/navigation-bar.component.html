@@ -1,21 +1,34 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLink="">
-    <span>Mega Travel (Client) </span>
-    <img width="50" src="https://media.licdn.com/dms/image/C4E0BAQFYID2k_rCfWw/company-logo_200_200/0?e=2159024400&v=beta&t=ikuiNDy62lPZ4c61BJLW-Bl5qOvNMMZYDDYGTvViedg" alt="">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" routerLink="/chat">Reservation Chat<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link active" routerLink="/page2">Page 2 <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link active" routerLink="/page3">Page 3 <span class="sr-only">(current)</span></a>
+    <a class="navbar-brand" routerLink="">
+      <span>Mega Travel (Client) </span>
+      <img width="50" src="https://media.licdn.com/dms/image/C4E0BAQFYID2k_rCfWw/company-logo_200_200/0?e=2159024400&v=beta&t=ikuiNDy62lPZ4c61BJLW-Bl5qOvNMMZYDDYGTvViedg" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" routerLink="/chat">Reservation Chat<span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link active" routerLink="/page2">Page 2 <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link active" routerLink="/page3">Page 3 <span class="sr-only">(current)</span></a>
+      </div>
     </div>
-  </div>
-
-  <ul class="nav navbar-nav navbar-right">
-    <button class="btn btn-dark" (click)="openSignInModal()">Sign in</button>
-    <button class="btn btn-light" (click)="openSignUpModal()">Sign up</button>
-  </ul>
-</nav>
+  
+  
+    <ul *ngIf="loggedUser == null" class="nav navbar-nav navbar-right">
+      <button class="btn btn-dark" (click)="openSignInModal()">Sign in</button>
+      <button class="btn btn-light" (click)="openSignUpModal()">Sign up</button>
+    </ul>
+    <ul *ngIf="loggedUser != null" class="nav navbar-nav navbar-right">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{loggedUser.email}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">See profile</a>
+          <a class="dropdown-item" href="/logout" (click) = 'logoutUser()' >Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  

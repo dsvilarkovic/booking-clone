@@ -20,6 +20,7 @@ public @Data class AccommodationDTO {
 	private Long userId;
 	
 	
+	
 	public AccommodationDTO(Accommodation accommodation) {
 		this.id = accommodation.getId();
 		this.name = accommodation.getName();
@@ -27,6 +28,5 @@ public @Data class AccommodationDTO {
 		this.accommodationCategoryId = accommodation.getAccommodationCategory().getId();
 		this.accommodationTypeId = accommodation.getAccommodationType().getId();
 		this.location = accommodation.getLocation();
-		this.userId = accommodation.getUser().getId();
-	}
+		this.userId = accommodation.getUser().getId();	}
 }

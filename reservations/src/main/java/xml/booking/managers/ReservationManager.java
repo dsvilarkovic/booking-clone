@@ -11,8 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import xml.booking.dto.ReservationAccommodationInfo;
 import xml.booking.dto.ReservationDTO;
 import xml.booking.dto.UserDTO;
+import xml.booking.model.Accommodation;
 import xml.booking.model.AccommodationUnit;
 import xml.booking.model.Comment;
 import xml.booking.model.Message;
@@ -38,6 +40,8 @@ public class ReservationManager {
 		Reservation reservation = this.reservationRepository.findByIdAndDeleted(id, false) ;
 		if(reservation == null)
 			return null;
+		
+		
 		return new ReservationDTO(reservation);
 	}
 
@@ -103,10 +107,20 @@ public class ReservationManager {
 	}
 	
 	
-	public List<ReservationDTO> getAllUserReservations(Long id) {
-		return this.reservationRepository.findAllReservationAccommodationUnit(id).stream().map(reservation -> new ReservationDTO(reservation)).collect(Collectors.toList());
+	public List<ReservationAccommodationInfo> getAllUserReservations(Long id) {
+		List<Reservation> reservations = this.reservationRepository.findAllUserReservation(id);
+		List<ReservationAccommodationInfo> reservationAccommodation = new ArrayList<>();
+		for(Reservation r : reservations) {
+			 Accommodation accommodation = this.reservationRepository.findAccommodationInfoReservation(r.getId());
+			 ReservationAccommodationInfo temp = new ReservationAccommodationInfo(r);
+			 temp.setAccommodationName(accommodation.getName());
+			 temp.setAgentFirstName(accommodation.getUser().getFirstName());
+			 temp.setAgentLastName(accommodation.getUser().getLastName());
+			 reservationAccommodation.add(temp);
+			 
+		}
+		return reservationAccommodation;
 	}
-
 	/**
 	 * Metoda za postavljanje ocene za rezervaciju
 	 */

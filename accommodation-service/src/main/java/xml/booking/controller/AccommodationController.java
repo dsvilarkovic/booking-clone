@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +21,12 @@ import xml.booking.model.AdditionalService;
 import xml.booking.model.Image;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping(value = "/accommodation", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccommodationController {
 	
 	@Autowired
 	private AccommodationManager accommodationManager;
+
 	
 	@GetMapping("")
 	public ResponseEntity<?> getAllAccommodationPageable(@RequestParam(defaultValue = "0") int page) {
@@ -62,6 +61,7 @@ public class AccommodationController {
 		Page<AccommodationUnitDTO> accommodationUnits = this.accommodationManager.getAccommodationUnit(PageRequest.of(page, 9), accommodationId);
 		return (accommodationUnits == null) ? ResponseEntity.status(404).build() : ResponseEntity.ok(accommodationUnits);
 	}
+	
 	
 
 }

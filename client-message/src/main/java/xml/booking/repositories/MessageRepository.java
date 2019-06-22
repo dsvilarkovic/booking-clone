@@ -21,5 +21,8 @@ public interface MessageRepository extends JpaRepository<Message, Long>, JpaSpec
 	@Query("select mess from Reservation as res inner join res.message as mess where res.id = ?1")
 	List<Message> findReservationMessages(Long reservationId);
 	
+	@Query("select mess from Reservation as res inner join res.message as mess inner join res.user as user where res.id = ?1 and user.id=?2")
+	List<Message> findUserReservationMessages(Long reservationId, Long userId);
+	
 }
 

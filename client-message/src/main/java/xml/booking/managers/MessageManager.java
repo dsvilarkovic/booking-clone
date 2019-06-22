@@ -3,10 +3,12 @@ package xml.booking.managers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import xml.booking.dto.MessageDTO;
+import xml.booking.dto.UserDTO;
 import xml.booking.model.Message;
 import xml.booking.model.User;
 import xml.booking.repositories.MessageRepository;
@@ -50,20 +53,24 @@ public class MessageManager {
 		
 	}
 	
-	public Message save(MessageDTO messageDTO, User user) {
+	public Message save(MessageDTO messageDTO, UserDTO user) {
 		if(messageDTO.getId() == null || !messageRepository.findById(messageDTO.getId()).isPresent()) {
 			Message message = new Message();
+			User userForSave = new User();
+			userForSave.setId(user.getId());
+			userForSave.setUserType(user.getUserType());
 			LocalDateTime ldt = LocalDateTime.now().plusDays(1);
 			DateTimeFormatter formmat1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 			long millis = ldt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 			message.setDate(millis);
-			message.setUser(user);
+			message.setUser(userForSave);
 			message.setValue(messageDTO.getValue());
 			Message saved = messageRepository.save(message);
 			return saved;
 		}
 		return null;
 	}
+	
 	
 	public Page<MessageDTO> findByUserId(Pageable page , Long id) {
 		return messageRepository.findByUserId(page,id).map(new Function<Message, MessageDTO>() {
@@ -76,9 +83,16 @@ public class MessageManager {
 	}
 	
 	public List<Message> getMessagesReservation(Long reservationId) {
-		System.out.println(reservationId);
-		
 		return this.messageRepository.findReservationMessages(reservationId);
+		
+	}
+	
+	public List<MessageDTO> getUserMessagesReservation(Long reservationId, Long userId) {
+		List<Message> messages = this.messageRepository.findUserReservationMessages(reservationId, userId);
+		if(messages == null)
+			return new ArrayList<MessageDTO>();
+		List<MessageDTO> messagesDTO = messages.stream().map(message -> new MessageDTO(message)).collect(Collectors.toList());
+		return messagesDTO ;
 		
 	}
 }

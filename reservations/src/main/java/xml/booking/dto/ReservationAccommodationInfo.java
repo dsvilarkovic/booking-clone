@@ -5,16 +5,13 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import xml.booking.model.Reservation;
 
-@Setter @Getter @ToString @EqualsAndHashCode @NoArgsConstructor
-public @Data class ReservationDTO {
+@Getter @Setter @NoArgsConstructor 
+public class ReservationAccommodationInfo {
 	private Long id;
 	@NotNull
 	private Long beginningDate;
@@ -29,8 +26,14 @@ public @Data class ReservationDTO {
 	private Long accommodationUnitId;
 	@Positive
 	private Integer numberOfPersons;
+	private String accommodationUnitName;
+	private String agentFirstName;
+	private String agentLastName;
+	private String accommodationName;
+	private int messageCount;
 	
-	public ReservationDTO(Reservation reservation) {
+	
+	public ReservationAccommodationInfo(Reservation reservation) {
 		this.id = reservation.getId();
 		this.beginningDate = reservation.getBeginningDate();
 		this.endDate = reservation.getEndDate();
@@ -40,10 +43,6 @@ public @Data class ReservationDTO {
 		this.commentId = (reservation.getComment() == null)? null: reservation.getComment().getId();
 		this.userId = reservation.getUser().getId();
 		this.accommodationUnitId = reservation.getAccommodationUnit().getId();
+		this.messageCount = (reservation.getMessage() == null)? 0 : reservation.getMessage().size();
 	}
-	
-	
-
-	
-	
 }

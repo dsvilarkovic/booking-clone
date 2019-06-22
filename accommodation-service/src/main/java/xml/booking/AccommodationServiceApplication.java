@@ -3,6 +3,7 @@ package xml.booking;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import com.cmeza.sdgenerator.annotation.SDGenerator;
 
@@ -19,6 +20,7 @@ import com.cmeza.sdgenerator.annotation.SDGenerator;
 
 @SpringBootApplication
 @EnableEurekaClient
+@EnableFeignClients
 public class AccommodationServiceApplication {
 
 	public static void main(String[] args) {

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import xml.booking.model.Accommodation;
 import xml.booking.model.Reservation;
 
 /**
@@ -26,4 +27,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
 	
 	@Query("SELECT r FROM Reservation as r inner join r.user as user WHERE user.id = ?1 and user.deleted = false and r.deleted = false")
 	List<Reservation> findAllUserReservation(Long id);
+	
+	@Query("SELECT acc FROM Accommodation as acc inner join acc.accommodationUnit as accUnit WHERE "
+			+ "accUnit in (select aa FROM Reservation as r inner join r.accommodationUnit as aa WHERE r.id=?1 )")
+	Accommodation findAccommodationInfoReservation(Long reservationId);
 }

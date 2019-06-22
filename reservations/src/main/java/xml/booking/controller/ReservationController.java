@@ -33,7 +33,6 @@ import xml.booking.model.Message;
 import xml.booking.model.Rating;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReservationController {
 	@Autowired
@@ -110,10 +109,22 @@ public class ReservationController {
 		
 	}
 	
-	@GetMapping("/user/{userId}")
-	public ResponseEntity<?> getUserReservation(@PathVariable Long userId) {
-		// TODO: Dodati proveru za korisnika da li postoji !
-		return ResponseEntity.ok(this.reservationManager.getAllUserReservations(userId));
+	// Preuzima rezervacije ulogovanog korisnika
+	@GetMapping("/user")
+	public ResponseEntity<?> getUserReservation(HttpServletRequest request) {
+		System.out.println("OVDE SAM");
+		ResponseEntity<UserDTO> user;
+		try {
+			user = authenticationProxy.whoami("Bearer "+ getToken(request));
+		} catch (Exception e) {
+			return ResponseEntity.status(400).build();
+		}
+		System.out.println(user.getBody());
+		if(user.getStatusCode() != HttpStatus.OK || user.getBody() == null)
+			return ResponseEntity.status(401).build();
+		
+		System.out.println(this.reservationManager.getAllUserReservations(user.getBody().getId()));
+		return ResponseEntity.ok(this.reservationManager.getAllUserReservations(user.getBody().getId()));
 		
 	}
 
@@ -141,4 +152,5 @@ public class ReservationController {
 		return (saved) ? ResponseEntity.status(200).build() : ResponseEntity.status(400).build();
 	}
 
+	
 }

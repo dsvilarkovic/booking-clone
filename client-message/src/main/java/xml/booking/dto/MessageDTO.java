@@ -18,6 +18,7 @@ public @Data class MessageDTO {
 	@NotNull
 	private Long reservationId;
 	private Long userId;
+	private String userType;
 	
 	public MessageDTO() {}
 	
@@ -26,6 +27,7 @@ public @Data class MessageDTO {
 		this.value = message.getValue();
 		this.userId = message.getUser().getId();
 		this.date = message.getDate();
+		this.userType = message.getUser().getUserType();
 	}
 	
 }

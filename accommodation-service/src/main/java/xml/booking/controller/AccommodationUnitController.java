@@ -20,7 +20,6 @@ import xml.booking.model.AccommodationUnit;
 import xml.booking.model.Day;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping(value = "/accommodationUnit", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccommodationUnitController {
 

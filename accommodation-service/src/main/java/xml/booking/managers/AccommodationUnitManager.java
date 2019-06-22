@@ -72,15 +72,15 @@ public class AccommodationUnitManager {
 	public BigDecimal findPrice(AccommodationUnit unit, Long from , Long to) {
 		List<Day> days = this.findDaysBetween(unit.getId(), from, to);
 		System.out.println("Days");
-		BigDecimal price = new BigDecimal(0);
+		double price =0;
 		for(Day day : days) {
-			price.add(day.getPrice());
+			price += day.getPrice().doubleValue();
 		}
 		long numberOfDays = numberOfDays(new Date(from), new Date(to));
 		System.out.println(numberOfDays);
-		price.add(new BigDecimal((numberOfDays - days.size()) * unit.getDefaultPrice()));
+		price += (numberOfDays - days.size()) * unit.getDefaultPrice();
 		System.out.println(price);
-		return price;
+		return new BigDecimal(price);
 	}
 	
 	/**

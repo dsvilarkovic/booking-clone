@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginUser } from './login-user';
 import { GATEWAY_URL } from '../global';
+import { User } from '../object-interfaces/user';
 
 // const httpOptions = {
 //   headers: new HttpHeaders({'Content-Type':  'application/json',   Accept : 'text/plain, application/json' }),
@@ -17,6 +18,14 @@ const httpOptions = {
   observe: 'response' as 'body'
 };
 
+const httpOptionsTextResponse = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Accept : 'text/plain, application/json'
+  }),
+  responseType: 'text' as 'json'
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,7 +38,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(user: LoginUser): Observable<any> {
-      console.log(user);
+      // console.log(user);
       return this.http.post(this.authUrl, user, httpOptions );
   }
 
@@ -41,5 +50,20 @@ export class LoginService {
           'Content-Type': 'application/json',
           Accept : 'text/plain, application/json'
         })});
+  }
+
+  register(user: User): Observable<any> {
+    // console.log('Pocetak');
+    // console.log(user);
+    // console.log('Kraj');
+    return this.http.post(this.usersUrl + '',
+      {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.email,
+        password: user.password,
+        address: user.address,
+        userType: 'registered'
+      }, httpOptionsTextResponse );
   }
 }

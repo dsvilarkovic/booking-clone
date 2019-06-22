@@ -2,7 +2,7 @@ package xml.booking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 import com.cmeza.sdgenerator.annotation.SDGenerator;
 
@@ -18,6 +18,7 @@ import com.cmeza.sdgenerator.annotation.SDGenerator;
 	)
 @SpringBootApplication
 //@ComponentScan("xml.booking.messagingsoap")
+@EnableEurekaClient
 public class MessagingSoapServiceApplication {
 
 	public static void main(String[] args) {

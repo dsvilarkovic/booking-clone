@@ -50,12 +50,14 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		   .antMatchers("/api/auth/**").permitAll()
 		   .antMatchers("/api/users/**").permitAll()
 		   .antMatchers("/api/comments/**").permitAll()
+		   .antMatchers("/api/messagingsoap/**").permitAll()
+		   .antMatchers("/api/reservationsoap/**").permitAll()
 		   // allow all who are accessing "auth" service
-		   .antMatchers(HttpMethod.POST, "/api" +  jwtConfig.getUri()).permitAll()  
+		   .antMatchers(HttpMethod.POST, "/api" +  jwtConfig.getUri()).permitAll(); 
 		   // must be an admin if trying to access admin area (authentication is also required here)
 //		   .antMatchers("/gallery" + "/admin/**").hasRole("ADMIN")
 		   // Any other request must be authenticated
-		   .anyRequest().authenticated(); 
+//		   .anyRequest().authenticated(); 
     	   
     	   
 	}

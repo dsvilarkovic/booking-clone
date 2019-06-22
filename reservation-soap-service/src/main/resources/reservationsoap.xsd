@@ -6,14 +6,14 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:long"/>
-                <xs:element name="first_name">
+                <xs:element name="first_name" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="2"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="last_name">
+                <xs:element name="last_name" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="2"/>
@@ -28,14 +28,14 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="password">
+                <xs:element name="password" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:minLength value="1"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="user_type">
+                <xs:element name="user_type" minOccurs="0">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="registered"/>

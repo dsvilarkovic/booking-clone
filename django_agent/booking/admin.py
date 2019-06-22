@@ -198,10 +198,50 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
 class GuestAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email')
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 class DayAdmin(admin.ModelAdmin):
     list_display = ('unit', 'date', 'price', 'available')
     search_fields = ('unit__name', )
+
+
+class ReservationAdmin(admin.ModelAdmin):
+    list_display = ('unit', 'guest', 'beginning',
+                    'end', 'final_price', 'checked_in')
+    readonly_fields = ['unit', 'guest', 'beginning', 'end', 'final_price']
+
+    def save_model(self, request, obj, form, change):
+        res = obj
+        pdb.set_trace()
+        if res.checked_in is True:
+            client = Client(settings.WSDL_ADDRESS_RESERVATION)
+            client.service.checkinReservation(reservation_id=res.id)
+        super().save_model(request, obj, form, change)
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class AccommodationTCAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 admin.site.unregister(User)
@@ -209,16 +249,13 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Accommodation, AccommodationAdmin)
 admin.site.register(AccommodationUnit, AccommodationUnitAdmin)
 admin.site.register(Guest, GuestAdmin)
-admin.site.register(Profile)
-admin.site.register(AdditionalService)
-admin.site.register(Location)
-admin.site.register(Day, DayAdmin)
+# admin.site.register(Profile)
 
-admin.site.register(AccommodationType)
-admin.site.register(AccommodationCategory)
+# admin.site.register(Location)
+# admin.site.register(Day, DayAdmin)
 
+admin.site.register(AccommodationType, AccommodationTCAdmin)
+admin.site.register(AccommodationCategory, AccommodationTCAdmin)
+admin.site.register(AdditionalService, AccommodationTCAdmin)
 
-admin.site.register(Reservation)
-admin.site.register(Message)
-
-admin.site.register(AccommodationImage)
+admin.site.register(Reservation, ReservationAdmin)

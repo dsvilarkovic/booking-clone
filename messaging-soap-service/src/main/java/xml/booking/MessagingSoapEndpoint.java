@@ -50,9 +50,12 @@ public class MessagingSoapEndpoint {
 		message.setUser(user);
 		message.setDate(timeNow);
 		message = messageRepository.save(message);
-		reservationRepository.save(reservation);
 		
-		createMessageResponse.setMessageId(message.getId());
+		reservation.getMessage().add(message);
+	    reservationRepository.save(reservation);
+	    
+	    createMessageResponse.setMessageId(message.getId());
+	    createMessageResponse.setTimestamp(timeNow);
 		
 		return createMessageResponse;
 	}

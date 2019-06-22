@@ -23,8 +23,8 @@ export class SearchService {
       headers: new HttpHeaders({ 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' })
     };
 
-    const url = this.urlBase + '/search?location=' + location + '&beginningDate=' + checkIn + '&endDate='
-              + checkOut + '&numberOfPersons=' + numberOfPersons + '&page=' + page;
+    const url = this.urlBase + '/search?location=' + location + '&beginningDate=' + new Date(checkIn).getTime() + '&endDate='
+              + new Date(checkOut).getTime() + '&numberOfPersons=' + numberOfPersons + '&page=' + page;
 
     console.log(url);
 
@@ -42,8 +42,8 @@ export class SearchService {
 
     const searchDTO = {
       location: locationForm,
-      beginningDate: checkInForm,
-      endDate: checkOutForm,
+      beginningDate: new Date(checkInForm).getTime() ,
+      endDate: new Date(checkOutForm).getTime() ,
       numberOfPersons: numberOfPersonsForm,
       accommodationType: typeForm,
       accommodationCategory: categoryForm,

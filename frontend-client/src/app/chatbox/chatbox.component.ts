@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Reservation, Message} from '../object-interfaces/reservation';
-import { User } from '../object-interfaces/user';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Message, ReservationAccommodationInfo } from '../object-interfaces/reservation';
 import { DatePipe } from '@angular/common';
 import { ChatboxService } from './chatbox.service';
 
@@ -12,65 +11,63 @@ import { ChatboxService } from './chatbox.service';
 })
 export class ChatboxComponent implements OnInit {
 
-  constructor(datePipe: DatePipe, private chatboxService: ChatboxService) { }
-
+  constructor(datePipe: DatePipe, private chatboxService: ChatboxService) {
+  }
+  messagesDone = true;
+  reservationDone = false;
   // bio sam lenj, accommodation je svuda isti
-  reservationList: Reservation[];
+  reservationList: ReservationAccommodationInfo[];
 
   // for messages currently opened in right panel
   messages: Message[] = [];
 
-  activeChatAgent;
+  activeChatAgent: any = {};
   activeRegisteredUser;
-  activeReservation = {id: -1} as Reservation; // this.reservationList[0];
+  activeReservation = { id: -1 } as ReservationAccommodationInfo; // this.reservationList[0];
   messageText = '';
+  accommodationTemp;
 
   idIterator = 10;
 
   ngOnInit() {
-      this.getReservations();
-   }
+    this.getReservations();
+  }
 
   getReservations() {
-    this.chatboxService.getReservations().subscribe(reservations => this.reservationList = reservations);
+    this.chatboxService.getReservations().subscribe(reservations => { this.reservationDone = true; this.reservationList = reservations; });
   }
 
   // reservationId to get exact conversation between users
   // currently not used, but should be
   getMessages(reservationId: number) {
-    this.chatboxService.getMessages().subscribe(messages => this.messages = messages);
+    this.chatboxService.getMessages(reservationId).subscribe(messages => { this.messagesDone = true; this.messages = messages; });
   }
 
   // change parameter activeReservation, messages and activeChatAgent
-  changedActiveChat(reservation: Reservation) {
-      if (this.activeReservation.id !== -1 && this.activeReservation.id === reservation.id) {
-          return;
-      }
-
-      this.activeReservation = reservation;
-      this.activeChatAgent = reservation.accommodation.agent;
-      this.getMessages(reservation.id);
-      this.messageText = '';
+  changedActiveChat(reservation: ReservationAccommodationInfo) {
+    if (this.activeReservation.id !== -1 && this.activeReservation.id === reservation.id) {
+      return;
+    }
+    this.messagesDone = false;
+    this.activeReservation = reservation;
+    this.getMessages(reservation.id);
+    console.log(reservation);
+    this.activeChatAgent.agentFirstName = reservation.agentFirstName;
+    this.activeChatAgent.agentLastName = reservation.agentLastName;
+    this.activeChatAgent.accommodationName = reservation.accommodationName;
+    this.messageText = '';
   }
   sendMessage() {
-
-    this.activeRegisteredUser = {
-          id: 17,
-          firstName: 'Dusan',
-          lastName: 'Dusanovic',
-          address: '',
-          email: '',
-          password: '',
-          pib : -1,
-          userType: 'registered'
-    } as User;
-
-    const message = {value: this.messageText, date: new Date(), user: this.activeRegisteredUser} as Message;
+    const message = { value: this.messageText, date: null, userId: null, id: null, reservationId: this.activeReservation.id } as Message;
 
     this.chatboxService.sendMessage(message).subscribe(result => {
+      console.log(result);
+      this.messages.push(result);
       this.getMessages(-1);
       this.messageText = '';
     });
   }
+
+
 
 }

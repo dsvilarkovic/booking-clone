@@ -14,7 +14,18 @@
       </div>
     </div>
 
-    <ul class="nav navbar-nav navbar-right">
+    <ul *ngIf="loggedUser == null" class="nav navbar-nav navbar-right">
       <button class="btn btn-dark" (click)="openSignInModal()">Sign in</button>
+    </ul>
+    <ul *ngIf="loggedUser != null" class="nav navbar-nav navbar-right">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{loggedUser.email}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">See profile</a>
+          <a class="dropdown-item" href="/logout" (click) = 'logoutUser()' >Logout</a>
+        </div>
+      </li>
     </ul>
   </nav>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginFormComponent } from '../login-form/login-form.component';
+import { User } from '../user/user';
+import { TokenStorageService } from '../token-storage.service';
+import { LoginService } from '../login-form/login.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -9,9 +12,12 @@ import { LoginFormComponent } from '../login-form/login-form.component';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) { }
+  loggedUser: User = null;
+
+  constructor(private modalService: NgbModal, private tokenStorageService: TokenStorageService, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.getUser();
   }
 
   openSignInModal() {
@@ -22,5 +28,24 @@ export class NavigationBarComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+
+  getUser() {
+    this.loginService.whoami().subscribe(
+      data => {
+        if (data != null) {
+        this.loggedUser = data as User;
+        console.log('najava');
+        console.log(this.loggedUser);
+        console.log('kraj');
+
+        }});
+  }
+  logoutUser() {
+      console.log('Logging out user');
+      this.loggedUser = null;
+      this.tokenStorageService.signOut();
+      window.location.reload();
   }
 }

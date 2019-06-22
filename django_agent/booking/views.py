@@ -8,6 +8,9 @@ from lxml import etree
 import pdb
 import base64
 from django.core.files.base import ContentFile
+from django.contrib import messages
+import time
+
 
 def view_index(request):
     return render(request, 'booking/view_index.html')
@@ -46,6 +49,21 @@ def edit_prices(request):
         end_date = datetime.strptime(
             request.POST.get('end_date'), "%Y-%m-%d").date()
 
+        available = True if request.POST.get('available') else False
+
+        # check for reservation overlaps if unavailable
+        if not available:
+            check1 = Reservation.objects.filter(
+                unit__exact=unit.id, beginning__lte=start_date, end__gte=start_date)
+            check2 = Reservation.objects.filter(
+                unit__exact=unit.id, beginning__lte=end_date, end__gte=end_date)
+            if check1.exists() or check2.exists():
+                message_text = 'Cannot set as unavailable because there are active reservations in this period.'
+                messages.add_message(request, messages.ERROR, message_text)
+                units = AccommodationUnit.objects.all()
+                context = {'units': units}
+                return render(request, 'booking/edit_prices.html', context)
+
         delta = end_date - start_date
         for i in range(delta.days + 1):
             idate = start_date + timedelta(days=i)
@@ -57,12 +75,13 @@ def edit_prices(request):
                 iday.unit = unit
                 iday.date = idate
             iday.price = request.POST.get('price')
-            iday.available = True if request.POST.get('available') else False
+            iday.available = available
             iday.save()
-        #backend comms    
+        # backend comms
         history = HistoryPlugin()
         client_settings = Settings(strict=False, xml_huge_tree=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                        settings=client_settings, plugins=[history])
 
         transfer = unit.to_dict()
         transfer = {'AccommodationUnit': transfer}
@@ -103,6 +122,22 @@ def view_messages(request):
 
 def messaging(request, reservation_id):
     if request.method == 'GET':
+        client = Client(settings.WSDL_ADDRESS_RESERVATION)
+        response = client.service.getMessages(reservation_id=reservation_id)
+
+        if response:
+            Message.objects.filter(reservation_id=reservation_id).delete()
+            for message_dict in response:
+                msg = Message()
+                msg.reservation_id = reservation_id
+                msg.text = message_dict['value']
+                sender_email = message_dict['User']['email']
+                #msg.mine = True if sender_email == request.user.email else False
+                msg.mine = True if sender_email == 'boris' else False
+                msg.timestamp = datetime.fromtimestamp(
+                    message_dict['date'] / 1000)
+                msg.save()
+
         resers = Reservation.objects.all()
         msgs = Message.objects.filter(reservation=reservation_id)
         curr_id = reservation_id
@@ -118,6 +153,20 @@ def messaging(request, reservation_id):
         msg.text = request.POST.get('msg_text')
         msg.mine = True
         msg.timestamp = datetime.now()
+
+        transfer = dict()
+        transfer['value'] = msg.text
+        transfer['date'] = int(time.mktime(msg.timestamp.timetuple())) * 1000
+        transfer['User'] = dict()
+        # TODO: promeni email
+        transfer['User']['email'] = 'boris'
+        transfer = {'Message': transfer}
+        transfer['reservation_id'] = reservation_id
+        client = Client(settings.WSDL_ADDRESS_MESSAGING)
+        response = client.service.createMessage(**transfer)
+
+        msg.id = response['message_id']
+        msg.timestamp = datetime.fromtimestamp(response['timestamp'] / 1000)
         msg.save()
         # TODO: backend comms here
         return redirect('booking:messaging', reservation_id=reservation_id)
@@ -126,11 +175,14 @@ def messaging(request, reservation_id):
 def sync_all_data(request):
     history = HistoryPlugin()
     client_settings = Settings(strict=False, xml_huge_tree=True)
-    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, plugins=[history])
-    auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
-    res_client = Client(settings.WSDL_ADDRESS_RESERVATION, settings=client_settings, plugins=[history])
+    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                        settings=client_settings, plugins=[history])
+    auth_client = Client(
+        settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
+    res_client = Client(settings.WSDL_ADDRESS_RESERVATION,
+                        settings=client_settings, plugins=[history])
 
-    #TODO: izmeniti username i password
+    # TODO: izmeniti username i password
     token = auth_client.service.login(username='boris', password='boris')
     acc_client.transport.session.headers.update({'Authorization': token})
     res_client.transport.session.headers.update({'Authorization': token})
@@ -143,16 +195,14 @@ def sync_all_data(request):
         new_atype = AccommodationType(**tmp)
         new_atype.save()
 
-
     # Accommodation Categories
     AccommodationCategory.objects.all().delete()
-    
+
     soap_response = acc_client.service.getAccommodationCategories()
     for acdict in soap_response:
         tmp = helpers.serialize_object(acdict['AccommodationCategory'])
         new_acat = AccommodationCategory(**tmp)
         new_acat.save()
-
 
     # Additional Services
     AdditionalService.objects.all().delete()
@@ -170,7 +220,8 @@ def sync_all_data(request):
         soap_response = acc_client.service.getAccommodations()
     except:
         for hist in [history.last_sent, history.last_received]:
-            print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
+            print(etree.tostring(hist["envelope"],
+                                 encoding="unicode", pretty_print=True))
     for adict in soap_response:
         tmp = helpers.serialize_object(adict['Accommodation'])
         aid = tmp['id']
@@ -181,7 +232,7 @@ def sync_all_data(request):
         desc = tmp['description']
         services = tmp['AdditionalService']
         units = tmp['AccommodationUnit']
-        
+
         # Create location
         new_location = Location()
         new_location.id = loc['id']
@@ -193,19 +244,21 @@ def sync_all_data(request):
 
         new_acom = Accommodation()
         new_acom.id = aid
-        new_acom.accommodation_type = AccommodationType.objects.get(pk=atype['id'])
-        new_acom.category = AccommodationCategory.objects.get(pk=acat['id'])        
+        new_acom.accommodation_type = AccommodationType.objects.get(
+            pk=atype['id'])
+        new_acom.category = AccommodationCategory.objects.get(pk=acat['id'])
 
         new_acom.location = new_location
         new_acom.name = name
         new_acom.description = desc
         new_acom.save()
 
-        #services
+        # services
         for service in services:
-            new_acom.services.add(AdditionalService.objects.get(pk=service['id']))
+            new_acom.services.add(
+                AdditionalService.objects.get(pk=service['id']))
 
-        #units
+        # units
         for unit in units:
             uid = unit['id']
             name = unit['name']
@@ -245,21 +298,25 @@ def sync_all_data(request):
             soap_response = acc_client.service.getAccommodationImages(aid)
         except:
             for hist in [history.last_sent, history.last_received]:
-                print(etree.tostring(hist["envelope"], encoding="unicode", pretty_print=True))
+                print(etree.tostring(hist["envelope"],
+                                     encoding="unicode", pretty_print=True))
             continue
         for image_dict in soap_response:
             image_dict = image_dict['Image']
 
             new_image = AccommodationImage()
             new_image.id = image_dict['id']
-            image_name = 'acom_#' + str(new_acom.id) + '_' + str(new_image.id) + '.jgp'
-            new_image.image = ContentFile(base64.b64decode(image_dict['value']), name=image_name)
+            image_name = 'acom_#' + \
+                str(new_acom.id) + '_' + str(new_image.id) + '.jpg'
+            new_image.image = ContentFile(base64.b64decode(
+                image_dict['value']), name=image_name)
             new_image.accommodation = new_acom
             new_image.save()
 
-
     # Reservations
     soap_response = res_client.service.getReservationList()
+    Reservation.objects.all().delete()
+    Guest.objects.all().delete()
     for rdict in soap_response:
         rdict = rdict['Reservation']
         rid = rdict['id']

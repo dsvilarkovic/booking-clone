@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
@@ -13,6 +13,7 @@ import { UserComponent } from './user/user.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { DatePipe } from '@angular/common';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AuthInterceptor } from './auth-interceptor';
 
 @NgModule({
    declarations: [
@@ -37,7 +38,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
       NavigationBarComponent,
       FooterComponent
    ],
-   providers: [ DatePipe ],
+   providers: [ DatePipe, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true, }
+   ],
    bootstrap: [
       AppComponent
    ],

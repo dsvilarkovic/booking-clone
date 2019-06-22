@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -154,7 +155,13 @@ public class User {
 
     @Column(name = "deleted")
     @ColumnDefault(value = "false")
+    @XmlTransient
 	protected boolean deleted;
+    
+    @Column(name = "activated")
+    @ColumnDefault(value = "true")
+    @XmlTransient
+    protected boolean activated;
     
     /**
      * Gets the value of the id property.
@@ -354,6 +361,14 @@ public class User {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
 	}
 
 

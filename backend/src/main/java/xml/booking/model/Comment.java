@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -87,6 +88,10 @@ public class Comment {
     @XmlElement(required = true)
     @ColumnDefault(value = "NOT_REVIEWED")
     protected String commentState;
+    
+    @Column(name = "date")
+    @XmlTransient
+    protected Long date;
     /**
      * Gets the value of the id property.
      * 
@@ -166,5 +171,14 @@ public class Comment {
 	public void setCommentState(String commentState) {
 		this.commentState = commentState;
 	}
+
+	public Long getDate() {
+		return date;
+	}
+
+	public void setDate(Long date) {
+		this.date = date;
+	}
+	
 
 }

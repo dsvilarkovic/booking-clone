@@ -56,7 +56,6 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 //		    .anyRequest().authenticated();
 		
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.logout();
 	}
 	
 	// Spring has UserDetailsService interface, which can be overriden to provide our implementation for fetching user from database (or any other source).

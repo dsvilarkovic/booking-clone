@@ -65,10 +65,11 @@ public class ReservationController {
 	
 	@PostMapping("")
 	public ResponseEntity<?> createReservation(HttpServletRequest request, @RequestBody  @Valid ReservationDTO reservation) {
+		
 		if(reservation.getBeginningDate() > reservation.getEndDate())
 			return ResponseEntity.status(400).build();
 		ResponseEntity<AccommodationUnit> accommodationUnit = this.accommodationUnitProxy.checkReservationInfo(reservation.getBeginningDate(),  reservation.getEndDate(), reservation.getNumberOfPersons(), reservation.getAccommodationUnitId());
-		System.out.println(accommodationUnit);
+
 		if(accommodationUnit.getStatusCode() != HttpStatus.OK || accommodationUnit.getBody() == null)
 			return ResponseEntity.status(400).build();
 		
@@ -76,7 +77,7 @@ public class ReservationController {
 		
 		if(price.getStatusCode() != HttpStatus.OK || price.getBody() == null)
 			return ResponseEntity.status(400).build();
-		System.out.println(price.getBody());
+		
 		ResponseEntity<UserDTO> user;
 		try {
 			user = authenticationProxy.whoami("Bearer "+ getToken(request));

@@ -22,7 +22,6 @@ import xml.booking.dto.CodeBookDTO;
 import xml.booking.managers.AccommodationTypeManager;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping(value = "/accommodationType", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccommodationTypeController {
 	@Autowired

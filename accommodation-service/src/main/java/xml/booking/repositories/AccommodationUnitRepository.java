@@ -24,7 +24,7 @@ public interface AccommodationUnitRepository extends JpaRepository<Accommodation
 	@Query("SELECT days FROM AccommodationUnit AS accU inner join accU.day AS days where accU.id = ?1 AND days.date >= ?2 and days.date <= ?3")
 	List<Day> findDaysBetween( Long id, Long from, Long to);
 	
-	@Query("SELECT au FROM Reservation as r inner join r.accommodationUnit as au WHERE au.id = ?1 "
+	@Query("SELECT au FROM Reservation as r RIGHT OUTER JOIN r.accommodationUnit as au WHERE au.id = ?1 "
 			+ "and au not in (select distinct unit from Reservation as res inner join res.accommodationUnit as unit where "
 		     + "((res.beginningDate <= ?2 and res.endDate >= ?3) or (res.beginningDate >= ?2 and res.beginningDate < ?3) or " 
 		     + "(res.endDate > ?2 and res.endDate <= ?3)) and res.deleted = false and unit.deleted = false)"

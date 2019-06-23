@@ -22,7 +22,6 @@ import xml.booking.dto.CodeBookDTO;
 import xml.booking.managers.AdditionalServiceManager;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 @RequestMapping(value = "/additionalService", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdditionalServiceController {
 	@Autowired

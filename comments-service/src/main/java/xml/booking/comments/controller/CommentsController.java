@@ -134,7 +134,9 @@ public class CommentsController {
 
 	//TODO: ispraviti ovo za eureka 
 	//TODO: ovo isto moze iz feign clienta lagano da se radi
-	private static final String AUTH_URL = "http://localhost:9994/user";
+//	private static final String AUTH_URL = "http://localhost:9994/users";
+	private static final String AUTH_URL = "http://localhost:8762/api/users";
+
 	public User getLoggedUser(String authorization) {
 		RestTemplate restTemplate = new RestTemplate();
 		

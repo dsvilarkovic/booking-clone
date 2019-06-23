@@ -38,8 +38,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		   // Add a filter to validate the tokens with every request
 		   .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
 		// authorization requests config
-		.authorizeRequests()
-		   .antMatchers("/api/accommodation/**").permitAll()
+		.authorizeRequests()		   
 		   .antMatchers("/api/maintenanceOfCodeBook/**").permitAll()
 		   .antMatchers("/api/clientMessage/**").permitAll()
 		   .antMatchers("/api/search/**").permitAll()
@@ -47,17 +46,18 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		   .antMatchers("/api/mock-service/**").permitAll()
 		   .antMatchers("/api/reservations/**").permitAll()
 		   .antMatchers("/api/accommodationService/**").permitAll()
+		   
+		   
 		   .antMatchers("/api/auth/**").permitAll()
-		   .antMatchers("/api/users/**").permitAll()
+		   .antMatchers(HttpMethod.POST, "/api/users/").permitAll()
+		   .antMatchers(HttpMethod.PUT, "/api/users/").authenticated()
+		   .antMatchers(HttpMethod.GET, "/api/users/whoami").authenticated()
 		   .antMatchers("/api/comments/**").permitAll()
-		   .antMatchers("/api/messagingsoap/**").permitAll()
-		   .antMatchers("/api/reservationsoap/**").permitAll()
+		   .antMatchers("/api/accommodation/**").hasRole("AGENT")
+		   .antMatchers("/api/messagingsoap/**").hasRole("AGENT")
+		   .antMatchers("/api/reservationsoap/**").hasRole("AGENT") //permitAll()
 		   // allow all who are accessing "auth" service
-		   .antMatchers(HttpMethod.POST, "/api" +  jwtConfig.getUri()).permitAll(); 
-		   // must be an admin if trying to access admin area (authentication is also required here)
-//		   .antMatchers("/gallery" + "/admin/**").hasRole("ADMIN")
-		   // Any other request must be authenticated
-//		   .anyRequest().authenticated(); 
+		   .antMatchers(HttpMethod.POST, "/api" +  jwtConfig.getUri()).permitAll();
     	   
     	   
 	}

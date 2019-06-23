@@ -4,6 +4,7 @@ from .models import AccommodationUnit, Day, Guest, Message, Reservation, Accommo
 from datetime import date, timedelta, datetime
 from zeep import Client, Settings, helpers
 from zeep.plugins import HistoryPlugin
+from zeep.transports import Transport
 from lxml import etree
 import pdb
 import base64
@@ -37,6 +38,7 @@ def view_prices(request):
 
 
 def edit_prices(request):
+    client_settings = Settings(strict=False)
     if request.method == 'GET':
         units = AccommodationUnit.objects.all()
         context = {'units': units}
@@ -79,9 +81,9 @@ def edit_prices(request):
             iday.save()
         # backend comms
         history = HistoryPlugin()
-        client_settings = Settings(strict=False, xml_huge_tree=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
-                        settings=client_settings, plugins=[history])
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
 
         transfer = unit.to_dict()
         transfer = {'AccommodationUnit': transfer}
@@ -121,8 +123,11 @@ def view_messages(request):
 
 
 def messaging(request, reservation_id):
+    client_settings = Settings(strict=False)
     if request.method == 'GET':
-        client = Client(settings.WSDL_ADDRESS_RESERVATION)
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_RESERVATION, transport=transport, settings=client_settings)
         response = client.service.getMessages(reservation_id=reservation_id)
 
         if response:
@@ -162,30 +167,34 @@ def messaging(request, reservation_id):
         transfer['User']['email'] = 'boris'
         transfer = {'Message': transfer}
         transfer['reservation_id'] = reservation_id
-        client = Client(settings.WSDL_ADDRESS_MESSAGING)
+
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_MESSAGING, transport=transport, settings=client_settings)
         response = client.service.createMessage(**transfer)
 
         msg.id = response['message_id']
         msg.timestamp = datetime.fromtimestamp(response['timestamp'] / 1000)
         msg.save()
-        # TODO: backend comms here
         return redirect('booking:messaging', reservation_id=reservation_id)
 
 
 def sync_all_data(request):
     history = HistoryPlugin()
-    client_settings = Settings(strict=False, xml_huge_tree=True)
-    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
-                        settings=client_settings, plugins=[history])
-    auth_client = Client(
-        settings.WSDL_ADDRESS_AUTHENTICATION, settings=client_settings)
-    res_client = Client(settings.WSDL_ADDRESS_RESERVATION,
-                        settings=client_settings, plugins=[history])
+    client_settings = Settings(strict=False)
+    auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION)
 
     # TODO: izmeniti username i password
     token = auth_client.service.login(username='boris', password='boris')
-    acc_client.transport.session.headers.update({'Authorization': token})
-    res_client.transport.session.headers.update({'Authorization': token})
+    transport = Transport()
+    transport.session.headers.update({'Authorization': token})
+    acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, plugins=[history], transport=transport, settings=client_settings)
+    res_client = Client(settings.WSDL_ADDRESS_RESERVATION, plugins=[history], transport=transport, settings=client_settings)
+
+    user = request.user
+    user.profile.token = token
+    user.profile.save()    
+
     # Accommodation Types
     AccommodationType.objects.all().delete()
 

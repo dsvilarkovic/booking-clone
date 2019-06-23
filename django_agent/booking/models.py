@@ -178,6 +178,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.TextField(max_length=200)
     pib = models.CharField(max_length=9)
+    token = models.CharField(max_length=10000, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)

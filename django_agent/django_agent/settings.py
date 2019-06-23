@@ -126,7 +126,7 @@ MEDIA_URL = '/media/'
 
 # WSDL locations
 
-WSDL_ADDRESS_ACCOMMODATION = 'http://localhost:9998/ws/accommodationsoap.wsdl'
+WSDL_ADDRESS_ACCOMMODATION = 'http://localhost:8762/api/accommodation/ws/accommodationsoap.wsdl'
 WSDL_ADDRESS_AUTHENTICATION = 'http://localhost:9992/loginsoap/loginsoap.wsdl'
-WSDL_ADDRESS_RESERVATION = 'http://localhost:9993/ws/reservationsoap.wsdl'
-WSDL_ADDRESS_MESSAGING = 'http://localhost:9999/ws/messagingsoap.wsdl'
+WSDL_ADDRESS_RESERVATION = 'http://localhost:8762/api/reservationsoap/ws/reservationsoap.wsdl'
+WSDL_ADDRESS_MESSAGING = 'http://localhost:8762/api/messagingsoap/ws/messagingsoap.wsdl'

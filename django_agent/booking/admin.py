@@ -7,6 +7,7 @@ from datetime import date, timedelta, datetime
 from django.utils.safestring import mark_safe
 from lxml import etree
 from zeep import Client, Settings, helpers
+from zeep.transports import Transport
 from zeep.plugins import HistoryPlugin
 from .models import Accommodation
 from .models import AccommodationCategory
@@ -51,10 +52,10 @@ class AccommodationAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         history = HistoryPlugin()
-        client_settings = Settings(
-            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
-                        settings=client_settings, plugins=[history])
+        client_settings = Settings(strict=False)
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
 
         obj.user = request.user
         acom = obj
@@ -100,10 +101,10 @@ class AccommodationAdmin(admin.ModelAdmin):
 
     def delete_model(self, request, obj):
         history = HistoryPlugin()
-        client_settings = Settings(
-            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
-                        settings=client_settings, plugins=[history])
+        client_settings = Settings(strict=False)
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
         transfer = dict()
         transfer['accommodation_id'] = obj.id
         try:
@@ -119,7 +120,10 @@ class AccommodationAdmin(admin.ModelAdmin):
             return super().save_formset(request, form, formset, change)
         else:
             instances = formset.save(commit=False)
-            acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION)
+            client_settings = Settings(strict=False)
+            transport = Transport()
+            transport.session.headers.update({'Authorization': request.user.profile.token})
+            acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, transport=transport)
             for obj in formset.deleted_objects:
                 transfer = dict()
                 transfer['image_id'] = obj.id
@@ -143,10 +147,10 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         history = HistoryPlugin()
-        client_settings = Settings(
-            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
-                        settings=client_settings, plugins=[history])
+        client_settings = Settings(strict=False)
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
 
         unit = obj
         if unit.pk is None:
@@ -180,10 +184,10 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
 
     def delete_model(self, request, obj):
         history = HistoryPlugin()
-        client_settings = Settings(
-            strict=False, xml_huge_tree=True, xsd_ignore_sequence_order=True)
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
-                        settings=client_settings, plugins=[history])
+        client_settings = Settings(strict=False)
+        transport = Transport()
+        transport.session.headers.update({'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
         transfer = dict()
         transfer['accommodation_unit_id'] = obj.id
         try:
@@ -220,9 +224,11 @@ class ReservationAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         res = obj
-        pdb.set_trace()
         if res.checked_in is True:
-            client = Client(settings.WSDL_ADDRESS_RESERVATION)
+            transport = Transport()
+            transport.session.headers.update({'Authorization': request.user.profile.token})
+            client_settings = Settings(strict=False)
+            client = Client(settings.WSDL_ADDRESS_RESERVATION, transport=transport, settings=client_settings)
             client.service.checkinReservation(reservation_id=res.id)
         super().save_model(request, obj, form, change)
 
@@ -251,7 +257,7 @@ admin.site.register(AccommodationUnit, AccommodationUnitAdmin)
 admin.site.register(Guest, GuestAdmin)
 # admin.site.register(Profile)
 
-# admin.site.register(Location)
+admin.site.register(Location)
 # admin.site.register(Day, DayAdmin)
 
 admin.site.register(AccommodationType, AccommodationTCAdmin)

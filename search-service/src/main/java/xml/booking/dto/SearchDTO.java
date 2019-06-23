@@ -14,22 +14,11 @@ public class SearchDTO {
 	private CodeBookDTO accommodationCategory;
 	private List<CodeBookDTO> additionalServices;
 	private Double distance;
+	private Double userLongitude;
+	private Double userLatitude;
 	
 	public SearchDTO() {
 		this.additionalServices = new ArrayList<CodeBookDTO>();
-	}
-	
-	public SearchDTO(String location, Long beginningDate, Long endDate, Integer numberOfPersons, CodeBookDTO accommodationType,
-			CodeBookDTO accommodationCategory, List<CodeBookDTO> additionalServices, Double distance) {
-		super();
-		this.location = location;
-		this.beginningDate = beginningDate;
-		this.endDate = endDate;
-		this.numberOfPersons = numberOfPersons;
-		this.accommodationType = accommodationType;
-		this.accommodationCategory = accommodationCategory;
-		this.additionalServices = additionalServices;
-		this.distance = distance;
 	}
 
 	public String getLocation() {
@@ -94,6 +83,22 @@ public class SearchDTO {
 
 	public void setDistance(Double distance) {
 		this.distance = distance;
+	}
+
+	public Double getUserLongitude() {
+		return userLongitude;
+	}
+
+	public void setUserLongitude(Double userLongitude) {
+		this.userLongitude = userLongitude;
+	}
+
+	public Double getUserLatitude() {
+		return userLatitude;
+	}
+
+	public void setUserLatitude(Double userLatitude) {
+		this.userLatitude = userLatitude;
 	}	
 
 }

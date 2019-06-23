@@ -1,18 +1,21 @@
 package xml.booking.managers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import xml.booking.dto.AccommodationUnitDTO;
 import xml.booking.dto.CodeBookDTO;
 import xml.booking.dto.SearchDTO;
+import xml.booking.feign.AccommodationUnitProxy;
 import xml.booking.model.Accommodation;
 import xml.booking.model.AccommodationCategory;
 import xml.booking.model.AccommodationType;
@@ -40,14 +43,27 @@ public class AccommodationUnitManager {
 	
 	@Autowired
 	private AccommodationRepository accommodationRepository;
+	
+	@Autowired
+	private AccommodationUnitProxy accommodationUnitProxy;
 
+	/**
+	 * Normalna pretraga - ukljucuje lokaciju, datum dolaska, datum odlaska i broj osoba
+	 */
 	public Page<AccommodationUnitDTO> regularSearch(String location, Long beginningDate, Long endDate, Integer numberOfPersons, Pageable page) {
 		
-		return mapToDTO(accommodationUnitRepository.regularSearch(page, location, numberOfPersons, beginningDate, endDate, false));		
+		Page<AccommodationUnit> units = accommodationUnitRepository.regularSearch(page, location, numberOfPersons, beginningDate, endDate, false);
+		
+		return mapPageToDTO(units, beginningDate, endDate);		
 	}
 	
+	/**
+	 * Napredna pretraga - osim lokacija, datuma dolaska i odlaska i broja osoba,
+	 * ukljucuje i tip smestaja, kategoriju smestaja, dodatne usluge i udaljenost od trenutne lokacije korisnika
+	 * 
+	 */
 	public Page<AccommodationUnitDTO> advancedSearch(SearchDTO searchObject, Pageable page) {
-		
+
 		AccommodationType type = null;
 		if(searchObject.getAccommodationType() != null) {
 			type = new AccommodationType(searchObject.getAccommodationType());
@@ -66,13 +82,25 @@ public class AccommodationUnitManager {
 			}
 		}
 		
-		return mapToDTO(accommodationUnitRepository.advancedSearch(page, searchObject.getLocation(), searchObject.getNumberOfPersons(), 
-				                                                   searchObject.getBeginningDate(), searchObject.getEndDate(), false, 
-				                                                   type, category, services));		
+		List<AccommodationUnit> units = accommodationUnitRepository.advancedSearch(searchObject.getLocation(), searchObject.getNumberOfPersons(), 
+                							searchObject.getBeginningDate(), searchObject.getEndDate(), false, type, category, services);
+
+		
+		List<AccommodationUnitDTO> dtos = mapListToDTO(units, searchObject.getBeginningDate(), searchObject.getEndDate());		
+		
+		return new PageImpl<AccommodationUnitDTO>(dtos, page, dtos.size());
+	}
+	
+	/**
+	 * Pronalazenje cene smestaja u zadatom vremenskom intervalu; koristi se accommodation-service
+	 */
+	private Double getAccommodationUnitPrice(Long id, Long beginningDate, Long endDate) {
+		ResponseEntity<BigDecimal> response = accommodationUnitProxy.findAccommodationPrice(beginningDate, endDate, id);
+				
+		return response.getBody().doubleValue();
 	}
 		
-	
-	private Page<AccommodationUnitDTO> mapToDTO(Page<AccommodationUnit> accommodationUnits){
+	private Page<AccommodationUnitDTO> mapPageToDTO(Page<AccommodationUnit> accommodationUnits, Long beginningDate, Long endDate){
 		
 		Page<AccommodationUnitDTO> dtos = accommodationUnits.map(new Function<AccommodationUnit, AccommodationUnitDTO>() {
 		    @Override
@@ -82,7 +110,9 @@ public class AccommodationUnitManager {
 		    	AccommodationCategory category = accommodationCategoryRepository.findCategoryByAccommodationUnitId(accommodationUnit.getId());		    	
 		    	AccommodationType type = accommodationTypeRepository.findTypeByAccommodationUnitId(accommodationUnit.getId());
 		    	
-		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(accommodationUnit, 0.0, accommodation.getName(), 
+		    	Double price = getAccommodationUnitPrice(accommodationUnit.getId(), beginningDate, endDate);
+		    			    	
+		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(accommodationUnit, price, accommodation.getName(), 
 		    			                                                             category.getName(), type.getName(), accommodation.getDescription());
 		    	
 		   		return accommodationUnitDTO;
@@ -91,5 +121,26 @@ public class AccommodationUnitManager {
 		
 		return dtos;		
 	}
-
+	
+	private List<AccommodationUnitDTO> mapListToDTO(List<AccommodationUnit> accommodationUnits, Long beginningDate, Long endDate){
+		
+		List<AccommodationUnitDTO> dtoList = new ArrayList<AccommodationUnitDTO>();
+		
+		for(AccommodationUnit au : accommodationUnits) {
+		    	
+		    	Accommodation accommodation = accommodationRepository.findAccommodationByAccommodationUnitId(au.getId());		    	
+		    	AccommodationCategory category = accommodationCategoryRepository.findCategoryByAccommodationUnitId(au.getId());		    	
+		    	AccommodationType type = accommodationTypeRepository.findTypeByAccommodationUnitId(au.getId());
+		    	
+		    	Double price = getAccommodationUnitPrice(au.getId(), beginningDate, endDate);
+		    			    	
+		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(au, price, accommodation.getName(), 
+		    			                                                             category.getName(), type.getName(), accommodation.getDescription());
+		    	
+		    	dtoList.add(accommodationUnitDTO);
+		}
+		
+		return dtoList;		
+	}
+	
 }

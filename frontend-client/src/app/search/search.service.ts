@@ -28,7 +28,7 @@ export class SearchService {
 
     console.log(url);
 
-    return this.http.get<AccommodationUnit[]>(url, httpOptions);
+    return this.http.get<AccommodationUnit[]>(url);
   }
 
   advancedSearch(locationForm: string, checkInForm: Date, checkOutForm: Date, numberOfPersonsForm: number,
@@ -73,7 +73,7 @@ export class SearchService {
 
     const url = this.urlBase + '/maintenanceOfCodeBook/accommodationCategory/all';
 
-    return this.http.get<AccommodationCategory[]>(url, httpOptions);
+    return this.http.get<AccommodationCategory[]>(url);
   }
 
   getAdditionalServices(): Observable<AdditionalService[]> {
@@ -84,7 +84,7 @@ export class SearchService {
 
     const url = this.urlBase + '/maintenanceOfCodeBook/additionalService/all';
 
-    return this.http.get<AdditionalService[]>(url, httpOptions);
+    return this.http.get<AdditionalService[]>(url);
   }
 
 }

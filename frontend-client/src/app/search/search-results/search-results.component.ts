@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Accommodation } from 'src/app/object-interfaces/accommodation';
 import { ActivatedRoute } from '@angular/router';
 import { SearchService } from '../search.service';
 import { AccommodationUnit } from 'src/app/accommodation-profile/accommodationunit';
-import { AccommodationCategory } from '../model/accommodationcategory';
-import { AccommodationType } from '../model/accommodationtype';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { Router } from '@angular/router';
+import { TokenStorageService } from 'src/app/token-storage.service';
+import { LoginFormComponent } from 'src/app/login-form/login-form.component';
+import { Reservation } from 'src/app/reservation-checkout/reservation';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search-results',
@@ -17,7 +16,10 @@ import { Router } from '@angular/router';
 export class SearchResultsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-              private searchService: SearchService, private router: Router) { }
+              private searchService: SearchService,
+              private router: Router,
+              private tokenStorage: TokenStorageService,
+              private modalService: NgbModal ) { }
 
   searchObject = {
     location: null,
@@ -25,6 +27,8 @@ export class SearchResultsComponent implements OnInit {
     endDate: null,
     numberOfPersons: null
   };
+
+  modalOption: NgbModalOptions = {};
 
   dropdownSettings = {};
   sort = 'none';
@@ -35,35 +39,6 @@ export class SearchResultsComponent implements OnInit {
   accommodationUnitList: AccommodationUnit[] = [];
 
   filterForm: any = {};
-
-  /*accommodationUnitList: AccommodationUnit[] = [
-    {
-      id: 0,
-      name: 'Master Suite',
-      capacity: 2,
-      cancelationPeriod : null,
-      defaultPrice : 200,
-      image : null
-    },
-    {
-      id: 1,
-      name: 'Double room',
-      capacity: 2,
-      cancelationPeriod : null,
-      defaultPrice : 300,
-      image : null
-    },
-    {
-      id: 2,
-      name: 'Single room',
-      capacity: 1,
-      cancelationPeriod : null,
-      defaultPrice : 400,
-      image : null
-    },
-  ];
-  */
-  
 
   collectionSize = 4;
   page = 1;
@@ -148,18 +123,24 @@ export class SearchResultsComponent implements OnInit {
     this.getNormalSearchResults(pageNo - 1);
   }
 
-  // accommodationUnit: AccommodationUnit = {
-  //   id : 1,
-  //   cancelationPeriod : 5,
-  //   capacity : 10,
-  //   defaultPrice : 100,
-  //   name : 'Luxury Suite',
-  //   image : null
-  // };
-  reserveCheckout(accommodationUnit: AccommodationUnit) {
-    // TODO: Dusan insert login
-    sessionStorage.setItem('accommodationUnit', JSON.stringify(accommodationUnit));
-    this.router.navigateByUrl('/reservation-checkout');
+  reserveCheckout(accommodationUnitParam: AccommodationUnit) {
+    if (this.tokenStorage.getUser() == null) {
+      this.modalService.open(LoginFormComponent, this.modalOption);
+    } else {
+      const reservation: Reservation = {
+        id: null,
+        accommodationUnit: accommodationUnitParam,
+        beginningDate: new Date(this.searchObject.beginningDate).getTime(),
+        endDate: new Date(this.searchObject.endDate).getTime(),
+        checkedIn: false,
+        finalPrice: 0,
+        userId: null,
+        numberOfPersons: this.searchObject.numberOfPersons
+      };
+      sessionStorage.setItem('reservation', JSON.stringify(reservation));
+      this.router.navigateByUrl('/reservation-checkout');
+    }
+
   }
 
   getNormalSearchResults(page: number) {
@@ -174,7 +155,7 @@ export class SearchResultsComponent implements OnInit {
         error => {
           console.log('error!');
         }
-    );
+      );
   }
 
   getAdvancedSearchResults(page: number) {
@@ -183,3 +164,4 @@ export class SearchResultsComponent implements OnInit {
 
 
 }
+

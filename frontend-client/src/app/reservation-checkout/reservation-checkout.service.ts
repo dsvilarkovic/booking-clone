@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Reservation } from './reservation';
+import { ReservationDTO } from './reservation';
 import { HttpClientModule, HttpHeaders, HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationCheckoutService {
-
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
   constructor(private http: HttpClient) { }
 
   // TODO: Ovo izmeniti za link url
-  reservationUrl = 'localhost:8762/api/reservation/';
-  private reservation: Reservation =  null;
-  reserve(reservation: Reservation) {
+  reservationUrl = 'http://localhost:8762/api/reservations';
+  reserve(reservation: ReservationDTO) {
     // TODO: ovde rezervisati
-    return this.http.post(this.reservationUrl, this.reservation);
+    console.log(reservation);
+    return this.http.post(this.reservationUrl, reservation, this.httpOptions);
   }
 }

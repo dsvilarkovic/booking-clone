@@ -12,34 +12,34 @@
             <div class="row">
               <div class="col-50">
                 <label for="firstName">First name</label>
-                <input type="text" id="state" name="firstName" placeholder="John" value="{{user.firstName}}" disabled>
+                <input type="text" id="state" name="firstName" placeholder="John" [ngModel]="user.firstName" disabled>
               </div>
               <div class="col-50">
                 <label for="lastName">Last name</label>
-                <input type="text" id="zip" name="lastName" placeholder="Doe" value="{{user.lastName}}" disabled>
+                <input type="text" id="zip" name="lastName" placeholder="Doe" [ngModel]="user.lastName" disabled>
               </div>
             </div>
 
             <label for="email"><i class="fa fa-envelope"></i> Email</label>
-            <input type="text" id="email" name="email" placeholder="john@example.com" value="{{user.email}}" disabled>
+            <input type="text" id="email" name="email" placeholder="john@example.com" [ngModel]="user.email"disabled>
             <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-            <input type="text" id="adr" name="address" placeholder="542 W. 15th Street" value="{{user.address}}" disabled>
+            <input type="text" id="adr" name="address" placeholder="542 W. 15th Street" [ngModel]="user.address" disabled>
 
             <h4>Accommodation unit details</h4>
             <div class="row">
               <div class="col-50">
                 <label for="accommodationUnitName">Name</label>
-                <input type="text" id="accommodationUnitName" name="accommodationUnitName" placeholder="Luxury suite" value="{{accommodationUnit.name}}" disabled>
+                <input type="text" id="accommodationUnitName" name="accommodationUnitName" placeholder="Luxury suite" [ngModel]="reservation.accommodationUnit.name" disabled>
               </div>
               <div class="col-50">
                 <label for="accommodationUnitCapacity">Capacity (people number)</label>
-                <input type="text" id="accommodationUnitCapacity" name="accommodationUnitCapacity" placeholder="4" value="{{accommodationUnit.capacity}}" disabled>
+                <input type="text" id="accommodationUnitCapacity" name="accommodationUnitCapacity" placeholder="4" [ngModel]="reservation.accommodationUnit.capacity" disabled>
               </div>
             </div>
             <div class="row">
               <div class="col-50">
                 <label for="accommodationUnitDefaultPrice">Default price per day</label>
-                <input type="text" id="accommodationUnitDefaultPrice" name="accommodationUnitDefaultPrice" placeholder="" value="{{accommodationUnit.defaultPrice}}" disabled>
+                <input type="text" id="accommodationUnitDefaultPrice" name="accommodationUnitDefaultPrice" placeholder="" [ngModel]="reservation.accommodationUnit.defaultPrice" disabled>
               </div>
             </div>
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AccommodationUnit } from '../accommodation-profile/accommodationunit';
-import { Reservation } from './reservation';
+import { Reservation, ReservationDTO } from './reservation';
 import { User } from '../object-interfaces/user';
 import { ReservationCheckoutService } from './reservation-checkout.service';
+import { DatePipe } from '@angular/common';
+import { TokenStorageService } from '../token-storage.service';
+import { LoginService } from '../login-form/login.service';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 
 @Component({
@@ -14,40 +15,71 @@ import { Location } from '@angular/common';
 })
 export class ReservationCheckoutComponent implements OnInit {
 
-  constructor(private reservationCheckoutService: ReservationCheckoutService, private location: Location) { 
-  }
+  constructor(private reservationCheckoutService: ReservationCheckoutService,
+              private tokenStorage: TokenStorageService,
+              private loginService: LoginService,
+              private datePipe: DatePipe,
+              private router: Router) {}
+
 
   beginningDate: any = null;
   endDate: any = null;
   difInDays = 0;
-
-  accommodationUnit: AccommodationUnit = null;
   reservationDone = false;
 
   user: User = {
-    id: 1,
-    firstName: 'Dusan',
-    lastName: 'Dusanovic',
-    address: 'Vuka Mandusica 17',
-    email: 'dusan@gmail.com',
-    password: null,
-    pib: null,
-    userType: 'registered'
+    firstName: '',
+    lastName: '',
+    email: '',
+    address: '',
+    id: -1,
+    password: '',
+    pib: -1,
+    userType: ''
   };
-
   reservation: Reservation = {
     id: null,
-    accommodationUnit : this.accommodationUnit,
-    beginningDate : null,
-    endDate : null,
-    checkedIn : false,
-    finalPrice : 0,
-    user : this.user
+    accommodationUnit: null,
+    beginningDate: null,
+    endDate: null,
+    checkedIn: false,
+    finalPrice: 0,
+    userId: null,
+    numberOfPersons: -1
   };
 
   ngOnInit() {
-    this.accommodationUnit = JSON.parse(sessionStorage.getItem('accommodationUnit'));
-    this.reservation.accommodationUnit = this.accommodationUnit;
+    if (this.tokenStorage.getUser() == null) {
+      this.router.navigateByUrl('/');
+    }
+
+    this.loginService.whoami().subscribe(
+      data => {
+        this.user = data;
+      }, error => {
+        // preusmeri negde
+        this.router.navigateByUrl('/');
+      }
+    );
+    const reservationString = sessionStorage.getItem('reservation');
+    if (reservationString == null) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.reservation = JSON.parse(reservationString);
+      this.reservation.userId = this.user.id;
+      this.beginningDate = this.datePipe.transform(new Date(this.reservation.beginningDate), 'yyyy-MM-dd');
+      this.endDate = this.datePipe.transform(new Date(this.reservation.endDate), 'yyyy-MM-dd');
+      const date1 = (new Date(this.beginningDate)).getTime();
+      const date2 = (new Date(this.endDate)).getTime();
+
+      this.difInDays = (date2 - date1) / 8.64e7;
+      if (this.difInDays > 0) {
+        this.reservation.finalPrice = this.difInDays * this.reservation.accommodationUnit.defaultPrice;
+      } else {
+        this.reservation.finalPrice = 0;
+      }
+    }
+
   }
 
   calculateReservation(value) {
@@ -67,15 +99,25 @@ export class ReservationCheckoutComponent implements OnInit {
     this.reservation.endDate = date2;
 
     if (this.difInDays > 0) {
-      this.reservation.finalPrice = this.difInDays * this.accommodationUnit.defaultPrice;
+      this.reservation.finalPrice = this.difInDays * this.reservation.accommodationUnit.defaultPrice;
     } else {
       this.reservation.finalPrice = 0;
     }
   }
 
   confirmReservation() {
-    this.reservationCheckoutService.reserve(this.reservation).subscribe(() => {
-      sessionStorage.setItem('accommodationUnit', null);
+    const reservation: ReservationDTO = new ReservationDTO();
+    reservation.accommodationUnitId = this.reservation.accommodationUnit.id;
+    reservation.beginningDate = (new Date(this.beginningDate)).getTime();
+    reservation.endDate = (new Date(this.endDate)).getTime();
+    reservation.checkedIn = false;
+    reservation.commentId = -1;
+    reservation.ratingId = -1;
+    reservation.numberOfPersons = this.reservation.numberOfPersons;
+    reservation.id = null;
+    reservation.userId = this.user.id;
+    this.reservationCheckoutService.reserve(reservation).subscribe(() => {
+      sessionStorage.setItem('reservation', null);
       this.reservationDone = true;
     });
   }

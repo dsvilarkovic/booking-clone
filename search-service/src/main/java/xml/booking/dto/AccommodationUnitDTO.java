@@ -8,6 +8,7 @@ public class AccommodationUnitDTO {
 	private String name;
 	private Integer capacity;
 	private Double calculatedPrice;
+	private Double defaultPrice;
 	private Integer cancelationPeriod;
 	private String accommodation;
 	private String accommodationType;
@@ -71,6 +72,7 @@ public class AccommodationUnitDTO {
 		this.accommodationCategory = accommodationCategory;
 		this.accommodationType = accommodationType;
 		this.description = description;
+		this.defaultPrice = accommodationUnit.getDefaultPrice();
 	}
 
 	public Long getId() {
@@ -102,6 +104,14 @@ public class AccommodationUnitDTO {
 	}
 	public void setCancelationPeriod(Integer cancelationPeriod) {
 		this.cancelationPeriod = cancelationPeriod;
+	}
+
+	public Double getDefaultPrice() {
+		return defaultPrice;
+	}
+
+	public void setDefaultPrice(Double defaultPrice) {
+		this.defaultPrice = defaultPrice;
 	}
 	
 }

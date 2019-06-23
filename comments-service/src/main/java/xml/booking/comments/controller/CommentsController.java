@@ -30,7 +30,6 @@ import xml.booking.comments.repositories.CommentRepository;
 import xml.booking.comments.repositories.ReservationRepository;
 
 @RestController
-@CrossOrigin(origins = "*",allowedHeaders = "*", maxAge = 3600)
 @RequestMapping(value = "/comments",  produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommentsController {
 

@@ -25,7 +25,7 @@ public interface AccommodationUnitRepository extends JpaRepository<Accommodation
 		 + "where au.deleted = :deleted "
 			//provera poklapanja unete lokacije sa adresom/gradom/drzavom i provera unetog kapaciteta
 		 + "and (lower(loc.address) like lower(concat('%', :location,'%')) or lower(loc.country) like lower(concat('%', :location,'%')) "
-	     + "or lower(loc.city) like lower(concat('%', :location,'%'))) and au.capacity = :persons "
+	     + "or lower(loc.city) like lower(concat('%', :location,'%'))) and au.capacity >= :persons "
 	       //provera da li vec postoji rezervacija u tom periodu
 	     + "and au not in (select distinct unit from Reservation as res inner join res.accommodationUnit as unit where "
 	     + "((res.beginningDate <= :beg and res.endDate >= :end) or (res.beginningDate >= :beg and res.beginningDate < :end) or " 
@@ -45,7 +45,7 @@ public interface AccommodationUnitRepository extends JpaRepository<Accommodation
          + "where aa = accc )))) "
 		   //provera poklapanja unete lokacije sa adresom/gradom/drzavom i provera unetog kapaciteta
 		 + "and (lower(loc.address) like lower(concat('%', :location,'%')) or lower(loc.country) like lower(concat('%', :location,'%')) "
-         + "or lower(loc.city) like lower(concat('%', :location,'%'))) and au.capacity = :persons " 
+         + "or lower(loc.city) like lower(concat('%', :location,'%'))) and au.capacity >= :persons " 
            //provera tipa i kategorije - ukoliko su uneti
          + "and (:type is null or act = :type) and (:category is null or acat = :category) "
            //provera da li vec postoji rezervacija u tom periodu
@@ -54,19 +54,10 @@ public interface AccommodationUnitRepository extends JpaRepository<Accommodation
          + "(res.endDate > :beg and res.endDate <= :end)) and res.deleted = false and unit.deleted = false) "
            //provera da li je agent oznacio neki dan kao zauzet
          + "and au not in (select distinct acunit from AccommodationUnit as acunit inner join acunit.day as dd "
-	     + "where dd.date >= ?3 and dd.date <= ?4 and dd.available = false and acunit.deleted = false)")
-	Page<AccommodationUnit> advancedSearch(Pageable page, @Param("location") String location, @Param("persons") Integer numberOfPersons, 
+	     + "where dd.date >= :beg and dd.date <= :end and dd.available = false and acunit.deleted = false)")
+	List<AccommodationUnit> advancedSearch(@Param("location") String location, @Param("persons") Integer numberOfPersons, 
 			       						  @Param("beg") Long beginningDate, @Param("end") Long endDate, @Param("deleted") Boolean deleted, 
 			       						  @Param("type") AccommodationType accommodationType, @Param("category") AccommodationCategory accommodationCategory,
 				                          @Param("services") List<AdditionalService> services);
-	
-	@Query("SELECT accUnit from Accommodation as acc inner join acc.accommodationUnit as accUnit " +
-	"WHERE ((:services) is null or not exists (SELECT addService from AdditionalService as addService WHERE addService in (:services) "
-	+ "and addService not in (select addService2 from Accommodation as aa inner join aa.additionalService as addService2 "
-	+ "WHERE aa = acc )))")
-	Page<AccommodationUnit> nesto(Pageable page, List<AdditionalService> services);
-	
-
-	
 
 }

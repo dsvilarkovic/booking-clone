@@ -19,7 +19,6 @@ export class CommentsComponent implements OnInit {
   ];
 
   currentComment: Comment;
-  // collectionSize = 7;
   collectionSize = 0;
   page = 1;
   pageSize = 10;
@@ -44,28 +43,18 @@ export class CommentsComponent implements OnInit {
     }
 
     // approve/reject comment
-    editComment(comment: Comment) {
-      console.log('Alo');
-      switch (comment.commentState) {
-        case('NOT_REVIEWED'):
-          this.commentsService.approveComment(comment, true)
-          .subscribe(() => {
-            comment.commentState = 'PUBLISHED';
-          });
-          break;
-        case('PUBLISHED'):
-          this.commentsService.approveComment(comment, false)
-          .subscribe(() => {
-            comment.commentState = 'UNPUBLISHED';
-          });
-          break;
-        case('UNPUBLISHED'):
-          this.commentsService.approveComment(comment, true)
-          .subscribe(() => {
-            comment.commentState = 'PUBLISHED';
-          });
-          break;
-      }
+    editComment(comment: Comment, bool: boolean) {
+      this.commentsService.approveComment(comment, bool)
+      .subscribe(() => {
+        if (bool === true) {
+          comment.commentState = 'PUBLISHED';
+          console.log(comment.commentState);
+        } else {
+          comment.commentState = 'UNPUBLISHED';
+          console.log(comment.commentState);
+        }
+      });
+      
       // this.getComments();
     }
 

@@ -8,27 +8,37 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Id</th>
+            <th scope="col">#</th>
             <th scope="col">User</th>
             <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">&nbsp;</th>
             <th scope="col">&nbsp;</th>
             <th scope="col">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let comment of commentsList; index as i">
-            <td>{{comment.id}}</td>
+            <td>{{i}}</td>
             <td>{{comment.user.email}}</td>
             <td>{{comment.date | date: 'short'}}</td>
-            <td><button type="button" (click)="open(content, comment)" class="btn btn-outline-info btn-sm">Show</button></td>
             <td>
-              <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': comment.commentState === 'NOT_REVIEWED', 'btn-outline-danger': comment.commentState === 'UNPUBLISHED', 'btn-outline-success': comment.commentState === 'PUBLISHED'}" (click)="editComment(comment)">
-
                 <div *ngIf="comment.commentState === 'NOT_REVIEWED'">Not Reviewed</div>
                 <div *ngIf="comment.commentState === 'UNPUBLISHED'">Unpublished</div>
                 <div *ngIf="comment.commentState === 'PUBLISHED'">Published</div>
-
+            </td>
+            <td><button type="button" (click)="open(content, comment)" class="btn btn-outline-info btn-sm">Show</button></td>
+            <td>
+              <button type="button" class="btn btn-sm" [ngClass]="comment.commentState === 'PUBLISHED' ? 'btn-outline-danger' : 'btn-outline-success'" (click)="comment.commentState === 'PUBLISHED' ? editComment(comment,false) : editComment(comment,true)">
+                  <div *ngIf="comment.commentState === 'UNPUBLISHED' || comment.commentState === 'NOT_REVIEWED'">Publish</div>
+                  <div *ngIf="comment.commentState === 'PUBLISHED'">Unpublish</div>
               </button>
+            </td>
+            <td>
+              <button *ngIf="comment.commentState === 'NOT_REVIEWED'" type="button" class="btn btn-sm btn-outline-danger" (click)="editComment(comment, false)">
+                <div>Unpublish</div>
+              </button>
+
             </td>
           </tr>
         </tbody>

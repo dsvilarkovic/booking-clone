@@ -86,7 +86,7 @@ public class Comment {
 
     @Column
     @XmlElement(required = true)
-    @ColumnDefault(value = "NOT_REVIEWED")
+    @ColumnDefault(value = "'NOT_REVIEWED'")
     protected String commentState;
     
     @Column(name = "date")

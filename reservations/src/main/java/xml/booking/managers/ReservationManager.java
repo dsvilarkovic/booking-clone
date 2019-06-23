@@ -86,13 +86,11 @@ public class ReservationManager {
 		return (saved == null)? null : new ReservationDTO(saved);
 	}
 
-	/**
-	 * Metoda za brisanje rezervacije
-	 * 
-	 * @return true- ukoliko je brisanje uspesno izvrseno u suprotnom vraca false
-	 */
-	public boolean removeReservation() {
-		return false;
+	public boolean removeReservation(Long id) {
+		Reservation reservation = this.reservationRepository.findByIdAndDeleted(id, false);
+		reservation.setDeleted(true);
+		Reservation reservationSaved = this.reservationRepository.save(reservation);
+		return (reservationSaved == null)? false:true;
 	}
 
 	/**

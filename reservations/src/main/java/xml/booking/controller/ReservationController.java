@@ -1,6 +1,7 @@
 package xml.booking.controller;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -151,6 +151,61 @@ public class ReservationController {
 		Boolean saved = this.reservationManager.saveReservationComment(comment, reservationId);
 
 		return (saved) ? ResponseEntity.status(200).build() : ResponseEntity.status(400).build();
+	}
+	
+	@PutMapping("/cancel/{reservationId}")
+	public ResponseEntity<?> cancelReservation(HttpServletRequest request, @PathVariable Long reservationId) {
+		ReservationDTO reservation = this.reservationManager.getReservation(reservationId);
+		if(reservation == null) {
+			return ResponseEntity.status(400).body("Rezervacija sa datim identifikatorom ne postoji!");
+		}
+		
+		
+		if(reservation.isCheckedIn())
+			return ResponseEntity.status(400).body("Rezervacija je vec potvrđena");
+		
+		ResponseEntity<UserDTO> user;
+		try {
+			user = authenticationProxy.whoami("Bearer "+ getToken(request));
+		} catch (Exception e) {
+			return ResponseEntity.status(400).build();
+		}
+		if(user.getStatusCode() != HttpStatus.OK || user.getBody() == null || reservation.getUserId()!= user.getBody().getId())
+			return ResponseEntity.status(401).build();
+		
+		ResponseEntity<AccommodationUnitDTO> accommodationUnitDTO = this.accommodationUnitProxy.getAccommodationUnitById(reservation.getAccommodationUnitId());
+		if(accommodationUnitDTO.getStatusCode() != HttpStatus.OK) {
+			return ResponseEntity.status(400).body("Smestajna jedinica rezervacije ne postoji");
+		}
+		
+		long days = numberOfDays(new Date(), new Date(reservation.getBeginningDate()));
+		if(days < accommodationUnitDTO.getBody().getCancelationPeriod())
+			return ResponseEntity.status(400).body("Rezervaciju nije moguće otkazati");
+		
+		return ResponseEntity.status(200).build();
+	}
+	
+	
+	/**
+	 * Metoda za izracuvanje dana proteklih izmedju dva datuma
+	 * 
+	 * @param date1 datum 1
+	 * @param date2 datum 2
+	 * @return broj dana
+	 */
+	private long numberOfDays(Date date1, Date date2) {
+
+		java.util.Date localDate1 = new java.util.Date(date1.getTime());
+		java.util.Date localDate2 = new java.util.Date(date2.getTime());
+		Long number;
+		if (localDate1.after(localDate2)) {
+			number = localDate1.getTime() - localDate2.getTime();
+		} else {
+			number = localDate2.getTime() - localDate1.getTime();
+		}
+
+
+		return number / 86400000;
 	}
 
 	

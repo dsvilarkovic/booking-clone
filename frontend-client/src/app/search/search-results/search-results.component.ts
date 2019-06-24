@@ -7,6 +7,10 @@ import { TokenStorageService } from 'src/app/token-storage.service';
 import { LoginFormComponent } from 'src/app/login-form/login-form.component';
 import { Reservation } from 'src/app/reservation-checkout/reservation';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { AdditionalService } from '../model/additionalservice';
+import { AccommodationType } from '../model/accommodationtype';
+import { AccommodationCategory } from '../model/accommodationcategory';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-search-results',
@@ -19,7 +23,7 @@ export class SearchResultsComponent implements OnInit {
               private searchService: SearchService,
               private router: Router,
               private tokenStorage: TokenStorageService,
-              private modalService: NgbModal ) { }
+              private modalService: NgbModal) { }
 
   searchObject = {
     location: null,
@@ -28,24 +32,41 @@ export class SearchResultsComponent implements OnInit {
     numberOfPersons: null
   };
 
+  filterObject = {
+    filter: false,
+    search: this.searchObject,
+    accommodationType: null,
+    accommodationCategory: null,
+    distance: null,
+    additionalServices: null
+  };
+
+
   modalOption: NgbModalOptions = {};
 
   dropdownSettings = {};
   sort = 'none';
 
-  categoriesList = [];
-  accTypeList = [];
-  additionalServicesList = [];
+  categoriesList: AccommodationCategory[] = [];
+  accTypeList: AccommodationType[] = [];
+  additionalServicesList: AdditionalService[] = [];
   accommodationUnitList: AccommodationUnit[] = [];
 
-  filterForm: any = {};
-
+  advancedSearchForm: FormGroup;
   collectionSize = 4;
   page = 1;
   pageSize = 5;
 
   ngOnInit() {
     // preuzimanje parametara iz putanje
+    this.advancedSearchForm = new FormGroup(
+      {
+        accommodationType: new FormControl(),
+        accommodationCategory: new FormControl(),
+        distance: new FormControl(),
+        additionalServices: new FormControl()
+      }
+);
     this.route.queryParams
       .subscribe(params => {
         this.searchObject.location = params.location;
@@ -116,11 +137,39 @@ export class SearchResultsComponent implements OnInit {
   }
 
   filterFormSubmit() {
-    console.log(this.filterForm.additionalServicesSelected);
+    console.log(this.advancedSearchForm.value.accommodationType,
+      this.advancedSearchForm.value.accommodationCategory, this.advancedSearchForm.value.additionalServices);
+
+    this.searchService.advancedSearch(this.searchObject.location, this.searchObject.beginningDate,
+      this.searchObject.endDate, this.searchObject.numberOfPersons, this.advancedSearchForm.value.accommodationType,
+      this.advancedSearchForm.value.accommodationCategory, this.advancedSearchForm.value.additionalServices,
+      this.advancedSearchForm.value.distance, this.page).subscribe(
+        data => {
+          this.filterObject = {
+            filter: true,
+            search: this.searchObject,
+            accommodationType: this.advancedSearchForm.value.accommodationType,
+            accommodationCategory: this.advancedSearchForm.value.accommodationCategory,
+            distance: this.advancedSearchForm.value.distance,
+            additionalServices: this.advancedSearchForm.value.additionalServices
+          };
+
+          this.accommodationUnitList = data['content'];
+          this.collectionSize = data['totalElements'];
+          this.pageSize = data['size'];
+        }, error => {
+          console.log(error.error);
+        }
+      );
   }
 
   onPageChange(pageNo: number) {
-    this.getNormalSearchResults(pageNo - 1);
+    if (this.filterObject.filter) {
+      this.getAdvancedSearchResults(pageNo - 1);
+    } else {
+      this.getNormalSearchResults(pageNo - 1);
+    }
+
   }
 
   reserveCheckout(accommodationUnitParam: AccommodationUnit) {
@@ -149,8 +198,7 @@ export class SearchResultsComponent implements OnInit {
         data => {
           this.accommodationUnitList = data['content'];
           this.collectionSize = data['totalElements'];
-          this.pageSize = data['pageable'].pageSize;
-          this.page = data['pageable'].pageNumber + 1;
+          this.pageSize = data['size'];
         },
         error => {
           console.log('error!');
@@ -159,7 +207,19 @@ export class SearchResultsComponent implements OnInit {
   }
 
   getAdvancedSearchResults(page: number) {
-
+    this.searchService.advancedSearch(this.filterObject.search.location, this.filterObject.search.beginningDate,
+      this.filterObject.search.endDate, this.filterObject.search.numberOfPersons,
+      this.filterObject.accommodationType, this.filterObject.accommodationCategory,
+      this.filterObject.additionalServices, this.filterObject.distance, this.page).subscribe(
+        data => {
+          this.accommodationUnitList = data['content'];
+          this.collectionSize = data['totalElements'];
+          this.pageSize = data['size'];
+        },
+        error => {
+          console.log('error dodatna!');
+        }
+      );
   }
 
 

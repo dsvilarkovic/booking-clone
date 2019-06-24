@@ -8,9 +8,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" routerLink="/chat">Reservation Chat<span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link active" routerLink="/page2">Page 2 <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link active" routerLink="/page3">Page 3 <span class="sr-only">(current)</span></a>
+        
       </div>
     </div>
   
@@ -25,7 +23,10 @@
           {{loggedUser.email}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/user">See profile</a>
+          <a class="dropdown-item" href="/user">See profile</a> 
+
+          <a class="dropdown-item"  routerLink="/chat"> <i class="fa fa-envelope" aria-hidden="true"></i> Inbox
+            <span class="sr-only">(current)</span></a>
           <a class="dropdown-item" href="/logout" (click) = 'logoutUser()' >Logout</a>
         </div>
       </li>

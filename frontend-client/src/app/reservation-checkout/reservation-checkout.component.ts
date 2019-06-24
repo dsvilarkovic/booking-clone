@@ -116,10 +116,13 @@ export class ReservationCheckoutComponent implements OnInit {
     reservation.numberOfPersons = this.reservation.numberOfPersons;
     reservation.id = null;
     reservation.userId = this.user.id;
-    this.reservationCheckoutService.reserve(reservation).subscribe(() => {
+    this.reservationCheckoutService.reserve(reservation).subscribe( data => {
       sessionStorage.setItem('reservation', null);
       this.reservationDone = true;
-    });
+    }, erorr => {
+      alert(erorr.error);
+    }
+    );
   }
 
 

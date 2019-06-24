@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,11 +68,11 @@ public class ReservationController {
 	public ResponseEntity<?> createReservation(HttpServletRequest request, @RequestBody  @Valid ReservationDTO reservation) {
 		
 		if(reservation.getBeginningDate() > reservation.getEndDate())
-			return ResponseEntity.status(400).build();
+			return ResponseEntity.status(400).body("The start date of the reservation can't be higher than the end date");
 		ResponseEntity<AccommodationUnit> accommodationUnit = this.accommodationUnitProxy.checkReservationInfo(reservation.getBeginningDate(),  reservation.getEndDate(), reservation.getNumberOfPersons(), reservation.getAccommodationUnitId());
 
 		if(accommodationUnit.getStatusCode() != HttpStatus.OK || accommodationUnit.getBody() == null)
-			return ResponseEntity.status(400).build();
+			return ResponseEntity.status(400).body("Booking of the accommodation unit is not possible");
 		
 		ResponseEntity<BigDecimal> price = this.accommodationUnitProxy.findAccommodationPrice(reservation.getBeginningDate(),reservation.getEndDate(), reservation.getAccommodationUnitId());
 		
@@ -113,18 +114,15 @@ public class ReservationController {
 	// Preuzima rezervacije ulogovanog korisnika
 	@GetMapping("/user")
 	public ResponseEntity<?> getUserReservation(HttpServletRequest request) {
-		System.out.println("OVDE SAM");
 		ResponseEntity<UserDTO> user;
 		try {
 			user = authenticationProxy.whoami("Bearer "+ getToken(request));
 		} catch (Exception e) {
-			return ResponseEntity.status(400).build();
+			return ResponseEntity.status(500).build();
 		}
-		System.out.println(user.getBody());
 		if(user.getStatusCode() != HttpStatus.OK || user.getBody() == null)
 			return ResponseEntity.status(401).build();
 		
-		System.out.println(this.reservationManager.getAllUserReservations(user.getBody().getId()));
 		return ResponseEntity.ok(this.reservationManager.getAllUserReservations(user.getBody().getId()));
 		
 	}
@@ -153,16 +151,16 @@ public class ReservationController {
 		return (saved) ? ResponseEntity.status(200).build() : ResponseEntity.status(400).build();
 	}
 	
-	@PutMapping("/cancel/{reservationId}")
+	@DeleteMapping("/cancel/{reservationId}")
 	public ResponseEntity<?> cancelReservation(HttpServletRequest request, @PathVariable Long reservationId) {
 		ReservationDTO reservation = this.reservationManager.getReservation(reservationId);
 		if(reservation == null) {
-			return ResponseEntity.status(400).body("Rezervacija sa datim identifikatorom ne postoji!");
+			return ResponseEntity.status(400).body("Reservation does not exist");
 		}
 		
 		
 		if(reservation.isCheckedIn())
-			return ResponseEntity.status(400).body("Rezervacija je vec potvrđena");
+			return ResponseEntity.status(400).body("Reservation has already been confirmed.");
 		
 		ResponseEntity<UserDTO> user;
 		try {
@@ -175,14 +173,15 @@ public class ReservationController {
 		
 		ResponseEntity<AccommodationUnitDTO> accommodationUnitDTO = this.accommodationUnitProxy.getAccommodationUnitById(reservation.getAccommodationUnitId());
 		if(accommodationUnitDTO.getStatusCode() != HttpStatus.OK) {
-			return ResponseEntity.status(400).body("Smestajna jedinica rezervacije ne postoji");
+			return ResponseEntity.status(400).body("Accommodation unit of reservation does not exist");
 		}
 		
 		long days = numberOfDays(new Date(), new Date(reservation.getBeginningDate()));
 		if(days < accommodationUnitDTO.getBody().getCancelationPeriod())
-			return ResponseEntity.status(400).body("Rezervaciju nije moguće otkazati");
+			return ResponseEntity.status(400).body("Reservation can't be canceled");
 		
-		return ResponseEntity.status(200).build();
+		boolean success = this.reservationManager.removeReservation(reservationId);
+		return (success)? ResponseEntity.status(200).build(): ResponseEntity.status(500).body("An error has occurred while trying to cancel the reservation");
 	}
 	
 	

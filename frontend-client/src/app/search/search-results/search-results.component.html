@@ -3,32 +3,32 @@
         <!-- SIDEBAR START-->
         <div class="col-3 filter">
           <!-- FILTER FORM START-->
-            <form name="form" (ngSubmit)="filterFormSubmit()" #f="ngForm" novalidate>
+            <form name="advancedSearchForm"  [formGroup] = "advancedSearchForm" (ngSubmit)="filterFormSubmit()"  novalidate>
                 <h3 class="form-title">Filter results</h3>
                 <hr>
                 <div class="form-row">
                     <label class="form-label">Accommodation type</label>
-                    <select [(ngModel)]="filterForm.accomodationType" name="accomodationType" #accomodationType="ngModel" class="form-control" >
-                        <option class="selectoption" *ngFor="let type of accTypeList" value={{type}}>
+                    <select formControlName="accommodationType"  name="accomodationType" class="form-control" >
+                        <option class="selectoption" *ngFor="let type of accTypeList" [value]=type.id>
                         {{type.name}}
                       </option>
                      </select>
                 </div>
                 <div class="form-row">
                     <label class="form-label">Accomodation category</label>
-                    <select class="form-control" [(ngModel)]="filterForm.accommodationCategory" name="accommodationCategory" #accommodationCategory="ngModel">
-                        <option class="selectoption" *ngFor="let category of categoriesList" value={{category}}>
+                    <select class="form-control" formControlName="accommodationCategory"    name="accommodationCategory">
+                        <option class="selectoption" *ngFor="let category of categoriesList" [value]=category.id>
                         {{category.name}}
                       </option>
                      </select>
                 </div>
                 <div class="form-row">
                     <label class="form-label">Distance</label>
-                    <input type="number" class="form-control" [(ngModel)]="filterForm.distance" name="distance" #distance="ngModel" >
+                    <input type="number" formControlName="distance" class="form-control"  name="distance"  >
                 </div>
                 <div class="form-row">
                   <label>Additional services</label>
-                  <ng-multiselect-dropdown name="additionalServicesMultiselect"  [placeholder]="' '" [data]="additionalServicesList" [(ngModel)]="filterForm.additionalServicesSelected" [settings]="dropdownSettings"
+                  <ng-multiselect-dropdown formControlName="additionalServices" name="additionalServicesMultiselect"  [placeholder]="' '" [data]="additionalServicesList" [settings]="dropdownSettings"
                   (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"> </ng-multiselect-dropdown>
                 </div>
                 <div class="form-row">

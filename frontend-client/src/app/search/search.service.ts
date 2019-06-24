@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { AccommodationType } from './model/accommodationtype';
 import { AccommodationCategory } from './model/accommodationcategory';
 import { AdditionalService } from './model/additionalservice';
-import { headersToString } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +31,7 @@ export class SearchService {
   }
 
   advancedSearch(locationForm: string, checkInForm: Date, checkOutForm: Date, numberOfPersonsForm: number,
-                 typeForm: number, categoryForm: number, servicesForm: number[], distanceForm: number,
+                 typeForm, categoryForm, servicesForm, distanceForm: number,
                  page: number): Observable<AccommodationUnit[]> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' })
@@ -45,8 +44,8 @@ export class SearchService {
       beginningDate: new Date(checkInForm).getTime() ,
       endDate: new Date(checkOutForm).getTime() ,
       numberOfPersons: numberOfPersonsForm,
-      accommodationType: typeForm,
-      accommodationCategory: categoryForm,
+      accommodationType: typeForm as AccommodationType,
+      accommodationCategory: categoryForm as AccommodationCategory,
       additionalServices: servicesForm,
       distance: distanceForm
     };

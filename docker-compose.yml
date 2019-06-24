@@ -1,0 +1,104 @@
+version: '3'
+services:
+  service-registry:
+    image: ftntim1/xml-booking:service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - megatravel-network
+
+  api-gateway:
+    image: ftntim1/xml-booking:api-gateway
+    ports:
+      - "8762:8762"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  authentication-service:
+    image: ftntim1/xml-booking:authentication-service
+    ports:
+      - "9994:9994"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  authentication-soap-service:
+    image: ftntim1/xml-booking:authentication-soap-service
+    ports:
+      - "9992:9992"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  accommodation-soap-service:
+    image: ftntim1/xml-booking:accommodation-soap-service
+    ports:
+      - "9998:9998"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  reservation-soap-service:
+    image: ftntim1/xml-booking:reservation-soap-service
+    ports:
+      - "9993:9993"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  messaging-soap-service:
+    image: ftntim1/xml-booking:messaging-soap-service
+    ports:
+      - "9999:9999"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  comments-service:
+    image: ftntim1/xml-booking:comments-service
+    ports:
+      - "9991:9991"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+
+networks:
+  megatravel-network:
+    driver: bridge

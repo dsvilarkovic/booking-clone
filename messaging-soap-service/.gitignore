@@ -1,6 +1,9 @@
 HELP.md
-/target/
+/target/*
+!/target/messaging-soap-service-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -23,7 +26,7 @@ HELP.md
 /dist/
 /nbdist/
 /.nb-gradle/
-/build/
+build/
 
 ### VS Code ###
 .vscode/

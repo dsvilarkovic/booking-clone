@@ -24,7 +24,7 @@ public class AuthenticationSoapEndpoint {
 
 		LoginResponse loginResponse = new LoginResponse();
 		
-		String url = "http://localhost:9994/auth/"; // "http://auth-service/auth/"  kad bude pod jednim gateway-om
+		String url = "http://localhost:8762/api/auth/"; // "http://auth-service/auth/"  kad bude pod jednim gateway-om
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<?> responseEntity = restTemplate.postForEntity(url, new UserDTO(username, password), ResponseEntity.class);
 		//

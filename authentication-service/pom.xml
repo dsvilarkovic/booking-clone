@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.eureka.auth</groupId>
-	<artifactId>spring-eureka-auth</artifactId>
+	<artifactId>authentication-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-eureka-auth</name>
+	<name>authentication-service</name>
 	<description>Demo project for Spring Boot Cloud</description>
 
 	<parent>

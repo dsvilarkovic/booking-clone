@@ -16,14 +16,12 @@ import com.cmeza.sdgenerator.annotation.SDGenerator;
         debug = false,
         overwrite = false
 	)
-@SpringBootApplication
-//@ComponentScan("xml.booking.messagingsoap")
 @EnableEurekaClient
+@SpringBootApplication
 public class MessagingSoapServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MessagingSoapServiceApplication.class, args);
-		System.out.println("MessagingSoap radi");
 	}
 
 }

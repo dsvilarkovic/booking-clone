@@ -3,15 +3,6 @@
     <div class="col-12">
       <div class="row">
         <h3>{{accommodation.name}}</h3>
-        <h3>
-          <div style="margin-left:20px;">
-              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 0.5}"></span>
-              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 1.5}"></span>
-              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 2.5}"></span>
-              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 3.5}"></span>
-              <span class="fa fa-star" [ngClass]="{orange: accommodation.rating > 4.5}"></span>
-          </div>
-        </h3>
       </div>
       <div class="row">
         <h5 style="margin-right: 10px"><span class="fa fa-map-marker" [ngClass]="{orange: accommodation.rating > 0.5}"></span></h5>
@@ -28,22 +19,32 @@
       <div class="row">
         <h6>{{accommodation.description}}</h6>
       </div>
-      <!-- list of accommodation units -->
-      <div class="row">
-        <div class="units-list list-group">
-          <h5>Available accommodation units:</h5>
-          <div *ngFor="let accommodationunit of accommodationunits" class="list-group-item clearfix accommodationunit">
-              <div>
-                  <h5 class="unit-name">
-                      {{accommodationunit.name}}
-                  </h5>
-                  <div class="unit-info">
-                      <div class="info"><span class="">Capacity:</span> {{accommodationunit.capacity}}</div>
-                  </div>
-              </div>
+      <div>
+        <div class="row" style="margin-bottom: 15px">
+          <div class="units-list list-group">
+            <h5>Available accommodation units:</h5>
+            <div *ngFor="let accommodationunit of accommodationUnits" class="list-group-item clearfix accommodationunit">
+                <div>
+                    <h5 class="unit-name">
+                        {{accommodationunit.name}}
+                    </h5>
+                    <div class="unit-info">
+                        <div class="info"><span class="">Capacity:</span> {{accommodationunit.capacity}} persons</div>
+                        <div class="info"><span class="">Cancelation period:</span> {{accommodationunit.cancelationPeriod}} days</div>
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
+      <ngb-pagination
+      [(collectionSize)]="collectionSize"
+      [(page)] = "page"
+      [(pageSize)]="pageSize"
+      [boundaryLinks]="true"
+      style="float:right"
+      (pageChange)="onPageChange(pageNo)">
+      </ngb-pagination>
     </div>
 
     <!--right column with the pictures and maps etc-->
@@ -62,9 +63,6 @@
         <h5>Photos</h5>
       </div>
       <div class="row">
-        <!-- <div class="profile-img">
-            <img src="https://t-ec.bstatic.com/images/hotel/max1024x768/412/41215540.jpg"/>
-        </div> -->
         <ngb-carousel class="acc-carousel" *ngIf="images" [showNavigationArrows]="true" [showNavigationIndicators]="false">
           <ng-template class="acc-img" ngbSlide *ngFor="let image of images">
             <img [src]="image" alt="accommodation.name">

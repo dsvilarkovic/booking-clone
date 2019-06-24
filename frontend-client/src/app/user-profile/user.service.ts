@@ -1,4 +1,4 @@
-import { Reservation } from './../object-interfaces/reservation';
+import { Reservation } from './reservation';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,18 +11,29 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  urlBase = 'http://localhost:8080';
+  urlBase = 'http://localhost:8762/api';
 
   // get a user
-  getUser(id: number): Observable<User> {
-    const url = this.urlBase + '/user/' + id;
+  getUser(): Observable<User> {
+    const url = this.urlBase + '/users/whoami';
+
+    // console.log(url);
 
     return this.http.get<User>(url);
   }
 
-  getReservations(id: number): Observable<Reservation[]>{
-    const url = this.urlBase + 'reservation/user/' + id;
+  getReservations(): Observable<Reservation[]>{
+    const url = this.urlBase + '/reservations/user';
+
+    // console.log(url);
 
     return this.http.get<Reservation[]>(url);
+  }
+
+  cancelReservation() {
+    const url = this.urlBase + '/reservations/reservation';
+
+    // TODO: otkazivanje rezervacije
+    // return this.http.put(url);
   }
 }

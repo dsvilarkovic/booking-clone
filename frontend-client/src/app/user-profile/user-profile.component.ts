@@ -5,6 +5,7 @@ import { NgbTabChangeEvent, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Reservation } from './reservation';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserService } from './user.service';
 
 
 @Component({
@@ -14,57 +15,31 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class UserProfileComponent implements OnInit {
 
-  id: number;
-  // user : User;
+  constructor(private router: ActivatedRoute,
+              private modalService: NgbModal,
+              private datePipe: DatePipe,
+              private userService: UserService) { }
 
   commentForm: FormGroup;
   ratingForm: FormGroup;
 
+
+  currentReservations: Reservation[] = [];
+  pastReservations: Reservation[] = [];
+
   user: User = {
-    id: 0,
-    firstName: 'Marijana',
-    lastName: 'Kološnjaji',
-    email: 'majak96@gmail.com',
-    address: 'Trg Dositeja Obradovića 6'
+    id: null,
+    firstName: '',
+    lastName: '',
+    address: '',
+    email: ''
   };
-
-  currentReservations: Reservation[] = [
-    {
-      id: 0, beginning_date: new Date('2019-04-27'), end_date: new Date('2019-05-01 13:13:00'),
-      hotel: 'Sheraton', room: 'Master Suite', final_price: 510
-    },
-    {
-      id: 1, beginning_date: new Date('2019-04-27'), end_date: new Date('2019-05-01 13:13:00'),
-      hotel: 'Sheraton', room: 'Single room', final_price: 2510
-    }
-  ];
-
-  pastReservations: Reservation[] = [
-    {
-      id: 2, beginning_date: new Date('2019-04-27'), end_date: new Date('2019-05-01 13:13:00'),
-      hotel: 'Sheraton', room: 'Master Suite', final_price: 510
-    },
-    {
-      id: 3, beginning_date: new Date('2019-04-27'), end_date: new Date('2019-05-01 13:13:00'),
-      hotel: 'Sheraton', room: 'Single room', final_price: 2510
-    }
-  ];
 
   userImage = 'https://cdn0.iconfinder.com/data/icons/user-pictures/100/malecostume-512.png';
 
-  constructor(private router: ActivatedRoute,
-              private modalService: NgbModal,
-              private datePipe: DatePipe) { }
-
   ngOnInit() {
-    // get user id from the path
-    this.router.paramMap.subscribe(
-      params => {
-        this.id = +params.get('id');
-      });
-
-    // getUser()
-    // getReservations()
+    this.getUser();
+    this.getReservations();
 
     this.commentForm = new FormGroup(
       {
@@ -80,38 +55,45 @@ export class UserProfileComponent implements OnInit {
   }
 
 
+  // get user information
   getUser() {
-    /* this.userService.getUser(this.id).subscribe(
+    this.userService.getUser().subscribe(
       data => {
         this.user = data;
       },
       error => {
-        console.log('There was an error.');
+        alert('An error occurred while getting user information.');
       }
-    ); */
+    );
   }
 
+  // get user reservations
   getReservations(){
-        /* this.userService.getReservations(this.id).subscribe(
+    this.userService.getReservations().subscribe(
       data => {
-        //todo: filtrirati po datumu rezervacije!
-        this.currentReservations = data;
-        this.pastReservations = data;
+        console.log(data);
+        for (const res of data) {
+          if (res.checkedIn === true) {
+            this.pastReservations.push(res);
+          } else {
+            this.currentReservations.push(res);
+          }
+        }
       },
       error => {
-        console.log('There was an error.');
+        alert('An error ocurred while getting user reservations.');
       }
-    ); */
+    );
   }
 
   postComment(){
-    //do something
+    // do something
 
 
   }
 
   postRating(){
-    //do something
+    // do something
 
 
   }
@@ -122,15 +104,15 @@ export class UserProfileComponent implements OnInit {
 
   // open modal dialog to write a message
   open1(content1, reservation: Reservation) {
-    //do something
+    // do something
 
     this.modalService.open(content1);
   }
 
-    // open modal dialog to rate
-    open2(content2, reservation: Reservation) {
-      //do something
+  // open modal dialog to rate
+  open2(content2, reservation: Reservation) {
+    // do something
 
-      this.modalService.open(content2);
-    }
+    this.modalService.open(content2);
+  }
 }

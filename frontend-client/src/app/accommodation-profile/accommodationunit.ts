@@ -5,4 +5,5 @@ export interface AccommodationUnit {
   image: string;
   defaultPrice: number;
   cancelationPeriod: number;
+  accommodationId: number;
 }

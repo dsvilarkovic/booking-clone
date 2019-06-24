@@ -13,57 +13,33 @@ import { AccommodationUnit } from './accommodationunit';
 })
 export class AccommodationProfileComponent implements OnInit {
 
-  images = ['https://s-ec.bstatic.com/images/hotel/max1024x768/193/193001905.jpg',
-            'http://www.onamagazin.com/wp-content/uploads/2018/03/WEBHOTEL-SHERATON-NS-restoran.jpg'];
-  id: number;
-  // accommodation: Accommodation;
-
   constructor(private router: ActivatedRoute,
               private accommodationService: AccommodationService) { }
 
+  id: number;
+
   loc: Location = {
-    id: 0,
-    address: 'Polgar Andraša 1',
-    city: 'Novi Sad',
-    country: 'Serbia',
-    longitude: 19.8140651,
-    latitude: 45.2482027
+    id: null,
+    address: '',
+    city: '',
+    country: '',
+    longitude: null,
+    latitude: null
   };
 
   accommodation: Accommodation = {
-    id: 0,
-    name: 'Sheraton',
-    description: 'Ovo je opis hotela Sheraton.',
-    rating: 4.5,
+    id: null,
+    name: '',
+    description: '',
     location: this.loc
   };
 
-  accommodationunits: AccommodationUnit[] = [
-    {
-      id: 0,
-      name: 'Master Suite',
-      capacity: 2,
-      cancelationPeriod: 2,
-      defaultPrice: 100,
-      image : null
-    },
-    {
-      id: 1,
-      name: 'Double room',
-      capacity: 2,
-      cancelationPeriod: 2,
-      defaultPrice: 100,
-      image : null
-    },
-    {
-      id: 2,
-      name: 'Single room',
-      capacity: 1,
-      cancelationPeriod: 2,
-      defaultPrice: 100,
-      image : null
-    },
-  ];
+  accommodationUnits: AccommodationUnit[] = [];
+  images = [];
+
+  page = 1;
+  collectionSize = 0;
+  pageSize = 0;
 
   ngOnInit() {
     // get accommodation id from the path
@@ -72,18 +48,55 @@ export class AccommodationProfileComponent implements OnInit {
         this.id = +params.get('id');
       });
 
-    // getAccommodation(id: number)
+    this.getAccommodation(this.id);
+    this.getAccommodationUnits(this.id);
+    this.getImages(this.id);
   }
 
+  // get accommodation information
   getAccommodation(id: number) {
-    /* this.accommodationService.getAccommodation(this.id).subscribe(
+    this.accommodationService.getAccommodation(this.id).subscribe(
       data => {
         this.accommodation = data;
       },
       error => {
-        console.log('There was an error.');
+        alert('An error occurred while getting accommodation information.');
       }
-    ); */
+    );
+  }
+
+  // get accommodation units of the accommodation
+  getAccommodationUnits(id: number) {
+    this.accommodationService.getAccommodationUnits(this.id, this.page-1).subscribe(
+      data => {
+        this.accommodationUnits = data['content'];
+        this.collectionSize = data['totalElements'];
+        this.pageSize = data['pageable'].pageSize;
+      },
+      error => {
+        alert('An error occurred while getting accommodation units.');
+      }
+    );
+  }
+
+  // get accommodation images
+  getImages(id: number) {
+    this.accommodationService.getAccommodationImages(this.id).subscribe(
+      data => {
+        for (const img of data) {
+          // this.images.push('data:image/png;base64, ' + img.value);
+          // console.log('data:image/png;base64, ' + img.value);
+        }
+      },
+      error => {
+        alert('An error occurred while getting images.');
+      }
+    );
+  }
+
+  onPageChange(pageNo: number){
+    this.page = 0;
+    this.getAccommodationUnits(this.id);
   }
 
 }

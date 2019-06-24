@@ -64,19 +64,19 @@
       </button>
     </div>
     <div class="modal-body">
-      <p>
+      <h5>
         User: {{currentComment.user.email}}<br/>
         Date: {{currentComment.date | date: 'short'}}<br/>
         Content: "{{currentComment.value}}"
-      </p>
+      </h5>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-sm" [ngClass]="{'btn-outline-warning': currentComment.commentState === 'NOT_REVIEWED', 'btn-outline-danger': currentComment.commentState === 'UNPUBLISHED', 'btn-outline-success': currentComment.commentState == 'PUBLISHED'}" (click)="editComment(currentComment)">
-
-        <div *ngIf="currentComment.commentState === 'NOT_REVIEWED'">Not Reviewed</div>
-        <div *ngIf="currentComment.commentState === 'UNPUBLISHED'">Unpublished</div>
-        <div *ngIf="currentComment.commentState === 'PUBLISHED'">Published</div>
-
+      <button type="button" class="btn" [ngClass]="currentComment.commentState === 'PUBLISHED' ? 'btn-outline-danger' : 'btn-outline-success'" (click)="currentComment.commentState === 'PUBLISHED' ? editComment(currentComment,false) : editComment(currentComment,true)">
+        <div *ngIf="currentComment.commentState === 'UNPUBLISHED' || currentComment.commentState === 'NOT_REVIEWED'">Publish</div>
+        <div *ngIf="currentComment.commentState === 'PUBLISHED'">Unpublish</div>
+      </button>
+      <button *ngIf="currentComment.commentState === 'NOT_REVIEWED'" type="button" class="btn btn-outline-danger" (click)="editComment(currentComment, false)">
+        <div>Unpublish</div>
       </button>
 
       <button type="button" class="btn btn-info" (click)="modal.close()">

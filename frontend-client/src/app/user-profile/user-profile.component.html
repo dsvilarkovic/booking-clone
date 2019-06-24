@@ -27,14 +27,14 @@
                   </div>
                   <div class="reservation-main">
                     <h5 class="reservation-name">
-                      {{reservation.hotel}}
-                      <span style="text-align: right; float: right;">{{reservation.beginning_date | date: 'M/d/yy'}} - {{reservation.end_date | date: 'M/d/yy'}}</span>
+                      {{reservation.accommodationName}}
+                      <span style="text-align: right; float: right;">{{reservation.beginningDate | date: 'M/d/yy'}} - {{reservation.endDate | date: 'M/d/yy'}}</span>
                     </h5>
                     <div class="reservation-info">
-                        <div class="info"><span class="">Room type:</span> {{reservation.room}}</div>
+                        <div class="info"><span class="">Room type:</span> {{reservation.accommodationUnitName}}</div>
                     </div>
                     <div class="reservation-info">
-                        <div class="info"><span class="">Final price: </span>RSD {{reservation.final_price}}</div>
+                        <div class="info"><span class="">Final price: </span>RSD {{reservation.finalPrice}}</div>
                     </div>
                     <div>
                       <button style="text-align: center; float: right;" type="button" class="btn btn-info btn-sm col-2">Cancel</button>
@@ -44,7 +44,7 @@
               </div>
             </ng-template>
         </ngb-tab>
-        <ngb-tab title="Accomodation category" id="accomodationCategory">
+        <ngb-tab title="Past reservations" id="accomodationCategory">
             <ng-template ngbTabContent>
                 <div class="reservations-list">
                   <div *ngFor="let reservation of pastReservations" class="list-group-item clearfix reservation">
@@ -53,14 +53,14 @@
                     </div>
                     <div class="reservation-main">
                       <h5 class="reservation-name">
-                        {{reservation.hotel}}
-                        <span style="text-align: right; float: right;">{{reservation.beginning_date | date: 'M/d/yy'}} - {{reservation.end_date | date: 'M/d/yy'}}</span>
+                        {{reservation.accommodationName}}
+                        <span style="text-align: right; float: right;">{{reservation.beginningDate | date: 'M/d/yy'}} - {{reservation.endDate | date: 'M/d/yy'}}</span>
                       </h5>
                       <div class="reservation-info">
-                          <div class="info"><span class="">Room type:</span> {{reservation.room}}</div>
+                          <div class="info"><span class="">Room type:</span> {{reservation.accommodationUnitName}}</div>
                       </div>
                       <div class="reservation-info">
-                          <div class="info"><span class="">Final price: </span>RSD {{reservation.final_price}}</div>
+                          <div class="info"><span class="">Final price: </span>RSD {{reservation.finalPrice}}</div>
                       </div>
                       <div>
                           <button style="text-align: center; float: right;" type="button" (click)="open2(content2, reservation)" class="btn btn-info btn-sm col-2">Rate</button>

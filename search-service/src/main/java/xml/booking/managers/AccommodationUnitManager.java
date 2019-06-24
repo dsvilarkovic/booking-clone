@@ -112,8 +112,8 @@ public class AccommodationUnitManager {
 		    	
 		    	Double price = getAccommodationUnitPrice(accommodationUnit.getId(), beginningDate, endDate);
 		    			    	
-		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(accommodationUnit, price, accommodation.getName(), 
-		    			                                                             category.getName(), type.getName(), accommodation.getDescription());
+		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(accommodationUnit, price, accommodation.getName(), category.getName(),
+		    														type.getName(), accommodation.getDescription(), accommodation.getId());
 		    	
 		   		return accommodationUnitDTO;
 		    }
@@ -134,8 +134,8 @@ public class AccommodationUnitManager {
 		    	
 		    	Double price = getAccommodationUnitPrice(au.getId(), beginningDate, endDate);
 		    			    	
-		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(au, price, accommodation.getName(), 
-		    			                                                             category.getName(), type.getName(), accommodation.getDescription());
+		    	AccommodationUnitDTO accommodationUnitDTO = new AccommodationUnitDTO(au, price, accommodation.getName(), category.getName(),
+		    													type.getName(), accommodation.getDescription(), accommodation.getId());
 		    	
 		    	dtoList.add(accommodationUnitDTO);
 		}

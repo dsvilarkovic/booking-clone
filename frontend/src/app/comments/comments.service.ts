@@ -20,6 +20,7 @@ export class CommentsService {
       Authorization: ''
     }),
   };
+  
   plainTexthttpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -32,10 +33,10 @@ export class CommentsService {
 
 
   // get all comments
-  getComments(pageNo: number, pageSize: number): Observable<any[]> {
-    const url = this.urlBase + '/comments?' + 'page=' + (pageNo - 1) + '&size=' + (pageSize);
+  getComments(pageNo: number, pageSize: number): Observable<Comment[]> {
+    const url = this.urlBase + '/comments?' + 'page=' + (pageNo) + '&size=' + (pageSize);
 
-    return this.http.get<any[]>(url, this.httpOptions);
+    return this.http.get<Comment[]>(url, this.httpOptions);
   }
 
   // approve/reject a comment

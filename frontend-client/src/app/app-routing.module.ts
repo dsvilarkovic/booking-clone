@@ -25,7 +25,7 @@ const routes: Routes = [
     component: AccommodationProfileComponent
   },
   {
-    path: 'user/:id',
+    path: 'user',
     component: UserProfileComponent
   },
   // TODO: obrisati ovaj primer, samo za testiranje sluzi

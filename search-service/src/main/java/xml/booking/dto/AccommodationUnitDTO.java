@@ -11,6 +11,7 @@ public class AccommodationUnitDTO {
 	private Double defaultPrice;
 	private Integer cancelationPeriod;
 	private String accommodation;
+	private Long accommodationId;
 	private String accommodationType;
 	private String accommodationCategory;
 	private String description;
@@ -51,18 +52,8 @@ public class AccommodationUnitDTO {
 		
 	}
 		
-	public AccommodationUnitDTO(Long id, String name, Integer capacity, Double calculatedPrice,
-			Integer cancelationPeriod) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.capacity = capacity;
-		this.calculatedPrice = calculatedPrice;
-		this.cancelationPeriod = cancelationPeriod;
-	}
-
 	public AccommodationUnitDTO(AccommodationUnit accommodationUnit, Double calculatedPrice, String accommodation, String accommodationCategory,
-			                    String accommodationType, String description) {
+			                    String accommodationType, String description, Long accommodationId) {
 		this.id = accommodationUnit.getId();
 		this.name = accommodationUnit.getName();
 		this.capacity = accommodationUnit.getCapacity();
@@ -73,6 +64,7 @@ public class AccommodationUnitDTO {
 		this.accommodationType = accommodationType;
 		this.description = description;
 		this.defaultPrice = accommodationUnit.getDefaultPrice();
+		this.accommodationId = accommodationId;
 	}
 
 	public Long getId() {
@@ -112,6 +104,14 @@ public class AccommodationUnitDTO {
 
 	public void setDefaultPrice(Double defaultPrice) {
 		this.defaultPrice = defaultPrice;
+	}
+
+	public Long getAccommodationId() {
+		return accommodationId;
+	}
+
+	public void setAccommodationId(Long accommodationId) {
+		this.accommodationId = accommodationId;
 	}
 	
 }

@@ -1,4 +1,5 @@
 HELP.md
+!Dockerfile
 /target/*
 !/target/accommodation-soap-service-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar

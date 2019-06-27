@@ -41,6 +41,8 @@ export class SearchResultsComponent implements OnInit {
     additionalServices: null
   };
 
+  longitude = null;
+  latitude = null;
 
   modalOption: NgbModalOptions = {};
 
@@ -53,9 +55,9 @@ export class SearchResultsComponent implements OnInit {
   accommodationUnitList: AccommodationUnit[] = [];
 
   advancedSearchForm: FormGroup;
-  collectionSize = 4;
+  collectionSize = 0;
   page = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   ngOnInit() {
     // preuzimanje parametara iz putanje
@@ -66,7 +68,8 @@ export class SearchResultsComponent implements OnInit {
         distance: new FormControl(),
         additionalServices: new FormControl()
       }
-);
+    );
+
     this.route.queryParams
       .subscribe(params => {
         this.searchObject.location = params.location;
@@ -84,6 +87,7 @@ export class SearchResultsComponent implements OnInit {
     this.getAccomodationTypes();
     this.getCategories();
     this.getAdditonalServices();
+    this.getUserLocation();
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -143,7 +147,7 @@ export class SearchResultsComponent implements OnInit {
     this.searchService.advancedSearch(this.searchObject.location, this.searchObject.beginningDate,
       this.searchObject.endDate, this.searchObject.numberOfPersons, this.advancedSearchForm.value.accommodationType,
       this.advancedSearchForm.value.accommodationCategory, this.advancedSearchForm.value.additionalServices,
-      this.advancedSearchForm.value.distance, this.page).subscribe(
+      this.advancedSearchForm.value.distance, this.longitude, this.latitude, this.page).subscribe(
         data => {
           this.filterObject = {
             filter: true,
@@ -206,11 +210,22 @@ export class SearchResultsComponent implements OnInit {
       );
   }
 
+  getUserLocation(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.longitude = position.coords.longitude;
+          this.latitude = position.coords.latitude;
+        });
+      } else {
+        alert('Geolocation is not supported by this browser.');
+      }
+  }
+
   getAdvancedSearchResults(page: number) {
     this.searchService.advancedSearch(this.filterObject.search.location, this.filterObject.search.beginningDate,
       this.filterObject.search.endDate, this.filterObject.search.numberOfPersons,
       this.filterObject.accommodationType, this.filterObject.accommodationCategory,
-      this.filterObject.additionalServices, this.filterObject.distance, this.page).subscribe(
+      this.filterObject.additionalServices, this.filterObject.distance, this.longitude, this.latitude, this.page).subscribe(
         data => {
           this.accommodationUnitList = data['content'];
           this.collectionSize = data['totalElements'];

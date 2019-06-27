@@ -18,7 +18,8 @@
     </div>
     <div class="col-8">
       <ngb-tabset (tabChange) = "tabChange($event)">
-        <ngb-tab title="Current reservations" id="currentReservations">
+        <ngb-tab  id="currentReservations">
+            <ng-template ngbTabTitle><span class="tab-title">Current reservations</span></ng-template>
             <ng-template ngbTabContent>
               <div class="reservations-list">
                 <div *ngFor="let reservation of currentReservations" class="list-group-item clearfix reservation">
@@ -37,14 +38,15 @@
                         <div class="info"><span class="">Final price: </span>RSD {{reservation.finalPrice}}</div>
                     </div>
                     <div>
-                      <button style="text-align: center; float: right;" type="button" class="btn btn-info btn-sm col-2">Cancel</button>
+                      <button style="text-align: center; float: right;" type="button" (click)="cancelReservation(reservation)" class="btn btn-info btn-sm col-2">Cancel</button>
                     </div>
                   </div>
                 </div><!-- item -->
               </div>
             </ng-template>
         </ngb-tab>
-        <ngb-tab title="Past reservations" id="accomodationCategory">
+        <ngb-tab id="accomodationCategory">
+            <ng-template ngbTabTitle><span class="tab-title">Past reservations</span></ng-template>
             <ng-template ngbTabContent>
                 <div class="reservations-list">
                   <div *ngFor="let reservation of pastReservations" class="list-group-item clearfix reservation">

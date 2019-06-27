@@ -1,4 +1,7 @@
-	INSERT INTO additional_service ("id", "name") VALUES 
+CREATE SEQUENCE rating_sequence start with 1;
+ALTER TABLE rating ALTER COLUMN id SET DEFAULT nextval('rating_sequence'); 
+
+INSERT INTO additional_service ("id", "name") VALUES 
 (1,'Pegla');
 INSERT INTO additional_service ("id", "name") VALUES 
 (2,'Wi fi');

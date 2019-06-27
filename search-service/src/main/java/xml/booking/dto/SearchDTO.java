@@ -10,8 +10,8 @@ public class SearchDTO {
 	private Long beginningDate;
 	private Long endDate;
 	private Integer numberOfPersons;
-	private CodeBookDTO accommodationType;
-	private CodeBookDTO accommodationCategory;
+	private Long accommodationType;
+	private Long accommodationCategory;
 	private List<CodeBookDTO> additionalServices;
 	private Double distance;
 	private Double userLongitude;
@@ -53,19 +53,19 @@ public class SearchDTO {
 		this.numberOfPersons = numberOfPersons;
 	}
 
-	public CodeBookDTO getAccommodationType() {
+	public Long getAccommodationType() {
 		return accommodationType;
 	}
 
-	public void setAccommodationType(CodeBookDTO accommodationType) {
+	public void setAccommodationType(Long accommodationType) {
 		this.accommodationType = accommodationType;
 	}
 
-	public CodeBookDTO getAccommodationCategory() {
+	public Long getAccommodationCategory() {
 		return accommodationCategory;
 	}
 
-	public void setAccommodationCategory(CodeBookDTO accommodationCategory) {
+	public void setAccommodationCategory(Long accommodationCategory) {
 		this.accommodationCategory = accommodationCategory;
 	}
 

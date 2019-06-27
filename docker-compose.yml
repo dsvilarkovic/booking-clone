@@ -98,6 +98,32 @@ services:
     networks:
       - megatravel-network
 
+  search-service:
+    image: ftntim1/xml-booking:search-service
+    ports:
+      - "8095:8095"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  user-managing-service:
+    image: ftntim1/xml-booking:search-service
+    ports:
+      - "8096:8096"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
 
 networks:
   megatravel-network:

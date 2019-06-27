@@ -47,7 +47,7 @@ public interface AccommodationUnitRepository extends JpaRepository<Accommodation
 		 + "and (lower(loc.address) like lower(concat('%', :location,'%')) or lower(loc.country) like lower(concat('%', :location,'%')) "
          + "or lower(loc.city) like lower(concat('%', :location,'%'))) and au.capacity >= :persons " 
            //provera tipa i kategorije - ukoliko su uneti
-         + "and (:type is null or act = :type) and (:category is null or acat = :category) "
+         + "and (:type is null or act.id = :type) and (:category is null or acat.id = :category) "
            //provera da li vec postoji rezervacija u tom periodu
          + "and au not in (select unit from Reservation as res inner join res.accommodationUnit as unit where "
          + "((res.beginningDate <= :beg and res.endDate >= :end) or (res.beginningDate >= :beg and res.beginningDate < :end) or " 
@@ -57,7 +57,7 @@ public interface AccommodationUnitRepository extends JpaRepository<Accommodation
 	     + "where dd.date >= :beg and dd.date <= :end and dd.available = false and acunit.deleted = false)")
 	List<AccommodationUnit> advancedSearch(@Param("location") String location, @Param("persons") Integer numberOfPersons, 
 			       						  @Param("beg") Long beginningDate, @Param("end") Long endDate, @Param("deleted") Boolean deleted, 
-			       						  @Param("type") AccommodationType accommodationType, @Param("category") AccommodationCategory accommodationCategory,
+			       						  @Param("type") Long accommodationType, @Param("category") Long accommodationCategory,
 				                          @Param("services") List<AdditionalService> services);
 
 }

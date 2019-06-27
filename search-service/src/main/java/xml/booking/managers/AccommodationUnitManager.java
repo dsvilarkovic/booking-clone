@@ -63,16 +63,6 @@ public class AccommodationUnitManager {
 	 * 
 	 */
 	public Page<AccommodationUnitDTO> advancedSearch(SearchDTO searchObject, Pageable page) {
-
-		AccommodationType type = null;
-		if(searchObject.getAccommodationType() != null) {
-			type = new AccommodationType(searchObject.getAccommodationType());
-		}
-		
-		AccommodationCategory category = null;
-		if(searchObject.getAccommodationCategory() != null) {
-			category = new AccommodationCategory(searchObject.getAccommodationCategory());
-		}
 		
 		List<AdditionalService> services = null;
 		if(searchObject.getAdditionalServices() != null && !searchObject.getAdditionalServices().isEmpty()) {
@@ -83,7 +73,8 @@ public class AccommodationUnitManager {
 		}
 		
 		List<AccommodationUnit> units = accommodationUnitRepository.advancedSearch(searchObject.getLocation(), searchObject.getNumberOfPersons(), 
-                							searchObject.getBeginningDate(), searchObject.getEndDate(), false, type, category, services);
+                							searchObject.getBeginningDate(), searchObject.getEndDate(), false, searchObject.getAccommodationType(),
+                							searchObject.getAccommodationCategory(), services);
 
 		
 		List<AccommodationUnitDTO> dtos = mapListToDTO(units, searchObject.getBeginningDate(), searchObject.getEndDate());		

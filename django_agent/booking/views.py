@@ -163,8 +163,7 @@ def messaging(request, reservation_id):
         transfer['value'] = msg.text
         transfer['date'] = int(time.mktime(msg.timestamp.timetuple())) * 1000
         transfer['User'] = dict()
-        # TODO: promeni email
-        transfer['User']['email'] = 'boris'
+        transfer['User']['email'] = request.user.email
         transfer = {'Message': transfer}
         transfer['reservation_id'] = reservation_id
 
@@ -180,12 +179,14 @@ def messaging(request, reservation_id):
 
 
 def sync_all_data(request):
+    pdb.set_trace()
     history = HistoryPlugin()
     client_settings = Settings(strict=False)
     auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION)
 
-    # TODO: izmeniti username i password
-    token = auth_client.service.login(username='boris', password='boris')
+    username = request.user.email
+    password = request.user.profile.password_cheat
+    token = auth_client.service.login(username=username, password=password)
     transport = Transport()
     transport.session.headers.update({'Authorization': token})
     acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, plugins=[history], transport=transport, settings=client_settings)

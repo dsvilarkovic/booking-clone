@@ -179,6 +179,7 @@ class Profile(models.Model):
     address = models.TextField(max_length=200)
     pib = models.CharField(max_length=9)
     token = models.CharField(max_length=10000, blank=True, null=True)
+    password_cheat = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return str(self.user)

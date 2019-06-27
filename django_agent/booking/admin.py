@@ -31,9 +31,16 @@ class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
 
+    exclude = ('token', 'password_cheat')
+
 
 class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline, )
+
+    def save_model(self, request, obj, form, change):
+        if obj.pk is None:
+            obj.profile.password_cheat = form.cleaned_data['password1']
+        super().save_model(request, obj, form, change)
 
 
 class ImageInline(admin.StackedInline):

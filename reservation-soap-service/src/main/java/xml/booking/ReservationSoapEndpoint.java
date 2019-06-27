@@ -38,6 +38,10 @@ public class ReservationSoapEndpoint {
 
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/reservationsoap";
 
+	@Autowired 
+	RestTemplate restTemplate;
+	
+	
 	@Autowired
 	private ReservationRepository reservationRepository;
 	
@@ -75,8 +79,7 @@ public class ReservationSoapEndpoint {
 	public GetReservationListResponse getReservationListRequest() {
 		GetReservationListResponse getReservationListResponse = new GetReservationListResponse();
 		
-		//nadji trenutno ulogovanog user-a na osnovu /whoami
-		RestTemplate restTemplate = new RestTemplate();
+
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", getHttpHeaderValue("Authorization"));

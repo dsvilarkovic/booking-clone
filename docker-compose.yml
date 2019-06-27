@@ -124,6 +124,58 @@ services:
     networks:
       - megatravel-network
 
+  accommodation-service:
+    image: ftntim1/xml-booking:accommodation-service
+    ports:
+      - "9970:9970"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  client-message:
+    image: ftntim1/xml-booking:client-message
+    ports:
+      - "9978:9978"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+  
+  maintenance-of-the-code-book:
+    image: ftntim1/xml-booking:maintenance-of-the-code-book
+    ports:
+      - "9979:9979"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
+  reservations:
+    image: ftntim1/xml-booking:reservations
+    ports:
+      - "9977:9977"
+    links:
+      - service-registry
+    depends_on:
+      - service-registry
+    environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+    networks:
+      - megatravel-network
+
 
 networks:
   megatravel-network:

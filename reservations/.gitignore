@@ -1,6 +1,10 @@
 HELP.md
-/target/
+!Dockerfile
+/target/*
+!/target/reservations-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated

@@ -1,6 +1,6 @@
 HELP.md
 /target/*
-!/target/
+!/target/search-service-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

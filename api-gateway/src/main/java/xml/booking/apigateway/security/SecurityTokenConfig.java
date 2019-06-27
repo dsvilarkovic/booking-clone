@@ -57,6 +57,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		   .antMatchers("/api/accommodation/**").hasRole("AGENT")
 		   .antMatchers("/api/messagingsoap/**").hasRole("AGENT")
 		   .antMatchers("/api/reservationsoap/**").hasRole("AGENT") //permitAll()
+		   .antMatchers("/api/loginsoap/**").permitAll()
 		   // allow all who are accessing "auth" service
 		   .antMatchers(HttpMethod.POST, "/api" +  jwtConfig.getUri()).permitAll();
     	   

@@ -5,7 +5,6 @@ import { AccommodationService } from './accommodation.service';
 import { Accommodation } from './accommodation';
 import { Location } from './location';
 import { AccommodationUnit } from './accommodationunit';
-import {val } from './image-base64-example';
 
 @Component({
   selector: 'app-accommodation-profile',

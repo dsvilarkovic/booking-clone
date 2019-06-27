@@ -1,7 +1,7 @@
 HELP.md
 !Dockerfile
 /target/*
-!/target/maintenance-of-code-book-0.0.1-SNAPSHOT.jar
+!/target/maintenance-of-the-code-book-0.0.1-SNAPSHOT.jar
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**

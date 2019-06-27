@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
@@ -33,6 +35,17 @@ import xml.booking.comments.repositories.ReservationRepository;
 @RequestMapping(value = "/comments",  produces = MediaType.APPLICATION_JSON_VALUE)
 public class CommentsController {
 
+	// Create a bean for restTemplate to call services
+	@Bean
+	@LoadBalanced		// Load balance between service instances running at different ports.
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
+
+	@Autowired
+	RestTemplate restTemplate;
+
+	
 	@Autowired
 	private CommentRepository commentRepository;
 	
@@ -131,10 +144,9 @@ public class CommentsController {
 	
 	
 
-	//TODO: ispraviti ovo za eureka 
-	//TODO: ovo isto moze iz feign clienta lagano da se radi
-//	private static final String AUTH_URL = "http://localhost:9994/users";
-	private static final String AUTH_URL = "http://localhost:8762/api/users";
+//	private static final String AUTH_URL = "http://localhost:8762/api/users";
+	private static final String AUTH_URL = "http://auth-service/users";
+
 
 	public User getLoggedUser(String authorization) {
 		RestTemplate restTemplate = new RestTemplate();

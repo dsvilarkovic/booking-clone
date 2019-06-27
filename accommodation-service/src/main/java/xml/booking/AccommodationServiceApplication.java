@@ -20,7 +20,6 @@ import com.cmeza.sdgenerator.annotation.SDGenerator;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients
 public class AccommodationServiceApplication {
 
 	public static void main(String[] args) {

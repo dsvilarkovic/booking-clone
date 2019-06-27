@@ -2,6 +2,9 @@ version: '3'
 services:
   service-registry:
     image: ftntim1/xml-booking:service-registry
+    build: 
+      context: ./service-registry
+      dockerfile: Dockerfile
     ports:
       - "8761:8761"
     networks:
@@ -9,6 +12,9 @@ services:
 
   api-gateway:
     image: ftntim1/xml-booking:api-gateway
+    build: 
+      context: ./api-gateway
+      dockerfile: Dockerfile
     ports:
       - "8762:8762"
     links:
@@ -22,6 +28,9 @@ services:
 
   authentication-service:
     image: ftntim1/xml-booking:authentication-service
+    build: 
+      context: ./authentication-service
+      dockerfile: Dockerfile
     ports:
       - "9994:9994"
     links:
@@ -35,6 +44,9 @@ services:
 
   authentication-soap-service:
     image: ftntim1/xml-booking:authentication-soap-service
+    build: 
+      context: ./authentication-soap-service
+      dockerfile: Dockerfile
     ports:
       - "9992:9992"
     links:
@@ -48,6 +60,9 @@ services:
 
   accommodation-soap-service:
     image: ftntim1/xml-booking:accommodation-soap-service
+    build: 
+      context: ./accommodation-soap-service
+      dockerfile: Dockerfile
     ports:
       - "9998:9998"
     links:
@@ -61,6 +76,9 @@ services:
 
   reservation-soap-service:
     image: ftntim1/xml-booking:reservation-soap-service
+    build: 
+      context: ./reservation-soap-service
+      dockerfile: Dockerfile
     ports:
       - "9993:9993"
     links:
@@ -74,6 +92,9 @@ services:
 
   messaging-soap-service:
     image: ftntim1/xml-booking:messaging-soap-service
+    build: 
+      context: ./messaging-soap-service
+      dockerfile: Dockerfile
     ports:
       - "9999:9999"
     links:
@@ -87,6 +108,9 @@ services:
 
   comments-service:
     image: ftntim1/xml-booking:comments-service
+    build: 
+      context: ./comments-service
+      dockerfile: Dockerfile
     ports:
       - "9991:9991"
     links:
@@ -100,6 +124,9 @@ services:
 
   search-service:
     image: ftntim1/xml-booking:search-service
+    build: 
+      context: ./search-service
+      dockerfile: Dockerfile
     ports:
       - "8095:8095"
     links:
@@ -113,6 +140,9 @@ services:
 
   user-managing-service:
     image: ftntim1/xml-booking:user-managing-service
+    build: 
+      context: ./user-managing-service
+      dockerfile: Dockerfile
     ports:
       - "8096:8096"
     links:
@@ -126,6 +156,9 @@ services:
 
   accommodation-service:
     image: ftntim1/xml-booking:accommodation-service
+    build: 
+      context: ./accommodation-service
+      dockerfile: Dockerfile
     ports:
       - "9970:9970"
     links:
@@ -139,6 +172,9 @@ services:
 
   client-message:
     image: ftntim1/xml-booking:client-message
+    build: 
+      context: ./client-message
+      dockerfile: Dockerfile
     ports:
       - "9978:9978"
     links:
@@ -152,6 +188,9 @@ services:
   
   maintenance-of-the-code-book:
     image: ftntim1/xml-booking:maintenance-of-the-code-book
+    build: 
+      context: ./maintenance-of-codebook
+      dockerfile: Dockerfile
     ports:
       - "9979:9979"
     links:
@@ -165,6 +204,9 @@ services:
 
   reservations:
     image: ftntim1/xml-booking:reservations
+    build: 
+      context: ./reservations
+      dockerfile: Dockerfile
     ports:
       - "9977:9977"
     links:

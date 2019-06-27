@@ -46,6 +46,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		   .antMatchers("/api/mock-service/**").permitAll()
 		   .antMatchers("/api/reservations/**").permitAll()
 		   .antMatchers("/api/accommodationService/**").permitAll()
+		   .antMatchers("/api/google-cloud/**").permitAll()
 		   
 		   
 		   .antMatchers("/api/auth/**").permitAll()

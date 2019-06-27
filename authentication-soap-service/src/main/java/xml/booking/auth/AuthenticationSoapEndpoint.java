@@ -1,5 +1,8 @@
 package xml.booking.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +19,18 @@ import xml.booking.auth.soap.LoginResponse;
 public class AuthenticationSoapEndpoint {
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/loginsoap";
 
+	
+	// Create a bean for restTemplate to call services
+	@Bean
+	@LoadBalanced		// Load balance between service instances running at different ports.
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
+
+	@Autowired
+	RestTemplate restTemplate;
+
+	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "loginRequest")
 	@ResponsePayload	
 	public LoginResponse loginSoap(@RequestPayload LoginRequest loginRequest) {
@@ -24,8 +39,8 @@ public class AuthenticationSoapEndpoint {
 
 		LoginResponse loginResponse = new LoginResponse();
 		
-		String url = "http://localhost:8762/api/auth/"; // "http://auth-service/auth/"  kad bude pod jednim gateway-om
-		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://auth-service/auth/"; // "http://auth-service/auth/"  kad bude pod jednim gateway-om
+//		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<?> responseEntity = restTemplate.postForEntity(url, new UserDTO(username, password), ResponseEntity.class);
 		//
 		HttpHeaders headers = responseEntity.getHeaders();

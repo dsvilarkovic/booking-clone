@@ -32,7 +32,7 @@ import xml.booking.auth.repositories.UserRepository;
 import xml.booking.auth.security.UserDetailsServiceImpl;
 
 @RestController
-@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
 	

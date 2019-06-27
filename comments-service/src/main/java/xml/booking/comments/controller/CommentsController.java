@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -145,12 +144,10 @@ public class CommentsController {
 	
 
 //	private static final String AUTH_URL = "http://localhost:8762/api/users";
-	private static final String AUTH_URL = "http://auth-service/users";
+	private static final String AUTH_URL = "http://auth-service";
 
 
-	public User getLoggedUser(String authorization) {
-		RestTemplate restTemplate = new RestTemplate();
-		
+	public User getLoggedUser(String authorization) {		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", authorization);
 		HttpEntity<String> entity = new HttpEntity<String>(headers);

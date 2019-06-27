@@ -33,7 +33,9 @@ public class ReservationSoapEndpoint {
 
 	//TODO: izmeniti ovde za eureku
 //	private static final String AUTH_URL = "http://localhost:9994/users";
-	private static final String AUTH_URL = "http://localhost:8762/api/users"; // service-registry + api_gateway
+//	private static final String AUTH_URL = "http://localhost:8762/api/users"; // service-registry + api_gateway
+	private static final String AUTH_URL = "http://auth-service";
+
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/reservationsoap";
 
 	@Autowired

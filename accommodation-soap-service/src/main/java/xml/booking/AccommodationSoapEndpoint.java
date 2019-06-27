@@ -52,9 +52,15 @@ import xml.booking.repositories.UserRepository;
 public class AccommodationSoapEndpoint {
 	//TODO:izmeni link
 //	private static final String AUTH_URL = "http://localhost:9994/users";
-	private static final String AUTH_URL = "http://localhost:8762/api/users"; // service-registry + api_gateway
+//	private static final String AUTH_URL = "http://localhost:8762/api/users"; // service-registry + api_gateway
+	private static final String AUTH_URL = "http://auth-service";
 
 	private static final String NAMESPACE_URI = "http://www.ftn.uns.ac.rs/tim1/accommodationsoap";
+	
+	
+
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@Autowired
 	private AccommodationRepository accommodationRepository;
@@ -113,7 +119,7 @@ public class AccommodationSoapEndpoint {
 	public GetAccommodationsResponse getAccommodationsRequest() {
 		
 		//nadji trenutno ulogovanog user-a na osnovu /whoami
-		RestTemplate restTemplate = new RestTemplate();
+//		RestTemplate restTemplate = new RestTemplate();
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", getHttpHeaderValue("Authorization"));

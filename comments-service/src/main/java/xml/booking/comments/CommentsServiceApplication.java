@@ -23,5 +23,7 @@ public class CommentsServiceApplication {
 		SpringApplication.run(CommentsServiceApplication.class, args);
 		System.out.println("Aktiviran Comment Service");
 	}
+	
+	
 
 }

@@ -112,7 +112,7 @@ services:
       - megatravel-network
 
   user-managing-service:
-    image: ftntim1/xml-booking:search-service
+    image: ftntim1/xml-booking:user-managing-service-service
     ports:
       - "8096:8096"
     links:

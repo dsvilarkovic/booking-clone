@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import xml.booking.dto.AccommodationUnitDTO;
 import xml.booking.model.AccommodationUnit;
 
-@FeignClient(name="accommodation-service", url="localhost:8762/api/accommodationService/accommodationUnit")
+@FeignClient(name="accommodation-service")
 public interface AccommodationUnitProxy {
 	
-	@GetMapping("/{accommodationUnitId}")
+	@GetMapping("accommodationUnit/{accommodationUnitId}")
 	public ResponseEntity<AccommodationUnitDTO> getAccommodationUnitById(@PathVariable Long accommodationUnitId);
 	
-	@GetMapping("/available/{accommodationUnitId}")
+	@GetMapping("accommodationUnit/available/{accommodationUnitId}")
 	public ResponseEntity<AccommodationUnit> checkReservationInfo(@RequestParam long from, @RequestParam long to,
 			@RequestParam int numberOfPersons, @PathVariable Long accommodationUnitId);
 	
-	@GetMapping("/price/{accommodationUnitId}")
+	@GetMapping("accommodationUnit/price/{accommodationUnitId}")
 	public ResponseEntity<BigDecimal> findAccommodationPrice(@RequestParam long from, @RequestParam long to, @PathVariable Long accommodationUnitId);
 }

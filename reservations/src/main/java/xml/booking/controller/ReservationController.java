@@ -115,6 +115,7 @@ public class ReservationController {
 	@GetMapping("/user")
 	public ResponseEntity<?> getUserReservation(HttpServletRequest request) {
 		ResponseEntity<UserDTO> user;
+		System.out.println("OVDEEEEEEEEEEEEEEE");
 		try {
 			user = authenticationProxy.whoami("Bearer "+ getToken(request));
 		} catch (Exception e) {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import xml.booking.dto.ReservationDTO;
 import xml.booking.model.Message;
 
-@FeignClient(name="reservations", url="localhost:8762/api/reservations")
+@FeignClient(name="reservations")
 public interface ReservationProxy {
 	
 	@GetMapping("/{reservationId}")

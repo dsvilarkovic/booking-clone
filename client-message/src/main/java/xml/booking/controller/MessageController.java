@@ -105,7 +105,7 @@ public class MessageController {
 	// Preuzima poruke rezervacije sa kljucem reservationId koja pripada ulogovanom korisniku 
 	@GetMapping("/userReservation/{reservationId}")
 	public ResponseEntity<?> getUserReservationMessages(HttpServletRequest request, @PathVariable Long reservationId) {
-		
+		System.out.println("VEKIIIIIIIIIIIIIIIIIII");
 		ResponseEntity<ReservationDTO> reservation;
 		try {
 			reservation = reservationProxy.getReservationById(reservationId);

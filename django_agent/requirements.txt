@@ -4,3 +4,5 @@ django-dotenv
 PyYaml==3.13
 django-crispy-forms
 zeep
+lxml
+Pillow

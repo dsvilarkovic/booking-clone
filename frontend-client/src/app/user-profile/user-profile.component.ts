@@ -6,6 +6,7 @@ import { Reservation } from './reservation';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from './user.service';
+import { Review } from './review';
 
 
 @Component({
@@ -21,11 +22,11 @@ export class UserProfileComponent implements OnInit {
               private userService: UserService) { }
 
   commentForm: FormGroup;
-  ratingForm: FormGroup;
-
 
   currentReservations: Reservation[] = [];
   pastReservations: Reservation[] = [];
+
+  currentReservation: Reservation = null;
 
   user: User = {
     id: null,
@@ -43,13 +44,8 @@ export class UserProfileComponent implements OnInit {
 
     this.commentForm = new FormGroup(
       {
-        comment: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      }
-    );
-
-    this.ratingForm = new FormGroup(
-      {
-        rating: new FormControl('', [Validators.required]),
+      rating: new FormControl('', [Validators.required]),
+      comment: new FormControl('', [Validators.required , Validators.minLength(3)]),
       }
     );
   }
@@ -86,14 +82,20 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  postComment() {
-    // do something
+  postComment(reservation: Reservation) {
+    const review: Review = {
+      comment: this.commentForm.value.comment,
+      rating: this.commentForm.value.rating as number,
+      reservation: reservation.id as number
+    };
 
-
-  }
-
-  postRating() {
-    // do something
+    this.userService.postReview(review).subscribe(
+      data => {
+        alert('Your review has been sent');
+      }, error => {
+        console.log('error review');
+      }
+    );
 
 
   }
@@ -104,18 +106,11 @@ export class UserProfileComponent implements OnInit {
 
   // open modal dialog to write a message
   open1(content1, reservation: Reservation) {
-    // do something
-
+    this.currentReservation = reservation;
     this.modalService.open(content1);
   }
 
-  // open modal dialog to rate
-  open2(content2, reservation: Reservation) {
-    // do something
-
-    this.modalService.open(content2);
-  }
-
+  // cancel reservation
   cancelReservation(reservation) {
     this.userService.cancelReservation(reservation.id).subscribe(
       data => {

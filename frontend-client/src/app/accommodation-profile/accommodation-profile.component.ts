@@ -5,6 +5,7 @@ import { AccommodationService } from './accommodation.service';
 import { Accommodation } from './accommodation';
 import { Location } from './location';
 import { AccommodationUnit } from './accommodationunit';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-accommodation-profile',
@@ -14,7 +15,8 @@ import { AccommodationUnit } from './accommodationunit';
 export class AccommodationProfileComponent implements OnInit {
 
   constructor(private router: ActivatedRoute,
-              private accommodationService: AccommodationService) { }
+              private accommodationService: AccommodationService,
+              private datePipe: DatePipe) { }
 
   id: number;
 
@@ -36,6 +38,7 @@ export class AccommodationProfileComponent implements OnInit {
 
   accommodationUnits: AccommodationUnit[] = [];
   images = [];
+  comments = [];
 
   page = 1;
   collectionSize = 0;
@@ -51,6 +54,7 @@ export class AccommodationProfileComponent implements OnInit {
     this.getAccommodation(this.id);
     this.getAccommodationUnits(this.id);
     this.getImages(this.id);
+    this.getComments(this.id);
   }
 
   // get accommodation information
@@ -93,9 +97,25 @@ export class AccommodationProfileComponent implements OnInit {
     );
   }
 
+  getComments(id: number) {
+    this.accommodationService.getComments(this.id).subscribe(
+      data => {
+       this.comments = data;
+       console.log(this.comments);
+      },
+      error => {
+        alert('An error occurred while getting comments.');
+      }
+    );
+  }
+
   onPageChange(pageNo: number){
     this.page = 0;
     this.getAccommodationUnits(this.id);
+  }
+
+  getDate(date: number) {
+    return this.datePipe.transform(new Date(date), 'yyyy-MM-dd');
   }
 
 }

@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import xml.booking.dto.RegistrationDTO;
 
-//TODO: promeniti putanju na zuul
-@FeignClient(name="auth-service", url="localhost:9994/users")
+@FeignClient(name="auth-service")
 public interface UserProxy {
 	
 	@PostMapping("/")

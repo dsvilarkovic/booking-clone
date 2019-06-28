@@ -71,4 +71,23 @@
       </div>
     </div>
   </div>
+  <div class="row" >
+    <div class="col-9">
+      <h5>User comments </h5>
+      <hr>
+      <table class="table table-striped">
+        <thead>
+            <th>Comment</th>
+            <th>Date</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of comments" >
+            <td>{{comment.value}}</td>
+            <td>{{getDate(comment.date)}}</td>
+          </tr>
+        </tbody>
+        
+      </table>
+    </div>
+  </div>
 </div>

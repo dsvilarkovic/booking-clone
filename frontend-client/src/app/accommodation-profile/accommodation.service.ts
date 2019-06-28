@@ -41,4 +41,10 @@ export class AccommodationService {
 
     return this.http.get<Image[]>(url);
   }
+
+  // get accommodation comments
+  getComments(id: number): Observable<Comment[]> {
+    const url = this.urlBase + '/comments/comments/accommodation/' + id;
+    return this.http.get<Comment[]>(url);
+  }
 }

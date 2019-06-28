@@ -43,13 +43,13 @@ export class UserProfileComponent implements OnInit {
 
     this.commentForm = new FormGroup(
       {
-      comment: new FormControl('', [Validators.required , Validators.minLength(3)]),
+        comment: new FormControl('', [Validators.required, Validators.minLength(3)]),
       }
     );
 
     this.ratingForm = new FormGroup(
       {
-      rating: new FormControl('', [Validators.required]),
+        rating: new FormControl('', [Validators.required]),
       }
     );
   }
@@ -68,7 +68,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   // get user reservations
-  getReservations(){
+  getReservations() {
     this.userService.getReservations().subscribe(
       data => {
         console.log(data);
@@ -86,13 +86,13 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  postComment(){
+  postComment() {
     // do something
 
 
   }
 
-  postRating(){
+  postRating() {
     // do something
 
 
@@ -114,5 +114,16 @@ export class UserProfileComponent implements OnInit {
     // do something
 
     this.modalService.open(content2);
+  }
+
+  cancelReservation(reservation) {
+    this.userService.cancelReservation(reservation.id).subscribe(
+      data => {
+        this.currentReservations = this.currentReservations.filter(r => r !== reservation);
+      }, error => {
+        console.log(error.error);
+        alert(error.error);
+      }
+    );
   }
 }

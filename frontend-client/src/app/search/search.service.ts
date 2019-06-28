@@ -31,7 +31,7 @@ export class SearchService {
   }
 
   advancedSearch(locationForm: string, checkInForm: Date, checkOutForm: Date, numberOfPersonsForm: number,
-                 typeForm, categoryForm, servicesForm, distanceForm: number,
+                 typeForm, categoryForm, servicesForm, distanceForm: number, longitude: number, latitude: number,
                  page: number): Observable<AccommodationUnit[]> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' })
@@ -47,7 +47,9 @@ export class SearchService {
       accommodationType: typeForm as AccommodationType,
       accommodationCategory: categoryForm as AccommodationCategory,
       additionalServices: servicesForm,
-      distance: distanceForm
+      distance: distanceForm,
+      userLongitude: longitude,
+      userLatitude: latitude
     };
 
     console.log(url);

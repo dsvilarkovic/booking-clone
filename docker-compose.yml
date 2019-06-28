@@ -189,13 +189,13 @@ services:
   maintenance-of-the-code-book:
     image: ftntim1/xml-booking:maintenance-of-the-code-book
     build: 
-      context: ./maintenance-of-codebook
+      context: ./maintenance-of-the-code-book
       dockerfile: Dockerfile
     ports:
       - "9979:9979"
     links:
       - service-registry
-    depends_on:
+    depends_on:   
       - service-registry
     environment:
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka

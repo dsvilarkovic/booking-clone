@@ -76,8 +76,7 @@ public class AccommodationUnitManager {
                 							searchObject.getBeginningDate(), searchObject.getEndDate(), false, searchObject.getAccommodationType(),
                 							searchObject.getAccommodationCategory(), services);
 
-		
-		List<AccommodationUnitDTO> dtos = mapListToDTO(units, searchObject.getBeginningDate(), searchObject.getEndDate());		
+		List<AccommodationUnitDTO> dtos = mapListToDTO(units, searchObject.getBeginningDate(), searchObject.getEndDate(), searchObject.getDistance(), searchObject.getUserLongitude(), searchObject.getUserLatitude());		
 		
 		return new PageImpl<AccommodationUnitDTO>(dtos, page, dtos.size());
 	}
@@ -113,13 +112,19 @@ public class AccommodationUnitManager {
 		return dtos;		
 	}
 	
-	private List<AccommodationUnitDTO> mapListToDTO(List<AccommodationUnit> accommodationUnits, Long beginningDate, Long endDate){
+	private List<AccommodationUnitDTO> mapListToDTO(List<AccommodationUnit> accommodationUnits, Long beginningDate, Long endDate, Double distance, Double longitude, Double latitude){
 		
 		List<AccommodationUnitDTO> dtoList = new ArrayList<AccommodationUnitDTO>();
 		
 		for(AccommodationUnit au : accommodationUnits) {
+			
+	    	 Accommodation accommodation = accommodationRepository.findAccommodationByAccommodationUnitId(au.getId());		    	
+
+			
+				if(distance != null && (distance(accommodation.getLocation().getLatitude().doubleValue(), latitude, accommodation.getLocation().getLongitude().doubleValue(), longitude) > distance)) {
+					continue;
+				}
 		    	
-		    	Accommodation accommodation = accommodationRepository.findAccommodationByAccommodationUnitId(au.getId());		    	
 		    	AccommodationCategory category = accommodationCategoryRepository.findCategoryByAccommodationUnitId(au.getId());		    	
 		    	AccommodationType type = accommodationTypeRepository.findTypeByAccommodationUnitId(au.getId());
 		    	
@@ -132,6 +137,18 @@ public class AccommodationUnitManager {
 		}
 		
 		return dtoList;		
+
 	}
 	
+	private double distance(double lat1, double lat2, double lon1, double lon2) {
+	    final int R = 6371; // Radius of the earth
+	    double latDistance = Math.toRadians(lat2 - lat1);
+	    double lonDistance = Math.toRadians(lon2 - lon1);
+	    double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1))
+	        * Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	    double distance = R * c; // in kilometers
+	    distance = Math.sqrt(Math.pow(distance, 2));
+	    return distance;
+	  }
 }

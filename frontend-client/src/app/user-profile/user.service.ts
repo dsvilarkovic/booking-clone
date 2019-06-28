@@ -22,7 +22,7 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
-  getReservations(): Observable<Reservation[]>{
+  getReservations(): Observable<Reservation[]> {
     const url = this.urlBase + '/reservations/user';
 
     // console.log(url);
@@ -30,10 +30,11 @@ export class UserService {
     return this.http.get<Reservation[]>(url);
   }
 
-  cancelReservation() {
-    const url = this.urlBase + '/reservations/reservation';
+  cancelReservation(id: number) {
+    const url = this.urlBase + '/reservations/cancel/' + id;
 
-    // TODO: otkazivanje rezervacije
-    // return this.http.put(url);
+    // console.log(url);
+
+    return this.http.delete(url);
   }
 }

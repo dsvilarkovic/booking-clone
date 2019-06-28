@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from .models import AccommodationUnit, Day, Guest, Message, Reservation, AccommodationType, AccommodationCategory, Accommodation, Location, AdditionalService, AccommodationImage
 from datetime import date, timedelta, datetime
-from zeep import Client, Settings, helpers
+from zeep import Client, Settings, helpers, xsd
 from zeep.plugins import HistoryPlugin
 from zeep.transports import Transport
 from lxml import etree
@@ -84,10 +84,14 @@ def edit_prices(request):
         transport = Transport()
         transport.session.headers.update({'Authorization': request.user.profile.token})
         client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
+        accommodation_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+            'http://40.87.122.201:8762/api/accommodation/ws/'
+        )
 
         transfer = unit.to_dict()
         transfer = {'AccommodationUnit': transfer}
-        response = client.service.updateAccommodationUnit(**transfer)
+        response = accommodation_service.updateAccommodationUnit(**transfer)
 
         unit.day_set.all().delete()
         for elem in response['_value_1']:
@@ -128,7 +132,11 @@ def messaging(request, reservation_id):
         transport = Transport()
         transport.session.headers.update({'Authorization': request.user.profile.token})
         client = Client(settings.WSDL_ADDRESS_RESERVATION, transport=transport, settings=client_settings)
-        response = client.service.getMessages(reservation_id=reservation_id)
+        reservation_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/reservationsoap}ReservationSoapPortSoap11',
+            'http://40.87.122.201:8762/api/reservationsoap/ws/'
+        )
+        response = reservation_service.getMessages(reservation_id=reservation_id)
 
         if response:
             Message.objects.filter(reservation_id=reservation_id).delete()
@@ -170,7 +178,11 @@ def messaging(request, reservation_id):
         transport = Transport()
         transport.session.headers.update({'Authorization': request.user.profile.token})
         client = Client(settings.WSDL_ADDRESS_MESSAGING, transport=transport, settings=client_settings)
-        response = client.service.createMessage(**transfer)
+        messaging_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/messagingsoap}MessagingSoapPortSoap11',
+            'http://40.87.122.201:8762/api/messagingsoap/ws/'
+        )
+        response = messaging_service.createMessage(**transfer)
 
         msg.id = response['message_id']
         msg.timestamp = datetime.fromtimestamp(response['timestamp'] / 1000)
@@ -179,14 +191,18 @@ def messaging(request, reservation_id):
 
 
 def sync_all_data(request):
-    pdb.set_trace()
     history = HistoryPlugin()
     client_settings = Settings(strict=False)
     auth_client = Client(settings.WSDL_ADDRESS_AUTHENTICATION)
 
+    login_service = auth_client.create_service(
+        '{http://www.ftn.uns.ac.rs/tim1/loginsoap}LoginSoapPortSoap11',
+        'http://40.87.122.201:8762/api/loginsoap/loginsoap/'
+    )
+
     username = request.user.email
     password = request.user.profile.password_cheat
-    token = auth_client.service.login(username=username, password=password)
+    token = login_service.login(username=username, password=password)
     transport = Transport()
     transport.session.headers.update({'Authorization': token})
     acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, plugins=[history], transport=transport, settings=client_settings)
@@ -194,12 +210,16 @@ def sync_all_data(request):
 
     user = request.user
     user.profile.token = token
-    user.profile.save()    
+    user.profile.save()
 
     # Accommodation Types
     AccommodationType.objects.all().delete()
-
-    soap_response = acc_client.service.getAccommodationTypes()
+    
+    accommodation_service = acc_client.create_service(
+        '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+        'http://40.87.122.201:8762/api/accommodation/ws/'
+    )
+    soap_response = accommodation_service.getAccommodationTypes()
     for atdict in soap_response:
         tmp = helpers.serialize_object(atdict['AccommodationType'])
         new_atype = AccommodationType(**tmp)
@@ -208,7 +228,7 @@ def sync_all_data(request):
     # Accommodation Categories
     AccommodationCategory.objects.all().delete()
 
-    soap_response = acc_client.service.getAccommodationCategories()
+    soap_response = accommodation_service.getAccommodationCategories()
     for acdict in soap_response:
         tmp = helpers.serialize_object(acdict['AccommodationCategory'])
         new_acat = AccommodationCategory(**tmp)
@@ -217,7 +237,7 @@ def sync_all_data(request):
     # Additional Services
     AdditionalService.objects.all().delete()
 
-    soap_response = acc_client.service.getAdditionalServices()
+    soap_response = accommodation_service.getAdditionalServices()
     for addser in soap_response:
         tmp = helpers.serialize_object(addser['AdditionalService'])
         new_addser = AdditionalService(**tmp)
@@ -227,7 +247,7 @@ def sync_all_data(request):
     Accommodation.objects.all().delete()
     Location.objects.all().delete()
     try:
-        soap_response = acc_client.service.getAccommodations()
+        soap_response = accommodation_service.getAccommodations()
     except:
         for hist in [history.last_sent, history.last_received]:
             print(etree.tostring(hist["envelope"],
@@ -305,7 +325,7 @@ def sync_all_data(request):
 
         # Images
         try:
-            soap_response = acc_client.service.getAccommodationImages(aid)
+            soap_response = accommodation_service.getAccommodationImages(aid)
         except:
             for hist in [history.last_sent, history.last_received]:
                 print(etree.tostring(hist["envelope"],
@@ -324,7 +344,11 @@ def sync_all_data(request):
             new_image.save()
 
     # Reservations
-    soap_response = res_client.service.getReservationList()
+    reservation_service = res_client.create_service(
+        '{http://www.ftn.uns.ac.rs/tim1/reservationsoap}ReservationSoapPortSoap11',
+        'http://40.87.122.201:8762/api/reservationsoap/ws/'
+    )
+    soap_response = reservation_service.getReservationList()
     Reservation.objects.all().delete()
     Guest.objects.all().delete()
     for rdict in soap_response:

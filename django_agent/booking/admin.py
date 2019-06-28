@@ -61,15 +61,21 @@ class AccommodationAdmin(admin.ModelAdmin):
         history = HistoryPlugin()
         client_settings = Settings(strict=False)
         transport = Transport()
-        transport.session.headers.update({'Authorization': request.user.profile.token})
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
+        transport.session.headers.update(
+            {'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[
+                        history], settings=client_settings)
+        accommodation_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+            'http://40.87.122.201:8762/api/accommodation/ws/'
+        )
 
         obj.user = request.user
         acom = obj
         if acom.pk is None:
             # create
             acom.save()
-            transfer = acom.to_dict()
+            transfer = acom.to_dict(request.user)
             transfer['id'] = ''
             transfer['Location']['id'] = ''
             loc = acom.location
@@ -82,7 +88,7 @@ class AccommodationAdmin(admin.ModelAdmin):
             transfer['AdditionalService'] = servs
 
             transfer = {'Accommodation': transfer}
-            response = client.service.createAccommodation(**transfer)
+            response = accommodation_service.createAccommodation(**transfer)
 
             loc.id = response['location_id']
             acom.id = response['accommodation_id']
@@ -90,7 +96,7 @@ class AccommodationAdmin(admin.ModelAdmin):
             loc.save()
         else:
             # update
-            transfer = acom.to_dict()
+            transfer = acom.to_dict(request.user)
             # AdditionalServices
             servs = []
             for service in form.cleaned_data['services'].all():
@@ -98,7 +104,8 @@ class AccommodationAdmin(admin.ModelAdmin):
             transfer['AdditionalService'] = servs
             transfer = {'Accommodation': transfer}
             try:
-                response = client.service.updateAccommodation(**transfer)
+                response = accommodation_service.updateAccommodation(
+                    **transfer)
             except:
                 for hist in [history.last_sent, history.last_received]:
                     print(etree.tostring(
@@ -110,12 +117,18 @@ class AccommodationAdmin(admin.ModelAdmin):
         history = HistoryPlugin()
         client_settings = Settings(strict=False)
         transport = Transport()
-        transport.session.headers.update({'Authorization': request.user.profile.token})
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
+        transport.session.headers.update(
+            {'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[
+                        history], settings=client_settings)
+        accommodation_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+            'http://40.87.122.201:8762/api/accommodation/ws/'
+        )
         transfer = dict()
         transfer['accommodation_id'] = obj.id
         try:
-            response = client.service.deleteAccommodation(**transfer)
+            response = accommodation_service.deleteAccommodation(**transfer)
         except:
             for hist in [history.last_sent, history.last_received]:
                 print(etree.tostring(hist["envelope"],
@@ -129,12 +142,18 @@ class AccommodationAdmin(admin.ModelAdmin):
             instances = formset.save(commit=False)
             client_settings = Settings(strict=False)
             transport = Transport()
-            transport.session.headers.update({'Authorization': request.user.profile.token})
-            acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, settings=client_settings, transport=transport)
+            transport.session.headers.update(
+                {'Authorization': request.user.profile.token})
+            acc_client = Client(settings.WSDL_ADDRESS_ACCOMMODATION,
+                                settings=client_settings, transport=transport)
+            accommodation_service = acc_client.create_service(
+                '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+                'http://40.87.122.201:8762/api/accommodation/ws/'
+            )
             for obj in formset.deleted_objects:
                 transfer = dict()
                 transfer['image_id'] = obj.id
-                acc_client.service.deleteImage(**transfer)
+                accommodation_service.deleteImage(**transfer)
                 obj.delete()
             for instance in instances:
                 transfer = dict()
@@ -144,7 +163,7 @@ class AccommodationAdmin(admin.ModelAdmin):
                     instance.image.read())
                 transfer['accommodation_id'] = instance.accommodation.id
 
-                response = acc_client.service.createImage(**transfer)
+                response = accommodation_service.createImage(**transfer)
                 instance.id = response
                 instance.save()
 
@@ -156,8 +175,14 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
         history = HistoryPlugin()
         client_settings = Settings(strict=False)
         transport = Transport()
-        transport.session.headers.update({'Authorization': request.user.profile.token})
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
+        transport.session.headers.update(
+            {'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[
+                        history], settings=client_settings)
+        accommodation_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+            'http://40.87.122.201:8762/api/accommodation/ws/'
+        )
 
         unit = obj
         if unit.pk is None:
@@ -167,14 +192,16 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
             transfer = unit.to_dict()
             transfer = {'AccommodationUnit': transfer,
                         'accommodation_id': accommodation_id}
-            response = client.service.createAccommodationUnit(**transfer)
+            response = accommodation_service.createAccommodationUnit(
+                **transfer)
             AccommodationUnit.objects.filter(id=unit.id).delete()
             unit.id = response
         else:
             # update
             transfer = unit.to_dict()
             transfer = {'AccommodationUnit': transfer}
-            response = client.service.updateAccommodationUnit(**transfer)
+            response = accommodation_service.updateAccommodationUnit(
+                **transfer)
 
             if unit.day_set.exists():
                 unit.day_set.all().delete()
@@ -193,12 +220,19 @@ class AccommodationUnitAdmin(admin.ModelAdmin):
         history = HistoryPlugin()
         client_settings = Settings(strict=False)
         transport = Transport()
-        transport.session.headers.update({'Authorization': request.user.profile.token})
-        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[history], settings=client_settings)
+        transport.session.headers.update(
+            {'Authorization': request.user.profile.token})
+        client = Client(settings.WSDL_ADDRESS_ACCOMMODATION, transport=transport, plugins=[
+                        history], settings=client_settings)
+        accommodation_service = client.create_service(
+            '{http://www.ftn.uns.ac.rs/tim1/accommodationsoap}AccommodationSoapPortSoap11',
+            'http://40.87.122.201:8762/api/accommodation/ws/'
+        )
         transfer = dict()
         transfer['accommodation_unit_id'] = obj.id
         try:
-            response = client.service.deleteAccommodationUnit(**transfer)
+            response = accommodation_service.deleteAccommodationUnit(
+                **transfer)
         except:
             for hist in [history.last_sent, history.last_received]:
                 print(etree.tostring(hist["envelope"],
@@ -233,10 +267,16 @@ class ReservationAdmin(admin.ModelAdmin):
         res = obj
         if res.checked_in is True:
             transport = Transport()
-            transport.session.headers.update({'Authorization': request.user.profile.token})
+            transport.session.headers.update(
+                {'Authorization': request.user.profile.token})
             client_settings = Settings(strict=False)
-            client = Client(settings.WSDL_ADDRESS_RESERVATION, transport=transport, settings=client_settings)
-            client.service.checkinReservation(reservation_id=res.id)
+            client = Client(settings.WSDL_ADDRESS_RESERVATION,
+                            transport=transport, settings=client_settings)
+            reservation_service = client.create_service(
+                '{http://www.ftn.uns.ac.rs/tim1/reservationsoap}ReservationSoapPortSoap11',
+                'http://40.87.122.201:8762/api/reservationsoap/ws/'
+            )
+            reservation_service.checkinReservation(reservation_id=res.id)
         super().save_model(request, obj, form, change)
 
     def has_add_permission(self, request, obj=None):

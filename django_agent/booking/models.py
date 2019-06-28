@@ -73,7 +73,7 @@ class Accommodation(models.Model):
     def __str__(self):
         return self.name
 
-    def to_dict(self):
+    def to_dict(self, user):
         fields = ['name', 'description', 'id']
         ret_val = model_to_dict(self, fields=fields)
 
@@ -82,8 +82,7 @@ class Accommodation(models.Model):
         ret_val['Location'] = self.location.to_dict()
 
         ret_val['AccommodationUnit'] = []
-        # TODO izmeniti email
-        ret_val['User'] = {'email': 'boris'}
+        ret_val['User'] = {'email': user.email}
 
         return ret_val
 

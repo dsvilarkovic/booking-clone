@@ -124,9 +124,6 @@ services:
 
   search-service:
     image: ftntim1/xml-booking:search-service
-    build: 
-      context: ./search-service
-      dockerfile: Dockerfile
     ports:
       - "8095:8095"
     links:
@@ -204,6 +201,9 @@ services:
 
   reservations:
     image: ftntim1/xml-booking:reservations
+    build: 
+      context: ./reservations
+      dockerfile: Dockerfile
     ports:
       - "9977:9977"
     links:

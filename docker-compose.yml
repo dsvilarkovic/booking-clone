@@ -137,9 +137,6 @@ services:
 
   user-managing-service:
     image: ftntim1/xml-booking:user-managing-service
-    build: 
-      context: ./user-managing-service
-      dockerfile: Dockerfile
     ports:
       - "8096:8096"
     links:
@@ -169,9 +166,6 @@ services:
 
   client-message:
     image: ftntim1/xml-booking:client-message
-    build: 
-      context: ./client-message
-      dockerfile: Dockerfile
     ports:
       - "9978:9978"
     links:
@@ -185,9 +179,6 @@ services:
   
   maintenance-of-the-code-book:
     image: ftntim1/xml-booking:maintenance-of-the-code-book
-    build: 
-      context: ./maintenance-of-the-code-book
-      dockerfile: Dockerfile
     ports:
       - "9979:9979"
     links:

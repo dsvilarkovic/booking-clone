@@ -158,8 +158,10 @@ export class SearchResultsComponent implements OnInit {
             additionalServices: this.advancedSearchForm.value.additionalServices
           };
 
+          console.log(data);
+
           this.accommodationUnitList = data['content'];
-          this.collectionSize = data['totalElements'];
+          this.collectionSize = data['content'].size;
           this.pageSize = data['size'];
         }, error => {
           console.log(error.error);
@@ -201,7 +203,7 @@ export class SearchResultsComponent implements OnInit {
       this.searchObject.endDate, this.searchObject.numberOfPersons, page).subscribe(
         data => {
           this.accommodationUnitList = data['content'];
-          this.collectionSize = data['totalElements'];
+          this.collectionSize = data['pageable'].pageSize;
           this.pageSize = data['size'];
         },
         error => {
@@ -228,8 +230,8 @@ export class SearchResultsComponent implements OnInit {
       this.filterObject.additionalServices, this.filterObject.distance, this.longitude, this.latitude, this.page).subscribe(
         data => {
           this.accommodationUnitList = data['content'];
-          this.collectionSize = data['totalElements'];
-          this.pageSize = data['size'];
+          this.collectionSize = data['pageable'].pageSize;
+          this.pageSize = data['pageable'].pageSize;
         },
         error => {
           console.log('error dodatna!');

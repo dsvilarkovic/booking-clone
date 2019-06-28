@@ -12,7 +12,7 @@ export class ReservationCheckoutService {
   constructor(private http: HttpClient) { }
 
   // TODO: Ovo izmeniti za link url
-  reservationUrl = 'http://localhost:8762/api/reservations';
+  reservationUrl = 'http://40.87.122.201:8762/api/reservations';
   reserve(reservation: ReservationDTO) {
     // TODO: ovde rezervisati
     console.log(reservation);

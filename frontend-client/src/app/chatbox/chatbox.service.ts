@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ChatboxService {
 
-  private BASE_URL = 'http://localhost:8762/api/';
+  private BASE_URL = 'http://40.87.122.201:8762/api/';
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

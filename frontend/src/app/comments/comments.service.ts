@@ -11,7 +11,7 @@ import { strictEqual } from 'assert';
 
 
 export class CommentsService {
-  urlBase = 'http://localhost:8762/api/comments';
+  urlBase = 'http://40.87.122.201:8762/api/comments';
 
   httpOptions = {
     headers: new HttpHeaders({

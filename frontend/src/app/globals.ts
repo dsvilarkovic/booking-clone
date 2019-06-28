@@ -1,1 +1,1 @@
-export const GATEWAY_URL = 'http://localhost:8762/';
+export const GATEWAY_URL = 'http://40.87.122.201:8762/';

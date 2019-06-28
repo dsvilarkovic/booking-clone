@@ -7,7 +7,7 @@ import { Codebook } from './codebook';
   providedIn: 'root'
 })
 export class CodebookService {
-  baseUrl = 'http://localhost:8762/api/maintenanceOfCodeBook/';
+  baseUrl = 'http://40.87.122.201:8762/api/maintenanceOfCodeBook/';
 
   constructor(private http: HttpClient) { }
 

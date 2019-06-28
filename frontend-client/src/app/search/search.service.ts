@@ -14,7 +14,7 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   // urlBase = 'http://localhost:8095'; // microservice
-  urlBase = 'http://localhost:8762/api'; // zuul
+  urlBase = 'http://40.87.122.201:8762/api'; // zuul
 
 
   normalSearch(location: string, checkIn: Date, checkOut: Date, numberOfPersons: number, page: number): Observable<AccommodationUnit[]> {

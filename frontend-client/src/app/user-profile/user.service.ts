@@ -12,7 +12,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  urlBase = 'http://localhost:8762/api';
+  urlBase = 'http://40.87.122.201:8762/api';
 
   // get a user
   getUser(): Observable<User> {

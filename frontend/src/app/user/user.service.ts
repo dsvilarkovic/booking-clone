@@ -8,8 +8,10 @@ import { User } from './user';
 })
 export class UserService {
   constructor(private http: HttpClient) { }
-
-  baseUrl = 'http://localhost:8762/api/user';
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+  baseUrl = 'http://40.87.122.201:8762/api/user';
 
   /**
    * @param userType type of user (agent, admin, registered)
@@ -21,37 +23,29 @@ export class UserService {
   }
 
   createUser(user: User, type: string) {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' })
-    };
+
     const url = this.baseUrl + '/' + type;
 
     console.log(url);
 
-    return this.http.post(url, user, httpOptions);
+    return this.http.post(url, user, this.httpOptions);
   }
 
   removeUser(id: number) {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Access-Control-Allow-Origin': '*' })
-    };
-
     const url = this.baseUrl + '/'  + id;
 
     console.log(url);
 
-    return this.http.delete(url, httpOptions);
+    return this.http.delete(url);
   }
 
   changeUserActivation(user: User) {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' })
-    };
+
 
     const url = this.baseUrl + '/' + user.id;
     console.log(url);
 
-    return this.http.put(url, user, httpOptions);
+    return this.http.put(url, user, this.httpOptions);
   }
 
 }

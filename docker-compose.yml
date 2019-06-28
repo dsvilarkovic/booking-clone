@@ -204,9 +204,6 @@ services:
 
   reservations:
     image: ftntim1/xml-booking:reservations
-    build: 
-      context: ./reservations
-      dockerfile: Dockerfile
     ports:
       - "9977:9977"
     links:

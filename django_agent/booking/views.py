@@ -145,8 +145,7 @@ def messaging(request, reservation_id):
                 msg.reservation_id = reservation_id
                 msg.text = message_dict['value']
                 sender_email = message_dict['User']['email']
-                #msg.mine = True if sender_email == request.user.email else False
-                msg.mine = True if sender_email == 'boris' else False
+                msg.mine = True if sender_email == request.user.email else False
                 msg.timestamp = datetime.fromtimestamp(
                     message_dict['date'] / 1000)
                 msg.save()

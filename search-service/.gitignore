@@ -28,6 +28,3 @@ HELP.md
 
 ### VS Code ###
 .vscode/
-
-/target/*
-!/target/user-managing-service.0.0.1.jar

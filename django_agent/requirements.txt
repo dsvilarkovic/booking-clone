@@ -1,7 +1,7 @@
 Django==2.1.5
 whitenoise==3.3.1
 django-dotenv
-PyYaml==3.13
+PyYaml==5.1
 django-crispy-forms
 zeep
 lxml
